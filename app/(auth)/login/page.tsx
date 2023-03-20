@@ -1,7 +1,8 @@
 "use client";
-
 import React, { useState, useEffect, useLayoutEffect } from "react";
 import LoginUser from "@/lib/loginUser";
+import { useGlobalContext } from "../../../lib/context/store";
+import { useRouter } from "next/navigation";
 
 interface User {
   email: string;
@@ -9,6 +10,8 @@ interface User {
 }
 
 export default function Login() {
+  const router = useRouter();
+  const { setUserId, setIsAuth } = useGlobalContext();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -26,7 +29,14 @@ export default function Login() {
     };
 
     const result = await LoginUser(user);
-    console.log("result: ", result);
+    if (result.isAuth && result.userId) {
+      setUserId(result.userId);
+      setIsAuth(true);
+      return router.push("/dashboard");
+    } else {
+      alert("Password or Email is not correct!");
+      return router.push("/login");
+    }
   };
 
   return (

@@ -1,5 +1,5 @@
-import React from "react";
 import axios from "axios";
+import React from "react";
 
 axios.defaults.withCredentials = true;
 
@@ -9,8 +9,14 @@ interface User {
 }
 
 export default async function LoginUser(user: User) {
-  console.log("backend url: ", process.env.BACKEND_URL);
-  const res = await axios.post("http://localhost:8081/users/login", user);
+  const res = await axios.post(
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/users/login`,
+    user
+  );
   console.log("res: ", res);
-  return res.data;
+  if (res.data) {
+    return res.data;
+  } else {
+    return "Unauthorized";
+  }
 }
