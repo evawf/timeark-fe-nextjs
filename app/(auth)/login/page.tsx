@@ -1,7 +1,12 @@
 "use client";
 
 import React, { useState, useEffect, useLayoutEffect } from "react";
-import styles from "./page.module.css";
+import LoginUser from "@/lib/loginUser";
+
+interface User {
+  email: string;
+  password: string;
+}
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -13,14 +18,15 @@ export default function Login() {
     setPassword(e.target.value);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const user = {
+    const user: User = {
       email: email,
       password: password,
     };
 
-    console.log("user: ", user);
+    const result = await LoginUser(user);
+    console.log("result: ", result);
   };
 
   return (
