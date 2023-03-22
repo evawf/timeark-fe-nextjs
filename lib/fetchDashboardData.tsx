@@ -12,5 +12,8 @@ export default async function FetchDashboardData() {
     `${process.env.NEXT_PUBLIC_BACKEND_URL}/users/dashboard`
   );
   console.log("dashboard res: ", res);
+  if (!res.data) {
+    return "unauthorized";
+  }
   return res.data;
 }

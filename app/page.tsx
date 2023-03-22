@@ -1,20 +1,22 @@
+import React, { useState, useEffect, useLayoutEffect } from "react";
+import Navbar from "./components/navbar";
+import Footer from "./components/footer";
+
 import Image from "next/image";
-import { Inter } from "next/font/google";
+import { Inter, Nabla } from "next/font/google";
 import styles from "./page.module.css";
 import Link from "next/link";
-
+import { useGlobalContext } from "@/lib/context/store";
+import { useRouter } from "next/navigation";
+import FetchCurrentUser from "@/lib/fetchCurrentUser";
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>Home Page</div>
-      <div className={styles.card}>
-        <Link href={"/login"}>Login</Link>
-      </div>
-      <div>
-        <Link href={"/signup"}>Sign up</Link>
-      </div>
-    </main>
+    <div>
+      <Navbar />
+
+      <Footer />
+    </div>
   );
 }
