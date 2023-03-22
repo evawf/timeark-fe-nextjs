@@ -5,8 +5,12 @@ export default function Navbar() {
   return (
     <div>
       <div>TimeArk</div>
-      <Link href={"/login"}>Login</Link>
-      <Link href={"/signup"}>Register</Link>
+      <div>
+        <Link href={"/login"}>Login</Link>
+      </div>
+      <div>
+        <Link href={"/signup"}>Register</Link>
+      </div>
     </div>
   );
 }
