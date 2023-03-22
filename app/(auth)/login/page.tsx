@@ -27,6 +27,8 @@ export default function Login() {
       password: password,
     };
 
+    console.log("user: ", user);
+
     const result = await LoginUser(user);
     if (result.isAuth && result.userId) {
       localStorage.setItem("isAuth", "true");

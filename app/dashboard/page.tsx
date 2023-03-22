@@ -15,22 +15,19 @@ export default function Dashboard() {
     const isTrue = stored === "true";
     setIsAuth(isTrue);
 
-    const getData = async () => {
-      const res = await FetchDashboardData();
-      return setData(res.msg);
-    };
-    getData();
+    if (!isAuth) {
+      return router.push("/login");
+    }
   }, []);
 
-  return (
-    <>
-      {isAuth ? (
-        <>
-          <div>Dashboard: {data}</div>
-        </>
-      ) : (
-        router.push("/login")
-      )}
-    </>
-  );
+  const getData = async () => {
+    const res = await FetchDashboardData();
+    if (res.msg) {
+      return setData(res.msg);
+    }
+  };
+
+  if (isAuth) {
+    return <div>Dashboard: {data}</div>;
+  }
 }
