@@ -1,8 +1,10 @@
 import React from "react";
 import Link from "next/link";
 import LogoutUser from "@/lib/logoutUser";
+import { useRouter } from "next/navigation";
 
 export default function Sidebar() {
+  const router = useRouter();
   return (
     <>
       <main>
@@ -14,6 +16,7 @@ export default function Sidebar() {
             onClick={() => {
               localStorage.clear();
               LogoutUser();
+              router.push("/");
             }}
           >
             Logout

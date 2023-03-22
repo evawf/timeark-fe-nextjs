@@ -7,7 +7,6 @@ import Sidebar from "../components/Sidebar";
 export default function Dashboard() {
   const [data, setData] = useState("");
   const router = useRouter();
-  let isAuth = localStorage.getItem("isAuth");
 
   const getData = async () => {
     const res = await FetchDashboardData();
@@ -15,6 +14,7 @@ export default function Dashboard() {
   };
 
   useEffect(() => {
+    let isAuth = localStorage.getItem("isAuth");
     isAuth === "true" ? getData() : router.push("/login");
   }, []);
 

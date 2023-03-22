@@ -8,7 +8,8 @@ export default async function LogoutUser() {
     const res = await axios.post(
       `${process.env.NEXT_PUBLIC_BACKEND_URL}/users/logout`
     );
-    console.log(res);
+    console.log(res.data);
+    return res.data;
   } catch (err) {
     console.log("msg: ", err);
   }
