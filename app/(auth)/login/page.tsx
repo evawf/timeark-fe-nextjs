@@ -32,6 +32,7 @@ export default function Login() {
     const result = await LoginUser(user);
     if (result.isAuth && result.userId) {
       localStorage.setItem("isAuth", "true");
+      localStorage.setItem("userId", result.userId);
       return router.push("/dashboard");
     } else {
       alert("Password or Email is not correct!");

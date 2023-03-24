@@ -12,6 +12,9 @@ export default function Sidebar() {
           <Link href={"/dashboard"}>Dashboard</Link>
         </div>
         <div>
+          <Link href={"/myprofile"}>Profile</Link>
+        </div>
+        <div>
           <button
             onClick={() => {
               localStorage.clear();
