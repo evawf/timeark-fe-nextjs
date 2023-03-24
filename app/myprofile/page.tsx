@@ -35,8 +35,6 @@ export default function MyProfile() {
     isAuth === "true" ? fetchUserData(userId) : router.push("/login");
   }, []);
 
-  console.log("user data: ", userData);
-
   return (
     <div>
       {userData ? (
