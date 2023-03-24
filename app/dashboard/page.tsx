@@ -21,7 +21,13 @@ export default function Dashboard() {
   return (
     <div>
       <Sidebar />
-      <div>Dashboard data: {data}</div>
+      {data ? (
+        <>
+          <div>Dashboard data: {data}</div>
+        </>
+      ) : (
+        <>Loading</>
+      )}
     </div>
   );
 }
