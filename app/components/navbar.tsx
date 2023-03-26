@@ -18,7 +18,7 @@ export default function Navbar() {
           <Link href={"/logout"}>Logout</Link>
         </div>
       ) : (
-        <div>{/* <Link href={"/login"}>Login</Link> */}</div>
+        <div>{<Link href={"/login"}>Login</Link>}</div>
       )}
       <div>
         <Link href={"/signup"}>Register</Link>

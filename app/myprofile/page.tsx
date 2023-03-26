@@ -3,9 +3,11 @@ import React, { useState, useEffect } from "react";
 import getUserProfile from "@/lib/fetchUser";
 import User from "../../types/user";
 import { useRouter } from "next/navigation";
+import DeleteUser from "@/lib/DeleteUser";
 
 export default function MyProfile() {
   const [userData, setUserData] = useState<User | any>();
+  const [userId, setUserId] = useState("");
   const router = useRouter();
 
   const fetchUserData = async (userId: string) => {
@@ -32,8 +34,21 @@ export default function MyProfile() {
   useEffect(() => {
     let isAuth = localStorage.getItem("isAuth");
     let userId: string | any = localStorage.getItem("userId");
+    setUserId(userId);
     isAuth === "true" ? fetchUserData(userId) : router.push("/login");
   }, []);
+
+  const deleteUserAccount = () => {
+    alert("Delete your account, are you sure?");
+    let input = prompt("Input 'Y' to confirm.");
+    console.log("user input: ", input);
+    if (input === "Y") {
+      DeleteUser(userId);
+      localStorage.clear();
+      alert("Your account has been deleted!");
+    }
+    return router.push("/");
+  };
 
   return (
     <div>
@@ -51,6 +66,16 @@ export default function MyProfile() {
           <div>Country: {userData.country}</div>
           <div>Postalcode:{userData.postalCode} </div>
           <div>Contact: {userData.contact}</div>
+          <div>
+            <button onClick={() => router.push("/myprofile/update")}>
+              Update My Profile
+            </button>
+          </div>
+          <div>
+            <button onClick={() => deleteUserAccount()}>
+              Delete My Account
+            </button>
+          </div>
         </>
       ) : (
         <>Loading</>

@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import getUserProfile from "@/lib/fetchUser";
 import User from "../../../types/user";
 import { useRouter } from "next/navigation";
+import UpdateUserProfile from "../../../lib/updateUserProfile";
 
 export default function MyProfile() {
   const [userData, setUserData] = useState<User | any>();
@@ -50,7 +51,7 @@ export default function MyProfile() {
       contact: { value: string };
     };
 
-    const updateUserData = {
+    const updatedUserData = {
       firstName: target.firstName.value,
       lastName: target.lastName.value,
       avatar: target.avatar.value,
@@ -63,7 +64,16 @@ export default function MyProfile() {
       contact: target.contact.value,
     };
 
-    console.log("updateUserData: ", updateUserData);
+    console.log("updateUserData: ", updatedUserData);
+    let userId: string | any = localStorage.getItem("userId");
+    console.log("userId: ", userId);
+
+    const res = await UpdateUserProfile(updatedUserData, userId);
+    console.log("res from backend: ", res);
+    if (res.msg === "User updated!") {
+      alert("You have successfully updated your profile!");
+      return router.push("/myprofile");
+    }
   };
 
   return (
@@ -130,7 +140,7 @@ export default function MyProfile() {
               <br />
 
               <label htmlFor="">Contact Number: </label>
-              <input type="text" id="contact" />
+              <input type="text" id="contact" defaultValue={userData.contact} />
               <br />
               <button type="submit">Update</button>
             </form>
