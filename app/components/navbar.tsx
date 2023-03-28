@@ -1,9 +1,12 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import LogoutUser from "@/lib/logoutUser";
+import { useRouter } from "next/navigation";
 
 export default function Navbar() {
   const [loggedIn, setLoggedIn] = useState<boolean>(false);
+  const router = useRouter();
 
   useEffect(() => {
     const userId = localStorage.getItem("userId");
@@ -15,7 +18,15 @@ export default function Navbar() {
       <div>TimeArk</div>
       {loggedIn ? (
         <div>
-          <Link href={"/logout"}>Logout</Link>
+          <button
+            onClick={() => {
+              localStorage.clear();
+              LogoutUser();
+              router.push("/");
+            }}
+          >
+            Logout
+          </button>
         </div>
       ) : (
         <div>{<Link href={"/login"}>Login</Link>}</div>

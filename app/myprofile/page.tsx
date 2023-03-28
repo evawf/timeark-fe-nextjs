@@ -41,7 +41,6 @@ export default function MyProfile() {
   const deleteUserAccount = () => {
     alert("Delete your account, are you sure?");
     let input = prompt("Input 'Y' to confirm.");
-    console.log("user input: ", input);
     if (input === "Y") {
       DeleteUser(userId);
       localStorage.clear();

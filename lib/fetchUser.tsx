@@ -3,7 +3,7 @@ import axios from "axios";
 
 axios.defaults.withCredentials = true;
 
-export default async function getUserProfile(id: string) {
+export default async function GetUserProfile(id: string) {
   try {
     const userId: number = Number(id);
     console.log("user id from front end: ", userId);

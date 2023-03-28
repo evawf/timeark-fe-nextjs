@@ -14,6 +14,8 @@ export default async function LoginUser(user: User) {
       `${process.env.NEXT_PUBLIC_BACKEND_URL}/users/login`,
       user
     );
+
+    console.log("res data: ", res.data);
     if (res.data) {
       return res.data;
     } else {
