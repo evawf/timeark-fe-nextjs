@@ -12,6 +12,15 @@ export default function Sidebar() {
           <Link href={"/dashboard"}>Dashboard</Link>
         </div>
         <div>
+          <Link href={"/clients"}>Clients</Link>
+        </div>
+        <div>
+          <Link href={"/projects"}>Projects</Link>
+        </div>
+        <div>
+          <Link href={"/invoices"}>Invoices</Link>
+        </div>
+        <div>
           <Link href={"/myprofile"}>Profile</Link>
         </div>
         <div>

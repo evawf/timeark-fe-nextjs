@@ -26,17 +26,26 @@ export default function Clients() {
 
   return (
     <div>
-      <Sidebar />
+      {/* <Sidebar /> */}
       {clientList ? (
         <section>
           <h2>My Clients</h2>
-          <ul>
-            {clientList.map((client) => (
-              <li key={client.id}>
-                <Link href={`/clients/${client.id}`}>{client.name}</Link>
-              </li>
-            ))}
-          </ul>
+          {clientList.length !== 0 ? (
+            <ul>
+              {clientList.map((client) => (
+                <li key={client.id}>
+                  <Link href={`/clients/${client.id}`}>{client.name}</Link>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <div>
+              <h4>You haven't added any client!</h4>
+              <button onClick={() => router.push("/clients/newClient")}>
+                Add New Client
+              </button>
+            </div>
+          )}
         </section>
       ) : (
         <>Loading</>

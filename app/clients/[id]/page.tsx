@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import GetSingleClient from "@/lib/client/fetchSingleClient";
 import Client from "../../../types/client";
+import DeleteClient from "@/lib/client/deleteClient";
 
 interface ClientId {
   id: string;
@@ -23,6 +24,16 @@ export default function ClientPage({ params }: ClientId | any) {
     isAuth === "true" ? getSingleClientData() : router.push("/login");
   }, []);
 
+  const deleteClient = () => {
+    alert("Delete your client profile, are you sure?");
+    let input = prompt("Input 'Y' to confirm.");
+    if (input === "Y") {
+      DeleteClient(params.id);
+      alert("Your client has been deleted!");
+    }
+    return router.push("/clients");
+  };
+
   return (
     <>
       <div>Client page: client {params.id}</div>
@@ -35,13 +46,13 @@ export default function ClientPage({ params }: ClientId | any) {
             <div>Address: {client.address}</div>
             <div>Postalcode: {client.postalCode}</div>
             <div>Registration No.: {client.registrationNumber}</div>
+            <div>Contact: {client.contact}</div>
+            <div>Email: {client.email}</div>
             <button onClick={() => router.push(`/clients/${params.id}/update`)}>
               Update Client
             </button>
             <br />
-            <button onClick={() => router.push(`/clients/${params.id}/delete`)}>
-              Delete Client
-            </button>
+            <button onClick={() => deleteClient()}>Delete Client</button>
           </div>
         ) : (
           <>Loading</>

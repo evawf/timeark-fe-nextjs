@@ -6,4 +6,6 @@ export default interface Client {
   address: string;
   postalCode: string;
   registrationNumber: string;
+  contact: string;
+  email: string;
 }
