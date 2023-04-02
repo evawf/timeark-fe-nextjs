@@ -20,5 +20,4 @@ export default async function UpdateUserProfile(user: User | any, id: string) {
   } catch (err) {
     console.log("msg: ", err);
   }
-  return <div>updateUserProfile</div>;
 }

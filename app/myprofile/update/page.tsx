@@ -64,12 +64,9 @@ export default function MyProfile() {
       contact: target.contact.value,
     };
 
-    console.log("updateUserData: ", updatedUserData);
     let userId: string | any = localStorage.getItem("userId");
-    console.log("userId: ", userId);
 
     const res = await UpdateUserProfile(updatedUserData, userId);
-    console.log("res from backend: ", res);
     if (res.msg === "User updated!") {
       alert("You have successfully updated your profile!");
       return router.push("/myprofile");

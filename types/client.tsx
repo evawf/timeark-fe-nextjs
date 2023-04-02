@@ -1,5 +1,5 @@
 export default interface Client {
-  id: number;
+  id: string;
   name: string;
   country: string;
   city: string;
