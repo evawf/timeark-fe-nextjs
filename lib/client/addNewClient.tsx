@@ -15,6 +15,7 @@ export default async function AddNewClient(client: Client) {
       registrationNumber: client.registrationNumber,
       contact: client.contact,
       email: client.email,
+      isDeleted: false,
     };
 
     const res = await axios.post(

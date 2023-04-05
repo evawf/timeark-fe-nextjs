@@ -42,7 +42,7 @@ export default function Clients() {
             <div>
               <h4>You haven't added any client!</h4>
               <button onClick={() => router.push("/clients/newClient")}>
-                Add New Client
+                New Client
               </button>
             </div>
           )}

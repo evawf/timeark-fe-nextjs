@@ -44,8 +44,7 @@ export default function NewClient() {
       console.log("res from backend: ", res);
       if (res.msg === "Client already added.") {
         alert("No need to add this client again!");
-        const clientId = res.clientId;
-        console.log("client id: ", clientId);
+        const clientId: string = res.clientId;
         return router.push(`/clients/${clientId}`);
       } else {
         alert("You have successfully added a new client.");
