@@ -21,28 +21,37 @@ export default function NewClient() {
 
   useEffect(() => {
     let isAuth = localStorage.getItem("isAuth");
-    console.log("isAuth: ", isAuth);
-    let userId: string | any = localStorage.getItem("userId");
-    // isAuth === "true" ? getClientsData(userId) : router.push("/login");
+    if (isAuth !== "true") {
+      router.push("/login");
+    }
   }, []);
 
-  const handleSubmit = async (e: any) => {
+  const handleChange = (e: any) => {
     e.preventDefault();
     const { id, value } = e.target;
     setNewClient({
       ...newClient,
       [e.target.id]: value,
     });
+  };
 
-    console.log("new Client: ", newClient);
-    const res = await AddNewClient(newClient);
-    console.log("res from backend: ", res);
-    if (newClient.name === "" || newClient.registrationNumber === "")
-      alert("Please input client name and registration number!");
-    // if (res.msg === "Client already added.") {
-    //   alert("You have successfully added a new client.");
-    //   return router.push(`/clients/${res.client.id}`);
-    // }
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log("newClient: ", newClient);
+    if (newClient.registrationNumber !== "") {
+      console.log("handleSubmit called");
+      const res = await AddNewClient(newClient);
+      console.log("res from backend: ", res);
+      if (res.msg === "Client already added.") {
+        alert("No need to add this client again!");
+        const clientId = res.clientId;
+        console.log("client id: ", clientId);
+        return router.push(`/clients/${clientId}`);
+      } else {
+        alert("You have successfully added a new client.");
+        return router.push(`/clients/${res.newClient.id}`);
+      }
+    }
   };
 
   return (
@@ -55,7 +64,7 @@ export default function NewClient() {
           id="name"
           name="name"
           value={newClient.name}
-          onChange={handleSubmit}
+          onChange={handleChange}
         />
         <br />
         <label htmlFor="">Country: </label>
@@ -64,7 +73,7 @@ export default function NewClient() {
           id="country"
           name="country"
           value={newClient.country}
-          onChange={handleSubmit}
+          onChange={handleChange}
         />
         <br />
         <label htmlFor="">City: </label>
@@ -72,7 +81,7 @@ export default function NewClient() {
           type="text"
           id="city"
           value={newClient.city}
-          onChange={handleSubmit}
+          onChange={handleChange}
         />
         <br />
         <label htmlFor="">Address: </label>
@@ -80,7 +89,7 @@ export default function NewClient() {
           type="text"
           id="address"
           value={newClient.address}
-          onChange={handleSubmit}
+          onChange={handleChange}
         />
         <br />
 
@@ -89,7 +98,7 @@ export default function NewClient() {
           type="text"
           id="postalCode"
           value={newClient.postalCode}
-          onChange={handleSubmit}
+          onChange={handleChange}
         />
         <br />
         <label htmlFor="">Registration No.:</label>
@@ -97,7 +106,7 @@ export default function NewClient() {
           type="text"
           id="registrationNumber"
           value={newClient.registrationNumber}
-          onChange={handleSubmit}
+          onChange={handleChange}
         />
         <br />
         <label htmlFor="">Contact: </label>
@@ -105,7 +114,7 @@ export default function NewClient() {
           type="text"
           id="contact"
           value={newClient.contact}
-          onChange={handleSubmit}
+          onChange={handleChange}
         />
         <br />
         <label htmlFor="">Email: </label>
@@ -113,7 +122,7 @@ export default function NewClient() {
           type="text"
           id="email"
           value={newClient.email}
-          onChange={handleSubmit}
+          onChange={handleChange}
         />
         <br />
         <button type="submit">Submit</button>
