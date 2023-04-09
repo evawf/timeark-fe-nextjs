@@ -2,7 +2,9 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import GetSingleProject from "@/lib/project/fetchSingleProject";
+import GetProjectTasks from "@/lib/task/fetchProjectTasks";
 import Project from "@/types/project";
+import Task from "@/types/task";
 import DeleteProject from "@/lib/project/deleteProject";
 
 interface ProjectId {
@@ -12,12 +14,15 @@ interface ProjectId {
 export default function ProjectPage({ params }: ProjectId | any) {
   const router = useRouter();
   const [project, setProject] = useState<Project>();
+  const [taskList, setTaskList] = useState<Task[]>();
 
   const getSingleProjectData = async () => {
     console.log("call backend");
-    const res = await GetSingleProject(params.id);
-    console.log("single project res: ", res);
-    setProject(res.project);
+    const getProj = await GetSingleProject(params.id);
+    const getTasks = await GetProjectTasks(params.id);
+
+    setProject(getProj.project);
+    setTaskList(getTasks.tasks);
     return;
   };
 
@@ -63,6 +68,35 @@ export default function ProjectPage({ params }: ProjectId | any) {
             </button>
             <br />
             <button onClick={() => deleteProject()}>Delete Project</button>
+            <br />
+            <div>Task List: </div>
+            <div>
+              {taskList ? (
+                <div>
+                  <ul>
+                    {taskList.map((t, idx) => (
+                      <li key={`task${idx}`}>
+                        <span> Name: {t.name} |</span>
+
+                        <span>| Category: {t.categoryName} |</span>
+                        <span>
+                          | Status: {t.isDone ? "Done" : "In process"}
+                        </span>
+                        <span>
+                          <button>Update Task</button> |
+                        </span>
+                        <span>
+                          | <button>Delete Task</button>
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                  <button>Add Task</button>
+                </div>
+              ) : (
+                <>You haven't added any task yet.</>
+              )}
+            </div>
           </div>
         ) : (
           <div>Loading</div>
