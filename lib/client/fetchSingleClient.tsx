@@ -1,6 +1,8 @@
 import axios from "axios";
 import React from "react";
 
+axios.defaults.withCredentials = true;
+
 export default async function GetSingleClient(id: string) {
   try {
     const clientId: number = Number(id);

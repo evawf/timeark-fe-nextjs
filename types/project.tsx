@@ -5,7 +5,7 @@ export default interface Project {
   budget: number;
   ratePerHour: number;
   dueDate: string;
-  categories: Array<string>;
+  categories: [];
   userId: string;
   clientId: string;
 }

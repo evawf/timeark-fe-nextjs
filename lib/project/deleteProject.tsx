@@ -1,6 +1,8 @@
 import axios from "axios";
 import React from "react";
 
+axios.defaults.withCredentials = true;
+
 export default async function deleteProject(id: string) {
   try {
     const projectId: number = Number(id);

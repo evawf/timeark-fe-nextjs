@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import GetSingleProject from "@/lib/project/fetchSingleProject";
 import Project from "@/types/project";
-import UpdateProject from "@/lib/project/updateProject";
+import UpdateProjectInfo from "../../../../lib/project/updateProject";
 
 interface ProjectId {
   id: string;
@@ -32,7 +32,7 @@ export default function UpdateProject({ params }: ProjectId | any) {
       budget: { value: number };
       ratePerHour: { value: number };
       dueDate: { value: Date };
-      categories: { value: [] };
+      categories: { value: string };
     };
 
     const updatedProjectData: Project | any = {
@@ -44,10 +44,10 @@ export default function UpdateProject({ params }: ProjectId | any) {
       categories: target.categories.value.split(","),
     };
 
-    console.log("updatedProjectData: ", updatedProjectData);
-    const res = await UpdateProject(updatedProjectData, params.id);
-
-    console.log("res from backend: ", res);
+    const res = await UpdateProjectInfo(updatedProjectData, params.id);
+    if (res.msg === "Project updated!") {
+      return router.push(`/projects/${params.id}`);
+    }
   };
 
   return (
@@ -85,6 +85,8 @@ export default function UpdateProject({ params }: ProjectId | any) {
               id="categories"
               defaultValue={project.categories}
             />
+            <br />
+            <button type="submit">Update Project</button>
           </form>
         </div>
       ) : (
