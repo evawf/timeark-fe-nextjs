@@ -5,7 +5,6 @@ axios.defaults.withCredentials = true;
 
 export default async function AddNewClient(client: Client) {
   try {
-    console.log("client: ", client);
     const newClient = {
       name: client.name,
       country: client.country,
@@ -23,7 +22,6 @@ export default async function AddNewClient(client: Client) {
       newClient
     );
 
-    console.log("res data: ", res.data);
     if (res.data) {
       return res.data;
     }

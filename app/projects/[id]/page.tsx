@@ -14,10 +14,9 @@ interface ProjectId {
 export default function ProjectPage({ params }: ProjectId | any) {
   const router = useRouter();
   const [project, setProject] = useState<Project>();
-  const [taskList, setTaskList] = useState<Task[]>();
+  const [taskList, setTaskList] = useState<Task[]>([]);
 
   const getSingleProjectData = async () => {
-    console.log("call backend");
     const getProj = await GetSingleProject(params.id);
     const getTasks = await GetProjectTasks(params.id);
 
@@ -28,7 +27,6 @@ export default function ProjectPage({ params }: ProjectId | any) {
 
   useEffect(() => {
     let isAuth = localStorage.getItem("isAuth");
-    console.log("isAuth: ", isAuth);
     isAuth === "true" ? getSingleProjectData() : router.push("/login");
   }, []);
 
@@ -50,7 +48,7 @@ export default function ProjectPage({ params }: ProjectId | any) {
           <div>
             <div>Name: {project.name}</div>
             <div>Description: {project.description}</div>
-            <div>Budget: {project.budget}</div>
+            <div>Budget(S$): {project.budget}</div>
             <div>Rate(S$/hour): {project.ratePerHour}</div>
             <div>Due Date: {project.dueDate}</div>
             <div>

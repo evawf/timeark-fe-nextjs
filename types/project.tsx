@@ -1,11 +1,11 @@
 export default interface Project {
   id: string;
-  name: number;
+  name: string;
   description: string;
-  budget: number;
-  ratePerHour: number;
+  budget: string;
+  ratePerHour: string;
   dueDate: string;
-  categories: [];
+  categories: string;
   userId: string;
   clientId: string;
 }

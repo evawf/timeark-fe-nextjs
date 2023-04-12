@@ -22,9 +22,16 @@ export default function Projects() {
 
   return (
     <div>
+      <h2>My Projects: </h2>
+
+      <div>
+        <button onClick={() => router.push("/projects/newProject")}>
+          Add New Project
+        </button>
+      </div>
+
       {projectList ? (
         <section>
-          <h2>My Projects: </h2>
           {projectList.length !== 0 ? (
             <ul>
               {projectList.map((project) => (

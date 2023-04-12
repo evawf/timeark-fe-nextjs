@@ -37,11 +37,8 @@ export default function NewClient() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("newClient: ", newClient);
     if (newClient.registrationNumber !== "") {
-      console.log("handleSubmit called");
       const res = await AddNewClient(newClient);
-      console.log("res from backend: ", res);
       if (res.msg === "Client already added.") {
         alert("No need to add this client again!");
         const clientId: string = res.clientId;
@@ -61,7 +58,6 @@ export default function NewClient() {
         <input
           type="text"
           id="name"
-          name="name"
           value={newClient.name}
           onChange={handleChange}
         />
@@ -70,7 +66,6 @@ export default function NewClient() {
         <input
           type="text"
           id="country"
-          name="country"
           value={newClient.country}
           onChange={handleChange}
         />
