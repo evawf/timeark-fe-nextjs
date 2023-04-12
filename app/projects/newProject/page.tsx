@@ -72,7 +72,7 @@ export default function NewProject() {
     }
   };
 
-  console.log("newProject: ", newProject);
+  console.log("line 75 - newProject: ", newProject);
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     console.log("newProject: ", newProject);
@@ -82,7 +82,7 @@ export default function NewProject() {
       return router.push(`/projects/${res.newProject.id}`);
     }
     if (res.msg === "Project already added.") {
-      alert("Project already added, you may create a new project name.");
+      alert("Duplication of project name, you may choose a new project name.");
       return router.push("/projects/newProject");
     }
   };
@@ -95,12 +95,8 @@ export default function NewProject() {
 
         {!isNewClient && clientList.length ? (
           <div>
-            <select
-              name="clientId"
-              id="clientId"
-              defaultValue={clientList[0].id}
-              onChange={handleChange}
-            >
+            <select name="clientId" id="clientId" onChange={handleChange}>
+              <option value="">-- Select a client --</option>
               {clientList.map((c, idx) => (
                 <option value={c.id} key={`client${idx}`}>
                   {c.name}
@@ -134,13 +130,13 @@ export default function NewProject() {
                   <br />
                   Email: {client.email}
                   <br />
-                  <button
+                  <div
                     onClick={() => {
                       setNewProject({ ...newProject, clientId: client.id });
                     }}
                   >
                     Select this new client
-                  </button>
+                  </div>
                 </>
               )}
             </div>
