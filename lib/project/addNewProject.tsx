@@ -12,10 +12,10 @@ export default async function AddNewProject(project: Project) {
       budget: Number(project.budget),
       ratePerHour: Number(project.ratePerHour),
       dueDate: new Date(project.dueDate),
-      categories: project.categories.split(","),
+      categories: project.categories,
       clientId: Number(project.clientId),
     };
-    console.log("newProject sent to backend: ", newProject);
+    console.log("project cat: ", newProject.categories);
     const res = await axios.post(
       `${process.env.NEXT_PUBLIC_BACKEND_URL}/projects/newProject`,
       newProject

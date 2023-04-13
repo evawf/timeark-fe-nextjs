@@ -4,4 +4,5 @@ export default interface Task {
   isDone: Boolean;
   categoryName: string;
   projectId: string;
+  isDeleted: boolean;
 }

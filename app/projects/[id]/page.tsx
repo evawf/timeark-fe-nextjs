@@ -6,6 +6,7 @@ import GetProjectTasks from "@/lib/task/fetchProjectTasks";
 import Project from "@/types/project";
 import Task from "@/types/task";
 import DeleteProject from "@/lib/project/deleteProject";
+import AddNewTask from "@/lib/task/addNewTask";
 
 interface ProjectId {
   id: string;
@@ -15,6 +16,15 @@ export default function ProjectPage({ params }: ProjectId | any) {
   const router = useRouter();
   const [project, setProject] = useState<Project>();
   const [taskList, setTaskList] = useState<Task[]>([]);
+  const [showNewTaskForm, setShowNewTaskForm] = useState(false);
+  const [newTask, setNewTask] = useState<Task>({
+    id: "",
+    name: "",
+    categoryName: "",
+    projectId: params.id,
+    isDone: false,
+    isDeleted: false,
+  });
 
   const getSingleProjectData = async () => {
     const getProj = await GetSingleProject(params.id);
@@ -22,6 +32,7 @@ export default function ProjectPage({ params }: ProjectId | any) {
 
     setProject(getProj.project);
     setTaskList(getTasks.tasks);
+
     return;
   };
 
@@ -40,6 +51,29 @@ export default function ProjectPage({ params }: ProjectId | any) {
     return router.push("/projects");
   };
 
+  // *********************** Add New Task ***********************
+  const showNewTaskFormSection = () => {
+    setShowNewTaskForm(true);
+  };
+
+  const handleChange = (e: any) => {
+    e.preventDefault();
+    const { id, value } = e.target;
+    setNewTask({
+      ...newTask,
+      [e.target.id]: value,
+    });
+  };
+
+  const handleAddNewTask = async (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log("task list before: ", taskList);
+    const res = await AddNewTask(newTask);
+    setTaskList([...taskList, res.newTask]);
+    // console.log("new task res : ", res);
+    console.log("task list after: ", taskList);
+  };
+
   return (
     <div>
       Project Page:
@@ -54,7 +88,7 @@ export default function ProjectPage({ params }: ProjectId | any) {
             <div>
               Categories:
               {/* <ul> */}
-              {project.categories.map((cat, idx) => (
+              {project.categories.map((cat: string, idx: number) => (
                 <p key={`cat-${idx}`}>{cat}</p>
               ))}
               {/* </ul> */}
@@ -67,6 +101,8 @@ export default function ProjectPage({ params }: ProjectId | any) {
             <br />
             <button onClick={() => deleteProject()}>Delete Project</button>
             <br />
+
+            {/* ====================== Task List ====================== */}
             <div>Task List: </div>
             <div>
               {taskList ? (
@@ -89,15 +125,53 @@ export default function ProjectPage({ params }: ProjectId | any) {
                       </li>
                     ))}
                   </ul>
-                  <button>Add Task</button>
+                  <button onClick={() => showNewTaskFormSection()}>
+                    Add Task
+                  </button>
                 </div>
               ) : (
-                <>You haven't added any task yet.</>
+                <div>
+                  <p>You haven't added any task yet.</p>
+                  <button onClick={() => showNewTaskFormSection()}>
+                    Add Task
+                  </button>
+                </div>
               )}
             </div>
           </div>
         ) : (
           <div>Loading</div>
+        )}
+      </div>
+      <div>
+        {showNewTaskForm && (
+          <div>
+            {/* ====================== Task Form ====================== */}
+            <p>Add New Task Form</p>
+            <form
+              action=""
+              onSubmit={(e: React.SyntheticEvent) => handleAddNewTask(e)}
+            >
+              <label htmlFor="">Task Name: </label>
+              <input type="text" id="name" onChange={handleChange} />
+              <br />
+              <label htmlFor="">Task category: </label>
+              <select
+                name="categoryName"
+                id="categoryName"
+                onChange={handleChange}
+              >
+                <option value="">-- Select a category --</option>
+                {project?.categories.map((c, idx) => (
+                  <option value={c} key={`${c}${idx}`}>
+                    {c}
+                  </option>
+                ))}
+              </select>
+              <br />
+              <button type="submit">Submit</button>
+            </form>
+          </div>
         )}
       </div>
     </div>

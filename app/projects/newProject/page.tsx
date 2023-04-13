@@ -22,7 +22,7 @@ export default function NewProject() {
     budget: "",
     ratePerHour: "",
     dueDate: "",
-    categories: "",
+    categories: [""],
     userId: "",
     clientId: "",
   });
@@ -61,9 +61,7 @@ export default function NewProject() {
 
   const handleSearchSubmit = async () => {
     // find client by registration number:
-    console.log("search now");
     const res = await getClientByRegistrationNo(registrationNo);
-    console.log("res client: ", res);
     if (res.client) {
       setClient(res.client);
     } else {
@@ -75,9 +73,7 @@ export default function NewProject() {
   console.log("line 75 - newProject: ", newProject);
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("newProject: ", newProject);
     const res = await AddNewProject(newProject);
-    console.log("res: ", res);
     if (res.newProject) {
       return router.push(`/projects/${res.newProject.id}`);
     }
@@ -92,7 +88,6 @@ export default function NewProject() {
       <h2>Add new project page</h2>
       <form action="" onSubmit={(e: React.SyntheticEvent) => handleSubmit(e)}>
         <label htmlFor="">Select A Client: </label>
-
         {!isNewClient && clientList.length ? (
           <div>
             <select name="clientId" id="clientId" onChange={handleChange}>
@@ -149,7 +144,6 @@ export default function NewProject() {
                 </>
               )}
             </div>
-
             <button onClick={() => handleClientSearch()}>
               Existing client
             </button>
