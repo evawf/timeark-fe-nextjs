@@ -7,6 +7,7 @@ import Project from "@/types/project";
 import Task from "@/types/task";
 import DeleteProject from "@/lib/project/deleteProject";
 import AddNewTask from "@/lib/task/addNewTask";
+import updateTask from "@/lib/task/updateTask";
 
 interface ProjectId {
   id: string;
@@ -17,6 +18,8 @@ export default function ProjectPage({ params }: ProjectId | any) {
   const [project, setProject] = useState<Project>();
   const [taskList, setTaskList] = useState<Task[]>([]);
   const [showNewTaskForm, setShowNewTaskForm] = useState(false);
+  const [showUpdateTaskForm, setShowUpdateTaskForm] = useState(false);
+  const [taskToBeUpdated, setTaskToBeUpdated] = useState<Task>();
   const [newTask, setNewTask] = useState<Task>({
     id: "",
     name: "",
@@ -67,11 +70,42 @@ export default function ProjectPage({ params }: ProjectId | any) {
 
   const handleAddNewTask = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("task list before: ", taskList);
     const res = await AddNewTask(newTask);
     setTaskList([...taskList, res.newTask]);
-    // console.log("new task res : ", res);
-    console.log("task list after: ", taskList);
+  };
+
+  // *********************** Update Single Task ***********************
+  const handleUpdateTask = (taskId: string) => {
+    setShowUpdateTaskForm(true);
+    const task = taskList.filter((t) => {
+      if (t.id === taskId) {
+        return t;
+      }
+    });
+    setTaskToBeUpdated(task[0]);
+  };
+
+  const handleSubmitUpdatedTask = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const target = e.target as typeof e.target & {
+      name: { value: string };
+      categoryName: { value: string };
+      isDone: { value: Boolean };
+    };
+
+    const udpatedTaskData: Task | any = {
+      name: target.name.value,
+      categoryName: target.categoryName.value,
+      isDone: target.isDone.value,
+    };
+
+    console.log("taskToBeUpdated: ", taskToBeUpdated);
+    console.log("udpatedTaskData: ", udpatedTaskData);
+    const taskId = taskToBeUpdated?.id;
+    console.log("taskId: ", taskId);
+    // const res = await updateTask(udpatedTaskData, taskId);
+    // console.log("res from backend : ", res);
+    return;
   };
 
   return (
@@ -117,7 +151,10 @@ export default function ProjectPage({ params }: ProjectId | any) {
                           | Status: {t.isDone ? "Done" : "In process"}
                         </span>
                         <span>
-                          <button>Update Task</button> |
+                          <button onClick={() => handleUpdateTask(t.id)}>
+                            Update Task
+                          </button>{" "}
+                          |
                         </span>
                         <span>
                           | <button>Delete Task</button>
@@ -146,7 +183,7 @@ export default function ProjectPage({ params }: ProjectId | any) {
       <div>
         {showNewTaskForm && (
           <div>
-            {/* ====================== Task Form ====================== */}
+            {/* ====================== New Task Form ====================== */}
             <p>Add New Task Form</p>
             <form
               action=""
@@ -170,6 +207,47 @@ export default function ProjectPage({ params }: ProjectId | any) {
               </select>
               <br />
               <button type="submit">Submit</button>
+            </form>
+          </div>
+        )}
+      </div>
+      <div>
+        {/* ====================== Update Single Task Form ====================== */}
+        {showUpdateTaskForm && (
+          <div>
+            <p>Update Task</p>
+            <form
+              action=""
+              onSubmit={(e: React.SyntheticEvent) => handleSubmitUpdatedTask(e)}
+            >
+              <label htmlFor="">Task Name: </label>
+              <input
+                type="text"
+                id="name"
+                defaultValue={taskToBeUpdated?.name}
+              />
+              <br />
+              <label htmlFor="">Task category: </label>
+              <select
+                name="categoryName"
+                id="categoryName"
+                onChange={handleChange}
+              >
+                <option value="">-- Select a category --</option>
+                {project?.categories.map((c, idx) => (
+                  <option value={c} key={`${c}${idx}`}>
+                    {c}
+                  </option>
+                ))}
+              </select>
+              <br />
+              <label htmlFor="">Task status: </label>
+              <select name="" id="isDone">
+                <option value={"false"}>In process</option>
+                <option value={"true"}>Done</option>
+              </select>
+              <br />
+              <button type="submit">Update Task</button>
             </form>
           </div>
         )}

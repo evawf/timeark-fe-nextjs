@@ -70,7 +70,6 @@ export default function NewProject() {
     }
   };
 
-  console.log("line 75 - newProject: ", newProject);
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const res = await AddNewProject(newProject);
