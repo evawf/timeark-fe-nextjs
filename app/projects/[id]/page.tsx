@@ -8,6 +8,7 @@ import Task from "@/types/task";
 import DeleteProject from "@/lib/project/deleteProject";
 import AddNewTask from "@/lib/task/addNewTask";
 import updateTask from "@/lib/task/updateTask";
+import deleteTask from "@/lib/task/deleteTask";
 
 interface ProjectId {
   id: string;
@@ -90,21 +91,45 @@ export default function ProjectPage({ params }: ProjectId | any) {
     const target = e.target as typeof e.target & {
       name: { value: string };
       categoryName: { value: string };
-      isDone: { value: Boolean };
+      isDone: { value: string };
     };
 
     const udpatedTaskData: Task | any = {
+      id: taskToBeUpdated?.id,
       name: target.name.value,
       categoryName: target.categoryName.value,
-      isDone: target.isDone.value,
+      isDone: JSON.parse(target.isDone.value),
     };
 
-    console.log("taskToBeUpdated: ", taskToBeUpdated);
     console.log("udpatedTaskData: ", udpatedTaskData);
-    const taskId = taskToBeUpdated?.id;
-    console.log("taskId: ", taskId);
-    // const res = await updateTask(udpatedTaskData, taskId);
-    // console.log("res from backend : ", res);
+    const res = await updateTask(udpatedTaskData);
+    console.log("res from backend : ", res);
+    const updatedTask = res.task;
+    let tasks = taskList.map((t) => {
+      if (t.id === updatedTask.id) {
+        t = updatedTask;
+      }
+      return t;
+    });
+
+    console.log("updated taskList: ", tasks);
+    setTaskList(tasks);
+    setShowUpdateTaskForm(false);
+    return;
+  };
+
+  // *********************** Delete Single Task ***********************
+
+  const handleDeleteTask = async (taskId: string) => {
+    const res = await deleteTask(taskId);
+    console.log("res from backend: ", res);
+    console.log("tasklist: ", taskList);
+    if (res.msg === "Task deleted!") {
+      const tasks = taskList.filter((t) => t.id !== taskId);
+      setTaskList(tasks);
+    } else {
+      alert("Something went wrong!");
+    }
     return;
   };
 
@@ -157,7 +182,10 @@ export default function ProjectPage({ params }: ProjectId | any) {
                           |
                         </span>
                         <span>
-                          | <button>Delete Task</button>
+                          |{" "}
+                          <button onClick={() => handleDeleteTask(t.id)}>
+                            Delete Task
+                          </button>
                         </span>
                       </li>
                     ))}
