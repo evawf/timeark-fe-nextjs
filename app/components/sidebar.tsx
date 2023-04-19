@@ -2,9 +2,11 @@ import React from "react";
 import Link from "next/link";
 import LogoutUser from "@/lib/logoutUser";
 import { useRouter } from "next/navigation";
+import moment from "moment";
 
 export default function Sidebar() {
   const router = useRouter();
+  const today = moment().format("YYYY-MM-DD");
   return (
     <>
       <main>
@@ -12,7 +14,7 @@ export default function Sidebar() {
           <Link href={"/dashboard"}>Dashboard</Link>
         </div>
         <div>
-          <Link href={"/calendar"}>Calendar</Link>
+          <Link href={`/calendar/${today}`}>Calendar</Link>
         </div>
         <div>
           <Link href={"/clients"}>Clients</Link>
