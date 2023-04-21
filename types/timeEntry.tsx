@@ -3,4 +3,7 @@ export default interface TimeEntry {
   startTime: Date;
   endTime: Date;
   taskId: string;
+  task: {
+    name: string;
+  };
 }

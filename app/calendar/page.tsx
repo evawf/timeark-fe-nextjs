@@ -12,11 +12,8 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import listPlugin from "@fullcalendar/list";
 
-// Styling CSS
+// Styling calendar page
 import "./styles.css";
-// import bootstrap5Plugin from "@fullcalendar/bootstrap5";
-// import "bootstrap/dist/css/bootstrap.css";
-// import "bootstrap-icons/font/bootstrap-icons.css";
 
 interface Date {
   date: string;
@@ -24,26 +21,40 @@ interface Date {
 
 export default function PickedDate({ params }: Date | any) {
   const today = moment().format("YYYY-MM-DD");
-  console.log("today: ", typeof today);
   const [date, setDate] = useState(today);
   const [timeEntryList, setTimeEntryList] = useState<TimeEntry[]>([]);
   const router = useRouter();
-  const events = [
-    {
-      title: "event2",
-      start: "2023-04-18T16:00:00",
-      end: "2023-04-18T17:00:00",
-    },
-  ];
+  const events = timeEntryList.map((t) => {
+    return {
+      title: t.task.name,
+      start: t.startTime,
+      end: t.endTime,
+      id: t.id,
+    };
+  });
 
   const handleGetTimeEntries = async () => {
-    const res = await getTimeEntries(today);
+    const res = await getTimeEntries();
     console.log("res from backend: ", res);
     if (res.times) {
       const timeData = res.times;
-
       setTimeEntryList(timeData);
     }
+    return;
+  };
+
+  // Handle add new time entry: form -> select client - select project - select task - input start time
+  const handleAddNewTimeEntry = async (date: string) => {
+    console.log("clicked date: ", date);
+    // open model window and show form
+
+    return;
+  };
+
+  // Handle view time entry & update & delete time entry
+  const handleEditTimeEntry = async (timeEntryId: string) => {
+    console.log("task name: ", timeEntryId);
+
     return;
   };
 
@@ -58,21 +69,13 @@ export default function PickedDate({ params }: Date | any) {
     <div>
       <p>Calendar current date: {date && <>{date}</>} page</p>
       <FullCalendar
-        plugins={[
-          dayGridPlugin,
-          timeGridPlugin,
-          interactionPlugin,
-          // bootstrap5Plugin,
-          listPlugin,
-        ]}
-        // themeSystem="bootstrap5"
-        themeSystem="bootstrap5"
+        plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, listPlugin]}
         initialView="timeGridWeek"
         headerToolbar={{
           // center: "dayGridMonth,timeGridWeek,timeGridDay NEW",
-          left: "prev,next today",
+          left: "dayGridMonth,timeGridWeek,timeGridDay,listWeek",
           center: "NEW",
-          right: "dayGridMonth,timeGridWeek,timeGridDay,listWeek",
+          right: "prev,next today",
         }}
         customButtons={{
           NEW: {
@@ -83,9 +86,9 @@ export default function PickedDate({ params }: Date | any) {
         events={events}
         eventColor="red"
         nowIndicator
-        dateClick={(e) => console.log(e.dateStr)}
-        eventClick={(e) => console.log(e.event.title)}
-        height={"100vh"}
+        dateClick={(e) => handleAddNewTimeEntry(e.dateStr)}
+        eventClick={(e) => handleEditTimeEntry(e.event.id)}
+        height={"800px"}
       />
     </div>
   );
