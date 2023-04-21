@@ -15,6 +15,18 @@ import listPlugin from "@fullcalendar/list";
 // Styling calendar page
 import "./styles.css";
 
+// MUI
+// import * as React from "react";
+import Button from "@mui/joy/Button";
+import FormControl from "@mui/joy/FormControl";
+import FormLabel from "@mui/joy/FormLabel";
+import Input from "@mui/joy/Input";
+import Modal from "@mui/joy/Modal";
+import ModalDialog from "@mui/joy/ModalDialog";
+import Stack from "@mui/joy/Stack";
+import Add from "@mui/icons-material/Add";
+import Typography from "@mui/joy/Typography";
+
 interface Date {
   date: string;
 }
@@ -24,6 +36,8 @@ export default function PickedDate({ params }: Date | any) {
   const [date, setDate] = useState(today);
   const [timeEntryList, setTimeEntryList] = useState<TimeEntry[]>([]);
   const router = useRouter();
+  const [open, setOpen] = React.useState<boolean>(false);
+
   const events = timeEntryList.map((t) => {
     return {
       title: t.task.name,
@@ -47,6 +61,7 @@ export default function PickedDate({ params }: Date | any) {
   const handleAddNewTimeEntry = async (date: string) => {
     console.log("clicked date: ", date);
     // open model window and show form
+    setOpen(true);
 
     return;
   };
@@ -90,6 +105,43 @@ export default function PickedDate({ params }: Date | any) {
         eventClick={(e) => handleEditTimeEntry(e.event.id)}
         height={"800px"}
       />
+
+      {/* Add new time entry form */}
+      <Modal open={open} onClose={() => setOpen(false)}>
+        <ModalDialog
+          aria-labelledby="basic-modal-dialog-title"
+          aria-describedby="basic-modal-dialog-description"
+          sx={{ maxWidth: 500 }}
+        >
+          <Typography id="basic-modal-dialog-title" component="h2">
+            Create new project
+          </Typography>
+          <Typography
+            id="basic-modal-dialog-description"
+            textColor="text.tertiary"
+          >
+            Fill in the information of the project.
+          </Typography>
+          <form
+            onSubmit={(event: React.FormEvent<HTMLFormElement>) => {
+              event.preventDefault();
+              setOpen(false);
+            }}
+          >
+            <Stack spacing={2}>
+              <FormControl>
+                <FormLabel>Name</FormLabel>
+                <Input autoFocus required />
+              </FormControl>
+              <FormControl>
+                <FormLabel>Description</FormLabel>
+                <Input required />
+              </FormControl>
+              <Button type="submit">Submit</Button>
+            </Stack>
+          </form>
+        </ModalDialog>
+      </Modal>
     </div>
   );
 }
