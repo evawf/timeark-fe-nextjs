@@ -14,7 +14,7 @@ export default function Sidebar() {
           <Link href={"/dashboard"}>Dashboard</Link>
         </div>
         <div>
-          <Link href={`/calendar/${today}`}>Calendar</Link>
+          <Link href={`/calendar`}>Calendar</Link>
         </div>
         <div>
           <Link href={"/clients"}>Clients</Link>

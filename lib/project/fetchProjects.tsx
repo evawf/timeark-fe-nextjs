@@ -8,7 +8,6 @@ export default async function GetProjects() {
     const res = await axios.get(
       `${process.env.NEXT_PUBLIC_BACKEND_URL}/projects`
     );
-    console.log("backend res: ", res.data);
     return res.data;
   } catch (err) {
     console.log("msg: ", err);

@@ -5,5 +5,11 @@ export default interface TimeEntry {
   taskId: string;
   task: {
     name: string;
+    project: {
+      name: string;
+      client: {
+        name: string;
+      };
+    };
   };
 }

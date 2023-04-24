@@ -11,9 +11,7 @@ export default function Clients() {
   const [clientList, setClentList] = useState<Client[]>([]);
 
   const getClientsData = async () => {
-    console.log("call server...");
     const res = await getClients();
-    console.log("res from backend: ", res);
     setClentList(res.clients);
     return;
   };

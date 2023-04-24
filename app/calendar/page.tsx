@@ -4,6 +4,11 @@ import { useRouter } from "next/navigation";
 import getTimeEntries from "@/lib/time/fetchTimeEntries";
 import moment from "moment";
 import TimeEntry from "@/types/timeEntry";
+import Project from "@/types/project";
+import getProjects from "@/lib/project/fetchProjects";
+import Task from "@/types/task";
+import getProjectTasks from "@/lib/task/fetchProjectTasks";
+import addNewTimeEntry from "@/lib/time/addNewTimeEntry";
 
 //************ Full Calendar ************/
 import FullCalendar from "@fullcalendar/react";
@@ -11,6 +16,10 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import listPlugin from "@fullcalendar/list";
+
+//************ Form ************/
+import Select from "@mui/joy/Select";
+import Option from "@mui/joy/Option";
 
 // Styling calendar page
 import "./styles.css";
@@ -32,11 +41,18 @@ interface Date {
 }
 
 export default function PickedDate({ params }: Date | any) {
-  const today = moment().format("YYYY-MM-DD");
-  const [date, setDate] = useState(today);
+  const today = moment().format("YYYY-MM-DD, h:mm:ss a");
+  // const [date, setDate] = useState(today);
   const [timeEntryList, setTimeEntryList] = useState<TimeEntry[]>([]);
   const router = useRouter();
-  const [open, setOpen] = React.useState<boolean>(false);
+  const [open, setOpen] = useState<boolean>(false);
+  const [updateForm, setUpdateForm] = useState<boolean>(false);
+  const [timeEntry, setTimeEntry] = useState<TimeEntry>();
+  const [projectList, setProjectList] = useState<Project[]>([]);
+  const [taskOptions, setTaskOptions] = useState<Task[]>([]);
+  const [selectedProject, setSelectedProject] = useState("");
+  const [selectedTask, setSelectedTask] = useState("");
+  // const [startTime, setStartTime] = useState(date);
 
   const events = timeEntryList.map((t) => {
     return {
@@ -49,7 +65,6 @@ export default function PickedDate({ params }: Date | any) {
 
   const handleGetTimeEntries = async () => {
     const res = await getTimeEntries();
-    console.log("res from backend: ", res);
     if (res.times) {
       const timeData = res.times;
       setTimeEntryList(timeData);
@@ -58,17 +73,48 @@ export default function PickedDate({ params }: Date | any) {
   };
 
   // Handle add new time entry: form -> select client - select project - select task - input start time
-  const handleAddNewTimeEntry = async (date: string) => {
-    console.log("clicked date: ", date);
+  const handleOpenAddNewTimeEntryModal = async () => {
+    // setStartTime(date);
     // open model window and show form
     setOpen(true);
-
+    // get users project list:
+    const res = await getProjects();
+    setProjectList(res.projects);
     return;
+  };
+
+  const getTasksByProjectId = async (selectedProject: string) => {
+    const res = await getProjectTasks(selectedProject);
+    const tasks: Task[] = res.tasks;
+    const undoneTasks: Task[] = tasks.filter((t) => !t.isDone);
+    setTaskOptions(undoneTasks);
+  };
+
+  const handleAddNewTimeEntry = async () => {
+    const newTimeEntry = {
+      startTime: moment().format(),
+      taskId: selectedTask,
+    };
+    console.log("newTimeEntry: ", newTimeEntry);
+    const res = await addNewTimeEntry(newTimeEntry);
+    console.log(res);
+  };
+
+  const handleCloseNewTimeEntryWindow = () => {
+    setOpen(false);
+    setProjectList([]);
+    setTaskOptions([]);
+    setSelectedProject("");
+    setSelectedTask("");
   };
 
   // Handle view time entry & update & delete time entry
   const handleEditTimeEntry = async (timeEntryId: string) => {
-    console.log("task name: ", timeEntryId);
+    setUpdateForm(true);
+    const selectedTimeEntry = timeEntryList.find(
+      (t) => Number(t.id) === Number(timeEntryId)
+    );
+    setTimeEntry(selectedTimeEntry);
 
     return;
   };
@@ -78,16 +124,13 @@ export default function PickedDate({ params }: Date | any) {
     isAuth === "true" ? handleGetTimeEntries() : router.push("/login");
   }, []);
 
-  console.log("timeEntry list: ", timeEntryList);
-
   return (
     <div>
-      <p>Calendar current date: {date && <>{date}</>} page</p>
+      <p>Calendar current date: page</p>
       <FullCalendar
         plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, listPlugin]}
         initialView="timeGridWeek"
         headerToolbar={{
-          // center: "dayGridMonth,timeGridWeek,timeGridDay NEW",
           left: "dayGridMonth,timeGridWeek,timeGridDay,listWeek",
           center: "NEW",
           right: "prev,next today",
@@ -101,20 +144,26 @@ export default function PickedDate({ params }: Date | any) {
         events={events}
         eventColor="red"
         nowIndicator
-        dateClick={(e) => handleAddNewTimeEntry(e.dateStr)}
+        dateClick={(e) => handleOpenAddNewTimeEntryModal()}
         eventClick={(e) => handleEditTimeEntry(e.event.id)}
         height={"800px"}
       />
 
-      {/* Add new time entry form */}
-      <Modal open={open} onClose={() => setOpen(false)}>
+      {/******************************** Add new time entry form ********************************/}
+      <Modal
+        open={open}
+        onClose={() =>
+          // setOpen(false)
+          handleCloseNewTimeEntryWindow()
+        }
+      >
         <ModalDialog
           aria-labelledby="basic-modal-dialog-title"
           aria-describedby="basic-modal-dialog-description"
           sx={{ maxWidth: 500 }}
         >
           <Typography id="basic-modal-dialog-title" component="h2">
-            Create new project
+            Create new time entry
           </Typography>
           <Typography
             id="basic-modal-dialog-description"
@@ -126,16 +175,134 @@ export default function PickedDate({ params }: Date | any) {
             onSubmit={(event: React.FormEvent<HTMLFormElement>) => {
               event.preventDefault();
               setOpen(false);
+              handleAddNewTimeEntry();
             }}
           >
             <Stack spacing={2}>
               <FormControl>
-                <FormLabel>Name</FormLabel>
-                <Input autoFocus required />
+                <FormLabel>Project: </FormLabel>
+                {projectList.length ? (
+                  <Select
+                    placeholder="Select a project"
+                    sx={{ width: 240 }}
+                    onChange={(e, newValue) => {
+                      setSelectedProject(String(newValue));
+                      getTasksByProjectId(String(newValue));
+                    }}
+                  >
+                    {projectList.map((p) => (
+                      <Option value={p.id} key={p.id}>
+                        {p.name}({p.client.name})
+                      </Option>
+                    ))}
+                  </Select>
+                ) : (
+                  <>
+                    <button onClick={() => router.push("/projects/newProject")}>
+                      Add New Project
+                    </button>
+                  </>
+                )}
               </FormControl>
               <FormControl>
-                <FormLabel>Description</FormLabel>
-                <Input required />
+                {selectedProject ? (
+                  <>
+                    <FormLabel>Task: </FormLabel>
+                    {taskOptions.length ? (
+                      <Select
+                        placeholder="Select a task"
+                        sx={{ width: 240 }}
+                        onChange={(e, newValue) =>
+                          setSelectedTask(String(newValue))
+                        }
+                      >
+                        {taskOptions.map((t) => (
+                          <Option value={t.id} key={`task${t.id}`}>
+                            {t.name}
+                          </Option>
+                        ))}
+                      </Select>
+                    ) : (
+                      <>
+                        <Button
+                          onClick={() =>
+                            router.push(`/projects/${selectedProject}`)
+                          }
+                        >
+                          Add new task to selected project
+                        </Button>
+                      </>
+                    )}
+                  </>
+                ) : (
+                  <></>
+                )}
+              </FormControl>
+              <FormControl>
+                {selectedTask ? (
+                  <>
+                    <FormLabel>Start time: {today}</FormLabel>
+                    {/* <Input
+                      defaultValue={moment(startTime).format(
+                        "YYYY-MM-DD, h:mm:ss a"
+                      )}
+                      onChange={(e) =>
+                        setStartTime(moment(e.target.value).format())
+                      }
+                    /> */}
+                  </>
+                ) : (
+                  <></>
+                )}
+              </FormControl>
+              <Button type="submit">Submit</Button>
+            </Stack>
+          </form>
+        </ModalDialog>
+      </Modal>
+
+      {/******************************** Update time entry form ********************************/}
+      <Modal open={updateForm} onClose={() => setUpdateForm(false)}>
+        <ModalDialog
+          aria-labelledby="basic-modal-dialog-title"
+          aria-describedby="basic-modal-dialog-description"
+          sx={{ maxWidth: 500 }}
+        >
+          <Typography id="basic-modal-dialog-title" component="h2">
+            Update time entry: {timeEntry?.id}
+          </Typography>
+          <Typography
+            id="basic-modal-dialog-description"
+            textColor="text.tertiary"
+          >
+            Fill in the information of the project.
+          </Typography>
+          <form
+            onSubmit={(event: React.FormEvent<HTMLFormElement>) => {
+              event.preventDefault();
+              setUpdateForm(false);
+            }}
+          >
+            <Stack spacing={2}>
+              <Typography>
+                Client: {timeEntry?.task.project?.client.name}
+              </Typography>
+              <FormLabel>Project: {timeEntry?.task.project.name}</FormLabel>
+              <FormControl>
+                <FormLabel>Task Name</FormLabel>
+                <Input
+                  autoFocus
+                  required
+                  defaultValue={`${timeEntry?.task.name}`}
+                />
+              </FormControl>
+              <FormControl>
+                <FormLabel>Start Time: </FormLabel>
+                <Input required defaultValue={`${timeEntry?.startTime}`} />
+              </FormControl>
+              <FormControl>
+                <FormLabel>End Time: </FormLabel>
+                <Input required defaultValue={`${timeEntry?.endTime}`} />
               </FormControl>
               <Button type="submit">Submit</Button>
             </Stack>

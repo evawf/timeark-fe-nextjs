@@ -8,4 +8,7 @@ export default interface Project {
   categories: [string];
   userId: string;
   clientId: string;
+  client: {
+    name: string;
+  };
 }
