@@ -52,7 +52,6 @@ interface Props {
 
 export default function PickedDate({ params }: Date | any) {
   const today = moment().format("YYYY-MM-DD, h:mm:ss a");
-  // const [date, setDate] = useState(today);
   const [timeEntryList, setTimeEntryList] = useState<TimeEntry[]>([]);
   const router = useRouter();
   const [open, setOpen] = useState<boolean>(false);
@@ -322,7 +321,7 @@ export default function PickedDate({ params }: Date | any) {
         </ModalDialog>
       </Modal>
 
-      {/******************************** Update time entry form ********************************/}
+      {/******************************** Update, End, Delete time entry form ********************************/}
       <Modal open={updateForm} onClose={() => setUpdateForm(false)}>
         <ModalDialog
           aria-labelledby="basic-modal-dialog-title"
@@ -434,7 +433,7 @@ export default function PickedDate({ params }: Date | any) {
                     <FormLabel>End Time: </FormLabel>
                     <Input required defaultValue={`${timeEntry?.endTime}`} />
                   </FormControl> */}
-                  <Button type="submit">Stop time tracker</Button>
+                  <Button type="submit">Stop</Button>
                 </Stack>
               </form>
             </>
