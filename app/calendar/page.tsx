@@ -11,6 +11,7 @@ import getProjectTasks from "@/lib/task/fetchProjectTasks";
 import addNewTimeEntry from "@/lib/time/addNewTimeEntry";
 import addEndTimeToSelectedTimeEntry from "@/lib/time/addEndTimeToSelectedTimeEntry";
 import updateTimeEntry from "@/lib/time/updateTimeEntry";
+import deleteTimeEntry from "@/lib/time/deleteTimeEntry";
 
 //************ Full Calendar ************/
 import FullCalendar from "@fullcalendar/react";
@@ -177,6 +178,18 @@ export default function PickedDate({ params }: Date | any) {
         });
         setTimeEntryList(updatedTimeEntryList);
       }
+    }
+  };
+
+  const handleDeleteTimeEntry = async () => {
+    const timeEntryId: any = timeEntry?.id;
+    const res = await deleteTimeEntry(timeEntryId);
+    if (res.msg === "Time entry deleted") {
+      const updatedTimeEntryList = timeEntryList.filter(
+        (t) => t.id !== timeEntryId
+      );
+      setTimeEntryList(updatedTimeEntryList);
+      return setUpdateForm(false);
     }
   };
 
@@ -378,6 +391,13 @@ export default function PickedDate({ params }: Date | any) {
                     />
                   </FormControl>
                   <Button type="submit">Update</Button>
+                  <Button
+                    color={"danger"}
+                    variant={"solid"}
+                    onClick={() => handleDeleteTimeEntry()}
+                  >
+                    Delete
+                  </Button>
                 </Stack>
               </form>
             </>
