@@ -9,6 +9,8 @@ import getProjects from "@/lib/project/fetchProjects";
 import Task from "@/types/task";
 import getProjectTasks from "@/lib/task/fetchProjectTasks";
 import addNewTimeEntry from "@/lib/time/addNewTimeEntry";
+import addEndTimeToSelectedTimeEntry from "@/lib/time/addEndTimeToSelectedTimeEntry";
+import updateTimeEntry from "@/lib/time/updateTimeEntry";
 
 //************ Full Calendar ************/
 import FullCalendar from "@fullcalendar/react";
@@ -35,9 +37,16 @@ import ModalDialog from "@mui/joy/ModalDialog";
 import Stack from "@mui/joy/Stack";
 import Add from "@mui/icons-material/Add";
 import Typography from "@mui/joy/Typography";
+import { el } from "date-fns/locale";
+import { stringify } from "querystring";
 
 interface Date {
   date: string;
+}
+
+interface Props {
+  id: string;
+  endTime: string;
 }
 
 export default function PickedDate({ params }: Date | any) {
@@ -52,7 +61,6 @@ export default function PickedDate({ params }: Date | any) {
   const [taskOptions, setTaskOptions] = useState<Task[]>([]);
   const [selectedProject, setSelectedProject] = useState("");
   const [selectedTask, setSelectedTask] = useState("");
-  // const [startTime, setStartTime] = useState(date);
 
   const events = timeEntryList.map((t) => {
     return {
@@ -95,9 +103,10 @@ export default function PickedDate({ params }: Date | any) {
       startTime: moment().format(),
       taskId: selectedTask,
     };
-    console.log("newTimeEntry: ", newTimeEntry);
     const res = await addNewTimeEntry(newTimeEntry);
-    console.log(res);
+    const newTime: TimeEntry = res.newTimeEntry;
+    setTimeEntryList([...timeEntryList, newTime]);
+    return;
   };
 
   const handleCloseNewTimeEntryWindow = () => {
@@ -115,8 +124,60 @@ export default function PickedDate({ params }: Date | any) {
       (t) => Number(t.id) === Number(timeEntryId)
     );
     setTimeEntry(selectedTimeEntry);
-
     return;
+  };
+
+  const handleAddEndTimeToTimeEntry = async () => {
+    const updatedTimeEntry = { ...timeEntry, endTime: moment().format() };
+    const timeInfo: Props = {
+      id: String(updatedTimeEntry.id),
+      endTime: updatedTimeEntry.endTime,
+    };
+    // Call backend to add endTime
+    const res = await addEndTimeToSelectedTimeEntry(timeInfo);
+    // Update frontend timeEntry list
+    if (res.msg === "Added end time for time entry.") {
+      const updatedTimeEntryList: TimeEntry[] | any = timeEntryList.map((t) =>
+        Number(t.id) === Number(timeInfo.id) ? updatedTimeEntry : t
+      );
+      setTimeEntryList(updatedTimeEntryList);
+    }
+  };
+
+  const handleUpdateSelectedTimeEntry = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const target = e.target as typeof e.target & {
+      startTime: { value: string };
+      endTime: { value: string };
+    };
+
+    const st = new Date(target.startTime.value);
+    const et = new Date(target.endTime.value);
+
+    if (et <= st) {
+      alert("Please input correct start time and end time!");
+    } else {
+      const updatedTime = {
+        id: String(timeEntry?.id),
+        startTime: moment(st).format(),
+        endTime: moment(et).format(),
+      };
+
+      const res = await updateTimeEntry(updatedTime);
+      if (res.msg === "Time updated!") {
+        const updatedTimeEntryList = timeEntryList.map((t) => {
+          if (Number(t.id) === Number(updatedTime.id)) {
+            const start: any = moment(st).format("YYYY-MM-DDTHH:mm:ssZ");
+            const end: any = moment(et).format("YYYY-MM-DDTHH:mm:ssZ");
+            t.startTime = start;
+            t.endTime = end;
+            return t;
+          }
+          return t;
+        });
+        setTimeEntryList(updatedTimeEntryList);
+      }
+    }
   };
 
   useEffect(() => {
@@ -150,20 +211,14 @@ export default function PickedDate({ params }: Date | any) {
       />
 
       {/******************************** Add new time entry form ********************************/}
-      <Modal
-        open={open}
-        onClose={() =>
-          // setOpen(false)
-          handleCloseNewTimeEntryWindow()
-        }
-      >
+      <Modal open={open} onClose={() => handleCloseNewTimeEntryWindow()}>
         <ModalDialog
           aria-labelledby="basic-modal-dialog-title"
           aria-describedby="basic-modal-dialog-description"
           sx={{ maxWidth: 500 }}
         >
           <Typography id="basic-modal-dialog-title" component="h2">
-            Create new time entry
+            Start time tracker
           </Typography>
           <Typography
             id="basic-modal-dialog-description"
@@ -241,21 +296,14 @@ export default function PickedDate({ params }: Date | any) {
               <FormControl>
                 {selectedTask ? (
                   <>
-                    <FormLabel>Start time: {today}</FormLabel>
-                    {/* <Input
-                      defaultValue={moment(startTime).format(
-                        "YYYY-MM-DD, h:mm:ss a"
-                      )}
-                      onChange={(e) =>
-                        setStartTime(moment(e.target.value).format())
-                      }
-                    /> */}
+                    {/* <FormLabel>Start time: {today}</FormLabel> */}
+                    <Button type="submit">Start</Button>
                   </>
                 ) : (
                   <></>
                 )}
               </FormControl>
-              <Button type="submit">Submit</Button>
+              {/* <Button type="submit">Start</Button> */}
             </Stack>
           </form>
         </ModalDialog>
@@ -268,7 +316,7 @@ export default function PickedDate({ params }: Date | any) {
           aria-describedby="basic-modal-dialog-description"
           sx={{ maxWidth: 500 }}
         >
-          <Typography id="basic-modal-dialog-title" component="h2">
+          {/* <Typography id="basic-modal-dialog-title" component="h2">
             Update time entry: {timeEntry?.id}
           </Typography>
           <Typography
@@ -276,37 +324,101 @@ export default function PickedDate({ params }: Date | any) {
             textColor="text.tertiary"
           >
             Fill in the information of the project.
-          </Typography>
-          <form
-            onSubmit={(event: React.FormEvent<HTMLFormElement>) => {
-              event.preventDefault();
-              setUpdateForm(false);
-            }}
-          >
-            <Stack spacing={2}>
-              <Typography>
-                Client: {timeEntry?.task.project?.client.name}
+          </Typography> */}
+
+          {/******************************** Update time entry form ********************************/}
+
+          {timeEntry?.endTime ? (
+            <>
+              <Typography id="basic-modal-dialog-title" component="h2">
+                Update time entry: {timeEntry?.id}
               </Typography>
-              <FormLabel>Project: {timeEntry?.task.project.name}</FormLabel>
-              <FormControl>
-                <FormLabel>Task Name</FormLabel>
-                <Input
-                  autoFocus
-                  required
-                  defaultValue={`${timeEntry?.task.name}`}
-                />
-              </FormControl>
-              <FormControl>
-                <FormLabel>Start Time: </FormLabel>
-                <Input required defaultValue={`${timeEntry?.startTime}`} />
-              </FormControl>
-              <FormControl>
-                <FormLabel>End Time: </FormLabel>
-                <Input required defaultValue={`${timeEntry?.endTime}`} />
-              </FormControl>
-              <Button type="submit">Submit</Button>
-            </Stack>
-          </form>
+              <form
+                onSubmit={(event: React.FormEvent<HTMLFormElement>) => {
+                  // event.preventDefault();
+                  setUpdateForm(false);
+                  handleUpdateSelectedTimeEntry(event);
+                }}
+              >
+                <Stack spacing={2}>
+                  <Typography>
+                    Client: {timeEntry?.task.project?.client.name}
+                  </Typography>
+                  <FormLabel>Project: {timeEntry?.task.project.name}</FormLabel>
+                  <FormControl>
+                    <FormLabel>
+                      Task Name: {`${timeEntry?.task.name}`}{" "}
+                    </FormLabel>
+                    {/* <Input
+                      autoFocus
+                      required
+                      defaultValue={`${timeEntry?.task.name}`}
+                    /> */}
+                  </FormControl>
+                  <FormControl>
+                    <FormLabel>Start Time:</FormLabel>
+                    <Input
+                      required
+                      type="text"
+                      name="startTime"
+                      defaultValue={moment(`${timeEntry?.startTime}`).format(
+                        "YYYY-MM-DD, HH:mm:ss"
+                      )}
+                    />
+                  </FormControl>
+                  <FormControl>
+                    <FormLabel>End Time: </FormLabel>
+                    <Input
+                      required
+                      type="text"
+                      name="endTime"
+                      defaultValue={moment(`${timeEntry?.endTime}`).format(
+                        "YYYY-MM-DD, HH:mm:ss"
+                      )}
+                    />
+                  </FormControl>
+                  <Button type="submit">Update</Button>
+                </Stack>
+              </form>
+            </>
+          ) : (
+            <>
+              {/**************************** Add endTime to time entry form ********************************/}
+
+              <Typography id="basic-modal-dialog-title" component="h2">
+                Stop time tracker: {timeEntry?.id}
+              </Typography>
+              <form
+                onSubmit={(event: React.FormEvent<HTMLFormElement>) => {
+                  event.preventDefault();
+                  setUpdateForm(false);
+                  handleAddEndTimeToTimeEntry();
+                }}
+              >
+                <Stack spacing={2}>
+                  <Typography>
+                    Client: {timeEntry?.task.project?.client.name}
+                  </Typography>
+                  <Typography>
+                    Project: {timeEntry?.task.project.name}
+                  </Typography>
+                  <Typography>Task Name: {timeEntry?.task.name}</Typography>
+                  <Typography>
+                    Start Time:{" "}
+                    {moment(timeEntry?.startTime).format(
+                      "YYYY-MM-DD, HH:mm:ss"
+                    )}
+                  </Typography>
+
+                  {/* <FormControl>
+                    <FormLabel>End Time: </FormLabel>
+                    <Input required defaultValue={`${timeEntry?.endTime}`} />
+                  </FormControl> */}
+                  <Button type="submit">Stop time tracker</Button>
+                </Stack>
+              </form>
+            </>
+          )}
         </ModalDialog>
       </Modal>
     </div>

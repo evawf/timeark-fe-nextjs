@@ -25,6 +25,9 @@ export default function NewProject() {
     categories: [""],
     userId: "",
     clientId: "",
+    client: {
+      name: "",
+    },
   });
 
   const getClientsData = async () => {
