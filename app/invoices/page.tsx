@@ -33,6 +33,7 @@ export default function Invoices() {
                 <p>Project name: {i.project.name}</p>
                 <p>Client name: {i.project.client.name}</p>
                 <p>Issue date: {moment(i.issueDate).format("YYYY-MM-DD")}</p>
+                <p>Payment: {i.isPaid ? <>PAID</> : <>UNPAID</>}</p>
                 {/* <Link href={`/invoices/${i.id}`}>View</Link> */}
                 <button onClick={() => router.push(`/invoices/${i.id}`)}>
                   View

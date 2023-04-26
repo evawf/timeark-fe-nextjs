@@ -127,6 +127,7 @@ export default function InvoicePage({ params }: InvoiceId | any) {
                 </li>
               ))}
             </ul>
+            <p>Total due(S$): {Number(dueAmount).toFixed(2)}</p>
           </div>
         </div>
       ) : (
