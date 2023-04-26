@@ -15,5 +15,4 @@ export default async function GetSingleProject(id: string) {
   } catch (err) {
     console.log("msg: ", err);
   }
-  return <div>fetchSingleProject</div>;
 }

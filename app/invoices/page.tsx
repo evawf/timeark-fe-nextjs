@@ -1,13 +1,49 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import getInvoices from "@/lib/invoice/getInvoices";
+import Invoice from "@/types/invoice";
+import moment from "moment";
+import Link from "next/link";
 
 export default function Invoices() {
   const router = useRouter();
+  const [invoiceList, setInvoiceList] = useState<Invoice[]>([]);
+
+  const getInvoicesData = async () => {
+    const res = await getInvoices();
+    console.log("invoice data: ", res);
+    return setInvoiceList(res.invoices);
+  };
+
+  console.log("invoiceList: ", invoiceList);
 
   useEffect(() => {
     let isAuth = localStorage.getItem("isAuth");
-    // isAuth === "true" ? getInvoicesData() : router.push("/login");
+    isAuth === "true" ? getInvoicesData() : router.push("/login");
   }, []);
-  return <div>Invoices page</div>;
+  return (
+    <div>
+      <h4>My Invoices: </h4>
+      <div>
+        {invoiceList.length !== 0 ? (
+          <ul>
+            {invoiceList.map((i) => (
+              <li key={i.id}>
+                <p>Project name: {i.project.name}</p>
+                <p>Client name: {i.project.client.name}</p>
+                <p>Issue date: {moment(i.issueDate).format("YYYY-MM-DD")}</p>
+                {/* <Link href={`/invoices/${i.id}`}>View</Link> */}
+                <button onClick={() => router.push(`/invoices/${i.id}`)}>
+                  View
+                </button>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <>You haven't generated any invoice yet.</>
+        )}
+      </div>
+    </div>
+  );
 }
