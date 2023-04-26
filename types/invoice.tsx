@@ -6,6 +6,7 @@ export default interface Invoice {
   chargeable_tasks: [
     {
       id: string;
+      taskName: string;
       projectName: string;
       timeSpent: string;
       invoiceId: string;
@@ -14,6 +15,10 @@ export default interface Invoice {
   project: {
     id: string;
     name: string;
+    description: string;
+    budget: string;
+    ratePerHour: string;
+    dueDate: Date;
     client: {
       name: string;
       address: string;
