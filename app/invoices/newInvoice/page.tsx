@@ -70,7 +70,7 @@ export default function NewInvoice() {
             generateNewInvoice(event);
           }}
         >
-          <Stack spacing={2}>
+          <Stack spacing={2} sx={{ maxWidth: 500 }}>
             <FormControl>
               <FormLabel>Select project: </FormLabel>
               {projectList.length ? (
@@ -127,7 +127,9 @@ export default function NewInvoice() {
                 ))}
               </Select>
             </FormControl>
-            <Button type="submit">Generate Invoice</Button>
+            <FormControl>
+              <Button type="submit">Generate Invoice</Button>
+            </FormControl>
           </Stack>
         </form>
       </section>

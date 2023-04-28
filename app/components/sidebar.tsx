@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import Link from "next/link";
 import LogoutUser from "@/lib/logoutUser";
@@ -29,7 +30,7 @@ export default function Sidebar() {
           <Link href={"/myprofile"}>Profile</Link>
         </div>
 
-        <div>
+        {/* <div>
           <button
             onClick={() => {
               localStorage.clear();
@@ -39,7 +40,7 @@ export default function Sidebar() {
           >
             Logout
           </button>
-        </div>
+        </div> */}
       </main>
     </>
   );

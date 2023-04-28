@@ -25,6 +25,9 @@ export default function Invoices() {
   return (
     <div>
       <h4>My Invoices: </h4>
+      <button onClick={() => router.push(`/invoices/newInvoice`)}>
+        Generate New Invoice
+      </button>
       <div>
         {invoiceList.length !== 0 ? (
           <ul>
@@ -42,7 +45,9 @@ export default function Invoices() {
             ))}
           </ul>
         ) : (
-          <>You haven't generated any invoice yet.</>
+          <>
+            <h4>You haven't generated any invoice yet.</h4>
+          </>
         )}
       </div>
     </div>

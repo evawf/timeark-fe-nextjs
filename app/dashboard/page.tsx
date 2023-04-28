@@ -20,7 +20,7 @@ export default function Dashboard() {
 
   return (
     <div>
-      <Sidebar />
+      {/* <Sidebar /> */}
       {data ? (
         <>
           <div>Dashboard data: {data}</div>

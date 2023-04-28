@@ -1,5 +1,6 @@
 import "./globals.css";
 import { GlobalContextProvider } from "../lib/context/store";
+import Layout from "./components/layout";
 
 export const metadata = {
   title: "TimeArk",
@@ -15,7 +16,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <GlobalContextProvider>{children}</GlobalContextProvider>
+        <GlobalContextProvider>
+          <Layout>
+            <main>{children}</main>
+          </Layout>
+        </GlobalContextProvider>
       </body>
     </html>
   );
