@@ -2,14 +2,11 @@
 import React from "react";
 import BottomNavigation from "@mui/material/BottomNavigation";
 import BottomNavigationAction from "@mui/material/BottomNavigationAction";
-import RestoreIcon from "@mui/icons-material/Restore";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import LocationOnIcon from "@mui/icons-material/LocationOn";
-import { redirect, useRouter } from "next/navigation";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import YouTubeIcon from "@mui/icons-material/YouTube";
 import { green } from "@mui/material/colors";
+import Typography from "@mui/joy/Typography";
 
 const green500 = green[800];
 
@@ -27,14 +24,13 @@ export default function Footer() {
         color: "white",
         justifyContent: "center",
         alignItems: "center",
-        // zIndex: (theme) => theme.zIndex.drawer + 1,
         width: "100%",
       }}
     >
-      <BottomNavigationAction
+      {/* <BottomNavigationAction
         label=" ©    2022 TimeArk™    "
-        sx={{ color: green500 }}
-      />
+        sx={{ width: 1 }}
+      /> */}
       <BottomNavigationAction
         icon={<TwitterIcon />}
         onClick={() => (window.location.href = "https://www.twitter.com")}
@@ -50,6 +46,7 @@ export default function Footer() {
         onClick={() => (window.location.href = "https://www.youtube.com")}
         sx={{ color: green500 }}
       />
+      <BottomNavigationAction label="©2022 TimeArk" sx={{ width: 1 }} />
     </BottomNavigation>
   );
 }
