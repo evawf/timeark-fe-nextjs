@@ -17,6 +17,7 @@ export default function Home() {
           <Image alt="Time Ark" src="/logo.png" width={150} height={50}></Image>
         </Link>
         <Box
+          className="homeContent"
           sx={{
             width: "80%",
             height: "100%",

@@ -35,3 +35,20 @@ html {
   align-items: center;
   justify-content: center;
 }
+
+@media screen and (min-device-width: 900px) and (max-device-width: 1600px) and (-webkit-min-device-pixel-ratio: 2) and (min-resolution: 192dpi) {
+  .home {
+    height: 100%;
+    background-size: cover;
+    display: flex;
+    align-items: flex-start;
+  }
+  .about {
+    display: none;
+  }
+  .homeContent {
+    width: 30%;
+    margin-left: 15%;
+    margin-top: 0;
+  }
+}

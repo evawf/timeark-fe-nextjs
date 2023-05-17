@@ -11,4 +11,5 @@ export default interface User {
   country: string;
   postalCode: string;
   contact: string;
+  isActive: boolean;
 }
