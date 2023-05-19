@@ -4,6 +4,7 @@ import Project from "../../types/project";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import getProjects from "../../lib/project/fetchProjects";
+import Sidebar from "../components/Sidebar";
 
 export default function Projects() {
   const [projectList, setProjectList] = useState<Project[]>([]);
@@ -22,6 +23,7 @@ export default function Projects() {
 
   return (
     <div>
+      <Sidebar />
       <h2>My Projects: </h2>
 
       <div>

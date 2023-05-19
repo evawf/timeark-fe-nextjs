@@ -26,6 +26,14 @@ import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
 import Image from "next/image";
 
+import DashboardIcon from "@mui/icons-material/Dashboard";
+import BusinessIcon from "@mui/icons-material/Business";
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+import BusinessCenterIcon from "@mui/icons-material/BusinessCenter";
+import ReceiptIcon from "@mui/icons-material/Receipt";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import LogoutIcon from "@mui/icons-material/Logout";
+
 const drawerWidth = 200;
 
 const openedMixin = (theme: Theme): CSSObject => ({
@@ -132,7 +140,6 @@ export default function Sidebar() {
       </AppBar>
       <Drawer variant="permanent" open={open}>
         <DrawerHeader>
-          <>Workspace</>
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === "rtl" ? (
               <ChevronRightIcon />
@@ -143,10 +150,17 @@ export default function Sidebar() {
         </DrawerHeader>
         <Divider />
         <List>
-          {["Dashboard", "Calendar", "Clients", "Projects", "invoices"].map(
+          {["Dashboard", "Calendar", "Clients", "Projects", "Invoices"].map(
             (text, index) => (
               <ListItem key={text} disablePadding sx={{ display: "block" }}>
                 <ListItemButton
+                  onClick={() => {
+                    if (index === 0) router.push("/dashboard");
+                    if (index === 1) router.push("/calendar");
+                    if (index === 2) router.push("/clients");
+                    if (index === 3) router.push("/projects");
+                    if (index === 4) router.push("/invoices");
+                  }}
                   sx={{
                     minHeight: 48,
                     justifyContent: open ? "initial" : "center",
@@ -160,7 +174,11 @@ export default function Sidebar() {
                       justifyContent: "center",
                     }}
                   >
-                    {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                    {index === 0 && <DashboardIcon />}
+                    {index === 1 && <CalendarMonthIcon />}
+                    {index === 2 && <BusinessIcon />}
+                    {index === 3 && <BusinessCenterIcon />}
+                    {index === 4 && <ReceiptIcon />}
                   </ListItemIcon>
                   <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
                 </ListItemButton>
@@ -173,6 +191,14 @@ export default function Sidebar() {
           {["Profile", "Logout"].map((text, index) => (
             <ListItem key={text} disablePadding sx={{ display: "block" }}>
               <ListItemButton
+                onClick={() => {
+                  if (index === 0) router.push("/myprofile");
+                  if (index === 1) {
+                    localStorage.clear();
+                    LogoutUser();
+                    router.push("/");
+                  }
+                }}
                 sx={{
                   minHeight: 48,
                   justifyContent: open ? "initial" : "center",
@@ -186,7 +212,8 @@ export default function Sidebar() {
                     justifyContent: "center",
                   }}
                 >
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                  {index === 0 && <AccountCircleIcon />}
+                  {index === 1 && <LogoutIcon />}
                 </ListItemIcon>
                 <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
               </ListItemButton>
@@ -195,27 +222,5 @@ export default function Sidebar() {
         </List>
       </Drawer>
     </Box>
-    // <>
-    //   <main>
-    //     <div>
-    //       <Link href={"/dashboard"}>Dashboard</Link>
-    //     </div>
-    //     <div>
-    //       <Link href={`/calendar`}>Calendar</Link>
-    //     </div>
-    //     <div>
-    //       <Link href={"/clients"}>Clients</Link>
-    //     </div>
-    //     <div>
-    //       <Link href={"/projects"}>Projects</Link>
-    //     </div>
-    //     <div>
-    //       <Link href={"/invoices"}>Invoices</Link>
-    //     </div>
-    //     <div>
-    //       <Link href={"/myprofile"}>Profile</Link>
-    //     </div>
-    //   </main>
-    // </>
   );
 }

@@ -5,6 +5,7 @@ import getInvoices from "@/lib/invoice/getInvoices";
 import Invoice from "@/types/invoice";
 import moment from "moment";
 import Link from "next/link";
+import Sidebar from "../components/Sidebar";
 
 export default function Invoices() {
   const router = useRouter();
@@ -24,6 +25,7 @@ export default function Invoices() {
   }, []);
   return (
     <div>
+      <Sidebar />
       <h4>My Invoices: </h4>
       <button onClick={() => router.push(`/invoices/newInvoice`)}>
         Generate New Invoice

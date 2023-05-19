@@ -24,7 +24,7 @@ export default function Clients() {
 
   return (
     <div>
-      {/* <Sidebar /> */}
+      <Sidebar />
       {clientList ? (
         <section>
           <h2>My Clients</h2>

@@ -5,6 +5,7 @@ import addNewInvoice from "@/lib/invoice/addNewInvoice";
 import getProjects from "@/lib/project/fetchProjects";
 import Project from "@/types/project";
 import moment from "moment";
+import Sidebar from "@/app/components/Sidebar";
 
 //************ Form ************/
 import Select from "@mui/joy/Select";
@@ -61,6 +62,7 @@ export default function NewInvoice() {
 
   return (
     <div>
+      <Sidebar />
       <h4>New invioce page</h4>
       <section>
         <form

@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import GetSingleClient from "@/lib/client/fetchSingleClient";
 import Client from "../../../../types/client";
 import UpdateClientProfile from "../../../../lib/client/updateClientProfile";
+import Sidebar from "@/app/components/Sidebar";
 
 interface ClientId {
   id: string;
@@ -61,6 +62,7 @@ export default function UpdateClient({ params }: ClientId | any) {
 
   return (
     <div>
+      <Sidebar />
       Update Client Page
       {client ? (
         <>

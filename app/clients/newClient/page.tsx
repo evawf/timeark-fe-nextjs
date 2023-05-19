@@ -4,6 +4,7 @@ import getClients from "../../../lib/client/fetchClients";
 import { useRouter } from "next/navigation";
 import Client from "../../../types/client";
 import AddNewClient from "@/lib/client/addNewClient";
+import Sidebar from "@/app/components/Sidebar";
 
 export default function NewClient() {
   const router = useRouter();
@@ -52,6 +53,7 @@ export default function NewClient() {
 
   return (
     <div>
+      <Sidebar />
       Add New Client
       <form action="" onSubmit={(e: React.SyntheticEvent) => handleSubmit(e)}>
         <label htmlFor="">Company Name: </label>

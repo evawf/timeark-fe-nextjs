@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import GetSingleClient from "@/lib/client/fetchSingleClient";
 import Client from "../../../types/client";
 import DeleteClient from "@/lib/client/deleteClient";
+import Sidebar from "@/app/components/Sidebar";
 
 interface ClientId {
   id: string;
@@ -36,6 +37,7 @@ export default function ClientPage({ params }: ClientId | any) {
 
   return (
     <>
+      <Sidebar />
       <div>Client page: client {params.id}</div>
       <div>
         {client ? (

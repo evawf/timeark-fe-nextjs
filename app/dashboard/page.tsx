@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import FetchDashboardData from "../../lib/fetchDashboardData";
 import { useRouter } from "next/navigation";
+import Box from "@mui/material/Box";
 import Sidebar from "../components/Sidebar";
 
 export default function Dashboard() {
@@ -19,7 +20,7 @@ export default function Dashboard() {
   }, []);
 
   return (
-    <div>
+    <Box sx={{ marginTop: "64px", display: "flex", flexDirection: "row" }}>
       <Sidebar />
       {data ? (
         <>
@@ -28,6 +29,6 @@ export default function Dashboard() {
       ) : (
         <>Loading</>
       )}
-    </div>
+    </Box>
   );
 }

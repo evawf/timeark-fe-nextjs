@@ -12,6 +12,7 @@ import addNewTimeEntry from "@/lib/time/addNewTimeEntry";
 import addEndTimeToSelectedTimeEntry from "@/lib/time/addEndTimeToSelectedTimeEntry";
 import updateTimeEntry from "@/lib/time/updateTimeEntry";
 import deleteTimeEntry from "@/lib/time/deleteTimeEntry";
+import Sidebar from "../components/Sidebar";
 
 //************ Full Calendar ************/
 import FullCalendar from "@fullcalendar/react";
@@ -199,6 +200,7 @@ export default function PickedDate({ params }: Date | any) {
 
   return (
     <div>
+      <Sidebar />
       <p>Calendar current date: page</p>
       <FullCalendar
         plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, listPlugin]}

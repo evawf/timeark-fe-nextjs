@@ -9,6 +9,7 @@ import DeleteProject from "@/lib/project/deleteProject";
 import AddNewTask from "@/lib/task/addNewTask";
 import updateTask from "@/lib/task/updateTask";
 import deleteTask from "@/lib/task/deleteTask";
+import Sidebar from "@/app/components/Sidebar";
 
 interface ProjectId {
   id: string;
@@ -135,6 +136,7 @@ export default function ProjectPage({ params }: ProjectId | any) {
 
   return (
     <div>
+      <Sidebar />
       Project Page:
       <div>
         {project ? (

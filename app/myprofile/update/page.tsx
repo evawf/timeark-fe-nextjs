@@ -4,6 +4,7 @@ import getUserProfile from "@/lib/fetchUser";
 import User from "../../../types/user";
 import { useRouter } from "next/navigation";
 import UpdateUserProfile from "../../../lib/updateUserProfile";
+import Sidebar from "../../components/Sidebar";
 
 export default function MyProfile() {
   const [userData, setUserData] = useState<User | any>();
@@ -75,6 +76,7 @@ export default function MyProfile() {
 
   return (
     <div>
+      <Sidebar />
       Update user profile page
       <div>
         {userData ? (

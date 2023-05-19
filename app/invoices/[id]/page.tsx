@@ -6,6 +6,7 @@ import moment from "moment";
 import Invoice from "@/types/invoice";
 import getSingleInvoice from "@/lib/invoice/getSingleInvoice";
 import updateInvoice from "@/lib/invoice/updateInvoice";
+import Sidebar from "@/app/components/Sidebar";
 
 interface InvoiceId {
   id: string;
@@ -51,6 +52,7 @@ export default function InvoicePage({ params }: InvoiceId | any) {
 
   return (
     <div>
+      <Sidebar />
       <h4>Single Invoice Page: invoice no. {params.id}</h4>
       {invoice ? (
         <div>

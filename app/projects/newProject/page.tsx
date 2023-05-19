@@ -6,6 +6,7 @@ import Client from "@/types/client";
 import AddNewProject from "../../../lib/project/addNewProject";
 import getClients from "@/lib/client/fetchClients";
 import getClientByRegistrationNo from "@/lib/client/fetchClientByRegistrationNo";
+import Sidebar from "@/app/components/Sidebar";
 
 export default function NewProject() {
   const [registrationNo, setRegistrationNo] = useState("");
@@ -86,6 +87,7 @@ export default function NewProject() {
 
   return (
     <div>
+      <Sidebar />
       <h2>Add new project page</h2>
       <form action="" onSubmit={(e: React.SyntheticEvent) => handleSubmit(e)}>
         <label htmlFor="">Select A Client: </label>

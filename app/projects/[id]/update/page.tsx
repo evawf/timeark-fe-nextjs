@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import GetSingleProject from "@/lib/project/fetchSingleProject";
 import Project from "@/types/project";
 import UpdateProjectInfo from "../../../../lib/project/updateProject";
+import Sidebar from "@/app/components/Sidebar";
 
 interface ProjectId {
   id: string;
@@ -52,6 +53,7 @@ export default function UpdateProject({ params }: ProjectId | any) {
 
   return (
     <div>
+      <Sidebar />
       Update Project page
       {project ? (
         <div>
