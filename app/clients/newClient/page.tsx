@@ -6,6 +6,8 @@ import Client from "../../../types/client";
 import AddNewClient from "@/lib/client/addNewClient";
 import Sidebar from "@/app/components/Sidebar";
 
+import Box from "@mui/material/Box";
+
 export default function NewClient() {
   const router = useRouter();
   const [newClient, setNewClient] = useState<Client>({
@@ -52,77 +54,79 @@ export default function NewClient() {
   };
 
   return (
-    <div>
+    <Box sx={{ marginTop: "64px", display: "flex", flexDirection: "row" }}>
       <Sidebar />
-      Add New Client
-      <form action="" onSubmit={(e: React.SyntheticEvent) => handleSubmit(e)}>
-        <label htmlFor="">Company Name: </label>
-        <input
-          type="text"
-          id="name"
-          value={newClient.name}
-          onChange={handleChange}
-        />
-        <br />
-        <label htmlFor="">Country: </label>
-        <input
-          type="text"
-          id="country"
-          value={newClient.country}
-          onChange={handleChange}
-        />
-        <br />
-        <label htmlFor="">City: </label>
-        <input
-          type="text"
-          id="city"
-          value={newClient.city}
-          onChange={handleChange}
-        />
-        <br />
-        <label htmlFor="">Address: </label>
-        <input
-          type="text"
-          id="address"
-          value={newClient.address}
-          onChange={handleChange}
-        />
-        <br />
+      <Box sx={{ width: "100%", margin: 2 }}>
+        <p>Add New Client</p>
+        <form action="" onSubmit={(e: React.SyntheticEvent) => handleSubmit(e)}>
+          <label htmlFor="">Company Name: </label>
+          <input
+            type="text"
+            id="name"
+            value={newClient.name}
+            onChange={handleChange}
+          />
+          <br />
+          <label htmlFor="">Country: </label>
+          <input
+            type="text"
+            id="country"
+            value={newClient.country}
+            onChange={handleChange}
+          />
+          <br />
+          <label htmlFor="">City: </label>
+          <input
+            type="text"
+            id="city"
+            value={newClient.city}
+            onChange={handleChange}
+          />
+          <br />
+          <label htmlFor="">Address: </label>
+          <input
+            type="text"
+            id="address"
+            value={newClient.address}
+            onChange={handleChange}
+          />
+          <br />
 
-        <label htmlFor="">Postal Code: </label>
-        <input
-          type="text"
-          id="postalCode"
-          value={newClient.postalCode}
-          onChange={handleChange}
-        />
-        <br />
-        <label htmlFor="">Registration No.:</label>
-        <input
-          type="text"
-          id="registrationNumber"
-          value={newClient.registrationNumber}
-          onChange={handleChange}
-        />
-        <br />
-        <label htmlFor="">Contact: </label>
-        <input
-          type="text"
-          id="contact"
-          value={newClient.contact}
-          onChange={handleChange}
-        />
-        <br />
-        <label htmlFor="">Email: </label>
-        <input
-          type="text"
-          id="email"
-          value={newClient.email}
-          onChange={handleChange}
-        />
-        <br />
-        <button type="submit">Submit</button>
-      </form>
-    </div>
+          <label htmlFor="">Postal Code: </label>
+          <input
+            type="text"
+            id="postalCode"
+            value={newClient.postalCode}
+            onChange={handleChange}
+          />
+          <br />
+          <label htmlFor="">Registration No.:</label>
+          <input
+            type="text"
+            id="registrationNumber"
+            value={newClient.registrationNumber}
+            onChange={handleChange}
+          />
+          <br />
+          <label htmlFor="">Contact: </label>
+          <input
+            type="text"
+            id="contact"
+            value={newClient.contact}
+            onChange={handleChange}
+          />
+          <br />
+          <label htmlFor="">Email: </label>
+          <input
+            type="text"
+            id="email"
+            value={newClient.email}
+            onChange={handleChange}
+          />
+          <br />
+          <button type="submit">Submit</button>
+        </form>
+      </Box>
+    </Box>
   );
 }

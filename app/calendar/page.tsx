@@ -204,7 +204,6 @@ export default function PickedDate({ params }: Date | any) {
     <Box sx={{ marginTop: "64px", display: "flex", flexDirection: "row" }}>
       <Sidebar />
       <Box sx={{ width: "100%", margin: 2 }}>
-        <p>Calendar current date: page</p>
         <FullCalendar
           plugins={[
             dayGridPlugin,
@@ -229,7 +228,7 @@ export default function PickedDate({ params }: Date | any) {
           nowIndicator
           dateClick={(e) => handleOpenAddNewTimeEntryModal()}
           eventClick={(e) => handleEditTimeEntry(e.event.id)}
-          height={"800px"}
+          height={"860px"}
         />
 
         {/******************************** Add new time entry form ********************************/}

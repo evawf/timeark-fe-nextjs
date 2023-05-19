@@ -6,6 +6,8 @@ import Client from "../../../types/client";
 import DeleteClient from "@/lib/client/deleteClient";
 import Sidebar from "@/app/components/Sidebar";
 
+import Box from "@mui/material/Box";
+
 interface ClientId {
   id: string;
 }
@@ -36,30 +38,30 @@ export default function ClientPage({ params }: ClientId | any) {
   };
 
   return (
-    <>
+    <Box sx={{ marginTop: "64px", display: "flex", flexDirection: "row" }}>
       <Sidebar />
-      <div>Client page: client {params.id}</div>
-      <div>
+      <Box sx={{ width: "100%", margin: 2 }}>
+        <p>Client page: client {params.id}</p>
         {client ? (
-          <div>
-            <div>Name: {client.name}</div>
-            <div>Country: {client.country}</div>
-            <div>City: {client.city}</div>
-            <div>Address: {client.address}</div>
-            <div>Postalcode: {client.postalCode}</div>
-            <div>Registration No.: {client.registrationNumber}</div>
-            <div>Contact: {client.contact}</div>
-            <div>Email: {client.email}</div>
+          <Box>
+            <Box>Name: {client.name}</Box>
+            <Box>Country: {client.country}</Box>
+            <Box>City: {client.city}</Box>
+            <Box>Address: {client.address}</Box>
+            <Box>Postalcode: {client.postalCode}</Box>
+            <Box>Registration No.: {client.registrationNumber}</Box>
+            <Box>Contact: {client.contact}</Box>
+            <Box>Email: {client.email}</Box>
             <button onClick={() => router.push(`/clients/${params.id}/update`)}>
               Update Client
             </button>
             <br />
             <button onClick={() => deleteClient()}>Delete Client</button>
-          </div>
+          </Box>
         ) : (
           <>Loading</>
         )}
-      </div>
-    </>
+      </Box>
+    </Box>
   );
 }
