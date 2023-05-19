@@ -21,6 +21,7 @@ import OutlinedInput from "@mui/material/OutlinedInput";
 interface User {
   email: string;
   password: string;
+  isActive: boolean;
 }
 
 export default function Login() {
@@ -47,6 +48,7 @@ export default function Login() {
     const user: User = {
       email: email,
       password: password,
+      isActive: true,
     };
 
     const result = await LoginUser(user);
@@ -63,7 +65,9 @@ export default function Login() {
   return (
     <Card className="container mx-auto" sx={{ minWidth: 275 }}>
       <CardContent>
-        <Typography sx={{ fontSize: 20, fontStyle: "bold" }}>
+        <Typography
+          sx={{ fontSize: 20, fontStyle: "bold", textAlign: "center" }}
+        >
           Sign in to Your Account
         </Typography>
         <form onSubmit={handleSubmit} className="loginForm">

@@ -6,6 +6,7 @@ axios.defaults.withCredentials = true;
 interface User {
   email: string;
   password: string;
+  isActive: boolean;
 }
 
 export default async function LoginUser(user: User) {

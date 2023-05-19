@@ -31,6 +31,14 @@ export default function Signup() {
   const [password, setPassword] = useState("");
   const router = useRouter();
 
+  const [showPassword, setShowPassword] = React.useState(false);
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+  const handleMouseDownPassword = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    event.preventDefault();
+  };
+
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
   };
@@ -58,7 +66,9 @@ export default function Signup() {
   return (
     <Card className="container mx-auto" sx={{ minWidth: 275 }}>
       <CardContent>
-        <Typography sx={{ fontSize: 20, fontStyle: "bold" }}>
+        <Typography
+          sx={{ fontSize: 20, fontStyle: "bold", textAlign: "center" }}
+        >
           Sign up for An Account
         </Typography>
         <form onSubmit={handleSubmit} className="signinForm">
@@ -73,7 +83,39 @@ export default function Signup() {
               label="email"
             />
           </FormControl>
-          <FormControl fullWidth sx={{ mt: 2 }}></FormControl>
+          <FormControl fullWidth sx={{ mt: 2 }}>
+            <InputLabel htmlFor="outlined-adornment-password">
+              Password
+            </InputLabel>
+            <OutlinedInput
+              required
+              id="outlined-adornment-password"
+              type={showPassword ? "text" : "password"}
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={handleClickShowPassword}
+                    onMouseDown={handleMouseDownPassword}
+                    edge="end"
+                  >
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              }
+              label="Password"
+              onChange={handlePasswordChange}
+            />
+            <Button
+              fullWidth
+              variant="contained"
+              color="success"
+              sx={{ mt: 2, height: "50px" }}
+              type="submit"
+            >
+              Create My Account
+            </Button>
+          </FormControl>
         </form>
         {/* // **************************************************************** */}
         {/* <div>Login</div>;
