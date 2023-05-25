@@ -49,9 +49,6 @@ export default function Clients() {
                 }}
               >
                 {clientList.map((client) => (
-                  // <li key={client.id}>
-                  //   <Link href={`/clients/${client.id}`}>{client.name}</Link>
-                  // </li>
                   <Card
                     sx={{
                       width: 200,

@@ -136,32 +136,6 @@ export default function Login() {
             Log In
           </Button>
         </form>
-
-        {/* /********************************************************************************* */}
-
-        {/* <form onSubmit={handleSubmit} className="">
-          <div>
-            <label>Email Address</label>
-            <br />
-            <input
-              type="text"
-              id="email"
-              placeholder="email"
-              onChange={handleEmailChange}
-            />
-          </div>
-          <div>
-            <label>Password</label>
-            <br />
-            <input
-              type="password"
-              id="password"
-              placeholder="******************"
-              onChange={handlePasswordChange}
-            />
-          </div>
-          <button type="submit">Submit</button>
-        </form> */}
       </CardContent>
     </Card>
   );

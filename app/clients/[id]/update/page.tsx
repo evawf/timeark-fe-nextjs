@@ -7,6 +7,21 @@ import UpdateClientProfile from "../../../../lib/client/updateClientProfile";
 import Sidebar from "@/app/components/Sidebar";
 
 import Box from "@mui/material/Box";
+import Card from "@mui/material/Card";
+import CardActions from "@mui/material/CardActions";
+import CardContent from "@mui/material/CardContent";
+import CardMedia from "@mui/material/CardMedia";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
+import FormControl from "@mui/material/FormControl";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import InputLabel from "@mui/material/InputLabel";
+import InputAdornment from "@mui/material/InputAdornment";
+import IconButton from "@mui/material/IconButton";
+import Input from "@mui/material/Input";
+import FilledInput from "@mui/material/FilledInput";
+import OutlinedInput from "@mui/material/OutlinedInput";
 
 interface ClientId {
   id: string;
@@ -66,45 +81,138 @@ export default function UpdateClient({ params }: ClientId | any) {
     <Box sx={{ marginTop: "64px", display: "flex", flexDirection: "row" }}>
       <Sidebar />
       <Box sx={{ width: "100%", margin: 2 }}>
-        Update Client Page
+        <h2 style={{ textAlign: "center" }}>Update Client Page</h2>
         {client ? (
-          <>
-            <form onSubmit={(e: React.SyntheticEvent) => handleSubmit(e)}>
-              <label htmlFor="client name">Name: </label>
-              <input type="text" id="name" defaultValue={client.name} />
-              <br />
-              <label htmlFor="">Country: </label>
-              <input type="text" id="country" defaultValue={client.country} />
-              <br />
-              <label htmlFor="">City: </label>
-              <input type="text" id="city" defaultValue={client.city} />
-              <br />
-              <label htmlFor="">Address: </label>
-              <input type="text" id="address" defaultValue={client.address} />
-              <br />
-              <label htmlFor="">Postalcode: </label>
-              <input
-                type="text"
-                id="postalCode"
-                defaultValue={client.postalCode}
-              />
-              <br />
-              <label htmlFor="">Registration No.: </label>
-              <input
-                type="text"
-                id="registrationNumber"
-                defaultValue={client.registrationNumber}
-              />
-              <br />
-              <label htmlFor="">Contact: </label>
-              <input type="text" id="contact" defaultValue={client.contact} />
-              <br />
-              <label htmlFor="">Email: </label>
-              <input type="text" id="email" defaultValue={client.email} />
-              <br />
-              <button type="submit">Update</button>
-            </form>
-          </>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Card
+              sx={{
+                width: 400,
+                // height: 400,
+                margin: 1,
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "space-between",
+              }}
+            >
+              <CardContent>
+                <form onSubmit={(e: React.SyntheticEvent) => handleSubmit(e)}>
+                  <FormControl fullWidth sx={{ mt: 2 }}>
+                    <InputLabel htmlFor="outlined-adornment-name">
+                      Name
+                    </InputLabel>
+                    <OutlinedInput
+                      required
+                      type="text"
+                      id="name"
+                      defaultValue={client.name}
+                      label="name"
+                    />
+                  </FormControl>
+                  <FormControl fullWidth sx={{ mt: 2 }}>
+                    <InputLabel htmlFor="outlined-adornment-country">
+                      Country
+                    </InputLabel>
+                    <OutlinedInput
+                      required
+                      type="text"
+                      id="country"
+                      defaultValue={client.country}
+                      label="country"
+                    />
+                  </FormControl>
+                  <FormControl fullWidth sx={{ mt: 2 }}>
+                    <InputLabel htmlFor="outlined-adornment-city">
+                      City
+                    </InputLabel>
+                    <OutlinedInput
+                      required
+                      type="text"
+                      id="city"
+                      defaultValue={client.city}
+                      label="city"
+                    />
+                  </FormControl>
+                  <FormControl fullWidth sx={{ mt: 2 }}>
+                    <InputLabel htmlFor="outlined-adornment-address">
+                      Address
+                    </InputLabel>
+                    <OutlinedInput
+                      required
+                      type="text"
+                      id="address"
+                      defaultValue={client.address}
+                      label="address"
+                    />
+                  </FormControl>
+                  <FormControl fullWidth sx={{ mt: 2 }}>
+                    <InputLabel htmlFor="outlined-adornment-postalCode">
+                      Postal Code
+                    </InputLabel>
+                    <OutlinedInput
+                      required
+                      type="text"
+                      id="postalCode"
+                      defaultValue={client.postalCode}
+                      label="Postal Code"
+                    />
+                  </FormControl>
+                  <FormControl fullWidth sx={{ mt: 2 }}>
+                    <InputLabel htmlFor="outlined-adornment-RegistrationNumber">
+                      Registration No.
+                    </InputLabel>
+                    <OutlinedInput
+                      required
+                      type="text"
+                      id="registrationNumber"
+                      defaultValue={client.registrationNumber}
+                      label="registration No. "
+                    />
+                  </FormControl>
+                  <FormControl fullWidth sx={{ mt: 2 }}>
+                    <InputLabel htmlFor="outlined-adornment-contact">
+                      Contact
+                    </InputLabel>
+                    <OutlinedInput
+                      required
+                      type="text"
+                      id="contact"
+                      defaultValue={client.postalCode}
+                      label="contact"
+                    />
+                  </FormControl>
+                  <FormControl fullWidth sx={{ mt: 2 }}>
+                    <InputLabel htmlFor="outlined-adornment-email">
+                      Email
+                    </InputLabel>
+                    <OutlinedInput
+                      required
+                      type="text"
+                      id="email"
+                      defaultValue={client.postalCode}
+                      label="email"
+                    />
+                  </FormControl>
+
+                  <Button
+                    fullWidth
+                    variant="contained"
+                    color="success"
+                    sx={{ mt: 2, height: "50px" }}
+                    type="submit"
+                  >
+                    Update
+                  </Button>
+                </form>
+              </CardContent>
+            </Card>
+          </Box>
         ) : (
           <>Loading</>
         )}
