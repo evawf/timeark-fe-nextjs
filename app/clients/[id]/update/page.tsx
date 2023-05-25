@@ -94,7 +94,6 @@ export default function UpdateClient({ params }: ClientId | any) {
             <Card
               sx={{
                 width: 400,
-                // height: 400,
                 margin: 1,
                 display: "flex",
                 flexDirection: "column",
