@@ -10,6 +10,14 @@ import AddNewTask from "@/lib/task/addNewTask";
 import updateTask from "@/lib/task/updateTask";
 import deleteTask from "@/lib/task/deleteTask";
 import Sidebar from "@/app/components/Sidebar";
+import moment from "moment";
+
+import Box from "@mui/material/Box";
+import Card from "@mui/material/Card";
+import CardActions from "@mui/material/CardActions";
+import CardContent from "@mui/material/CardContent";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
 
 interface ProjectId {
   id: string;
@@ -135,82 +143,148 @@ export default function ProjectPage({ params }: ProjectId | any) {
   };
 
   return (
-    <div>
+    <Box sx={{ marginTop: "64px", display: "flex", flexDirection: "row" }}>
       <Sidebar />
-      Project Page:
-      <div>
+      <Box sx={{ width: "100%", margin: 2 }}>
         {project ? (
-          <div>
-            <div>Name: {project.name}</div>
-            <div>Description: {project.description}</div>
-            <div>Budget(S$): {project.budget}</div>
-            <div>Rate(S$/hour): {project.ratePerHour}</div>
-            <div>Due Date: {project.dueDate}</div>
-            <div>
-              Categories:
-              {/* <ul> */}
-              {project.categories.map((cat: string, idx: number) => (
-                <p key={`cat-${idx}`}>{cat}</p>
-              ))}
-              {/* </ul> */}
-            </div>
-            <button
-              onClick={() => router.push(`/projects/${params.id}/update`)}
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Card
+              sx={{
+                width: "100%",
+                margin: 1,
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "space-between",
+                backgroundColor: "lightblue",
+              }}
             >
-              Update Project
-            </button>
-            <br />
-            <button onClick={() => deleteProject()}>Delete Project</button>
-            <br />
+              <CardContent sx={{ alignContent: "center", margin: 1 }}>
+                <Typography
+                  variant="body1"
+                  color="text.primary"
+                  sx={{ textAlign: "start" }}
+                >
+                  Project Name: {project.name}
+                </Typography>
+                <Typography
+                  variant="body1"
+                  color="text.primary"
+                  sx={{ textAlign: "start" }}
+                >
+                  Description: {project.description}
+                </Typography>
+                <Typography
+                  variant="body1"
+                  color="text.primary"
+                  sx={{ textAlign: "start" }}
+                >
+                  Budget(S$): {project.budget}
+                </Typography>
+                <Typography
+                  variant="body1"
+                  color="text.primary"
+                  sx={{ textAlign: "start" }}
+                >
+                  Rate(S$/hour): {project.ratePerHour}
+                </Typography>
+                <Typography
+                  variant="body1"
+                  color="text.primary"
+                  sx={{ textAlign: "start" }}
+                >
+                  Due Date: {moment(project.dueDate).format("YYYY-MM-DD")}
+                </Typography>
+                <Box sx={{ display: "flex", flexDirection: "row" }}>
+                  Categories:
+                  {/* <ul> */}
+                  {project.categories.map((cat: string, idx: number) => (
+                    <Typography
+                      key={`cat-${idx}`}
+                      variant="body1"
+                      color="text.primary"
+                      sx={{ textAlign: "start", ml: 1, mr: 1 }}
+                    >
+                      {cat}
+                    </Typography>
+                  ))}
+                  {/* </ul> */}
+                </Box>
+              </CardContent>
+              <CardActions sx={{ justifyContent: "center", mb: 2 }}>
+                <Button
+                  variant="contained"
+                  color="success"
+                  onClick={() => router.push(`/projects/${params.id}/update`)}
+                >
+                  Update Project
+                </Button>
+                <br />
+                <Button
+                  onClick={() => deleteProject()}
+                  variant="contained"
+                  color="secondary"
+                >
+                  Delete Project
+                </Button>
+                <br />
+              </CardActions>
 
-            {/* ====================== Task List ====================== */}
-            <div>Task List: </div>
-            <div>
-              {taskList ? (
-                <div>
-                  <ul>
-                    {taskList.map((t, idx) => (
-                      <li key={`task${idx}`}>
-                        <span> Name: {t.name} |</span>
+              {/* ====================== Task List ====================== */}
+              <CardContent sx={{ alignContent: "center", margin: 1 }}>
+                <Box>Task List: </Box>
+                {taskList ? (
+                  <div>
+                    <ul>
+                      {taskList.map((t, idx) => (
+                        <li key={`task${idx}`}>
+                          <span> Name: {t.name} |</span>
 
-                        <span>| Category: {t.categoryName} |</span>
-                        <span>
-                          | Status: {t.isDone ? "Done" : "In process"}
-                        </span>
-                        <span>
-                          <button onClick={() => handleUpdateTask(t.id)}>
-                            Update Task
-                          </button>{" "}
-                          |
-                        </span>
-                        <span>
-                          |{" "}
-                          <button onClick={() => handleDeleteTask(t.id)}>
-                            Delete Task
-                          </button>
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
-                  <button onClick={() => showNewTaskFormSection()}>
-                    Add Task
-                  </button>
-                </div>
-              ) : (
-                <div>
-                  <p>You haven't added any task yet.</p>
-                  <button onClick={() => showNewTaskFormSection()}>
-                    Add Task
-                  </button>
-                </div>
-              )}
-            </div>
-          </div>
+                          <span>| Category: {t.categoryName} |</span>
+                          <span>
+                            | Status: {t.isDone ? "Done" : "In process"}
+                          </span>
+                          <span>
+                            <button onClick={() => handleUpdateTask(t.id)}>
+                              Update Task
+                            </button>{" "}
+                            |
+                          </span>
+                          <span>
+                            |{" "}
+                            <button onClick={() => handleDeleteTask(t.id)}>
+                              Delete Task
+                            </button>
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                    <button onClick={() => showNewTaskFormSection()}>
+                      Add Task
+                    </button>
+                  </div>
+                ) : (
+                  <div>
+                    <p>You haven't added any task yet.</p>
+                    <button onClick={() => showNewTaskFormSection()}>
+                      Add Task
+                    </button>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          </Box>
         ) : (
           <div>Loading</div>
         )}
-      </div>
-      <div>
+      </Box>
+      <Box>
         {showNewTaskForm && (
           <div>
             {/* ====================== New Task Form ====================== */}
@@ -240,8 +314,8 @@ export default function ProjectPage({ params }: ProjectId | any) {
             </form>
           </div>
         )}
-      </div>
-      <div>
+      </Box>
+      <Box>
         {/* ====================== Update Single Task Form ====================== */}
         {showUpdateTaskForm && (
           <div>
@@ -281,7 +355,7 @@ export default function ProjectPage({ params }: ProjectId | any) {
             </form>
           </div>
         )}
-      </div>
-    </div>
+      </Box>
+    </Box>
   );
 }

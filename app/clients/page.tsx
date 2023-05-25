@@ -10,7 +10,6 @@ import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 
@@ -50,13 +49,15 @@ export default function Clients() {
               >
                 {clientList.map((client) => (
                   <Card
+                    key={client.id}
                     sx={{
-                      width: 200,
+                      width: 300,
                       height: 200,
                       margin: 1,
                       display: "flex",
                       flexDirection: "column",
                       justifyContent: "space-between",
+                      backgroundColor: "lightblue",
                     }}
                   >
                     <CardContent sx={{ alignContent: "center", margin: 1 }}>
@@ -73,7 +74,7 @@ export default function Clients() {
                         color="text.secondary"
                         sx={{ textAlign: "center" }}
                       >
-                        Company details
+                        {client.city} {","} {client.country}
                       </Typography>
                     </CardContent>
                     <CardActions sx={{ justifyContent: "center", mb: 2 }}>
@@ -91,9 +92,9 @@ export default function Clients() {
             ) : (
               <div>
                 <h4>You haven't added any client!</h4>
-                <button onClick={() => router.push("/clients/newClient")}>
+                <Button onClick={() => router.push("/clients/newClient")}>
                   New Client
-                </button>
+                </Button>
               </div>
             )}
           </section>
