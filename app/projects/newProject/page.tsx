@@ -8,6 +8,14 @@ import getClients from "@/lib/client/fetchClients";
 import getClientByRegistrationNo from "@/lib/client/fetchClientByRegistrationNo";
 import Sidebar from "@/app/components/Sidebar";
 
+import Box from "@mui/material/Box";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import Button from "@mui/material/Button";
+import FormControl from "@mui/material/FormControl";
+import InputLabel from "@mui/material/InputLabel";
+import OutlinedInput from "@mui/material/OutlinedInput";
+
 export default function NewProject() {
   const [registrationNo, setRegistrationNo] = useState("");
   const [isNewClient, setIsNewClient] = useState(false);
@@ -86,123 +94,167 @@ export default function NewProject() {
   };
 
   return (
-    <div>
+    <Box sx={{ marginTop: "64px", display: "flex", flexDirection: "row" }}>
       <Sidebar />
-      <h2>Add new project page</h2>
-      <form action="" onSubmit={(e: React.SyntheticEvent) => handleSubmit(e)}>
-        <label htmlFor="">Select A Client: </label>
-        {!isNewClient && clientList.length ? (
-          <div>
-            <select name="clientId" id="clientId" onChange={handleChange}>
-              <option value="">-- Select a client --</option>
-              {clientList.map((c, idx) => (
-                <option value={c.id} key={`client${idx}`}>
-                  {c.name}
-                </option>
-              ))}
-            </select>
-            <button onClick={() => handleClientSearch()}>Search client</button>
-          </div>
-        ) : (
-          <div>
-            <h5>Search now!</h5>
-            <div>
-              <label htmlFor="">
-                Search client in database: Input client registration No.
-              </label>
-              <input type="search" id="search" onChange={handleSearchChange} />
-              <button onClick={() => handleSearchSubmit()}>Search</button>
-            </div>
-            <div>
-              {client && (
-                <>
-                  Search Client info:
-                  <br />
-                  Name: {client.name}
-                  <br />
-                  Address: {client.address}
-                  <br />
-                  Registration No.: {client.registrationNumber}
-                  <br />
-                  Contact: {client.contact}
-                  <br />
-                  Email: {client.email}
-                  <br />
-                  <div
-                    onClick={() => {
-                      setNewProject({ ...newProject, clientId: client.id });
-                    }}
-                  >
-                    Select this new client
+      <Box sx={{ width: "100%", margin: 2 }}>
+        <h2 style={{ textAlign: "center" }}>Add New Project</h2>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Card
+            sx={{
+              width: 400,
+              margin: 1,
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-between",
+            }}
+          >
+            <CardContent>
+              <form
+                action=""
+                onSubmit={(e: React.SyntheticEvent) => handleSubmit(e)}
+              >
+                <FormControl></FormControl>
+                <label htmlFor="">Select A Client: </label>
+                {!isNewClient && clientList.length ? (
+                  <div>
+                    <select
+                      name="clientId"
+                      id="clientId"
+                      onChange={handleChange}
+                    >
+                      <option value="">-- Select a client --</option>
+                      {clientList.map((c, idx) => (
+                        <option value={c.id} key={`client${idx}`}>
+                          {c.name}
+                        </option>
+                      ))}
+                    </select>
+                    <button onClick={() => handleClientSearch()}>
+                      Search client
+                    </button>
                   </div>
-                </>
-              )}
-            </div>
-            <div>
-              {showCreateNewClientBtn && (
-                <>
-                  <button onClick={() => router.push("/clients/newClient")}>
-                    Create New Client
-                  </button>
-                </>
-              )}
-            </div>
-            <button onClick={() => handleClientSearch()}>
-              Existing client
-            </button>
-          </div>
-        )}
-        <br />
-        <label htmlFor="">Name: </label>
-        <input
-          type="text"
-          id="name"
-          value={newProject.name}
-          onChange={handleChange}
-        />
-        <br />
-        <label htmlFor="">Description: </label>
-        <input
-          type="text"
-          id="description"
-          value={newProject.description}
-          onChange={handleChange}
-        />
-        <br />
-        <label htmlFor="">Budget: </label>
-        <input
-          type="text"
-          id="budget"
-          value={newProject.budget}
-          onChange={handleChange}
-        />
-        <br />
-        <label htmlFor="">Rate(S$/Hour): </label>
-        <input
-          type="text"
-          id="ratePerHour"
-          value={newProject.ratePerHour}
-          onChange={handleChange}
-        />
-        <br />
-        <label htmlFor="">Due Date: </label>
-        <input
-          type="date"
-          id="dueDate"
-          value={newProject.dueDate}
-          onChange={handleChange}
-        />
-        <br />
-        <label htmlFor="">Categories: </label>
-        <input
-          type="text"
-          id="categories"
-          value={newProject.categories}
-          onChange={handleChange}
-        />
-        <br />
-        <button type="submit">Submit</button>
-      </form>
-    </div>
+                ) : (
+                  <div>
+                    <h5>Search now!</h5>
+                    <div>
+                      <label htmlFor="">
+                        Search client in database: Input client registration No.
+                      </label>
+                      <input
+                        type="search"
+                        id="search"
+                        onChange={handleSearchChange}
+                      />
+                      <button onClick={() => handleSearchSubmit()}>
+                        Search
+                      </button>
+                    </div>
+                    <div>
+                      {client && (
+                        <>
+                          Search Client info:
+                          <br />
+                          Name: {client.name}
+                          <br />
+                          Address: {client.address}
+                          <br />
+                          Registration No.: {client.registrationNumber}
+                          <br />
+                          Contact: {client.contact}
+                          <br />
+                          Email: {client.email}
+                          <br />
+                          <div
+                            onClick={() => {
+                              setNewProject({
+                                ...newProject,
+                                clientId: client.id,
+                              });
+                            }}
+                          >
+                            Select this new client
+                          </div>
+                        </>
+                      )}
+                    </div>
+                    <div>
+                      {showCreateNewClientBtn && (
+                        <>
+                          <button
+                            onClick={() => router.push("/clients/newClient")}
+                          >
+                            Create New Client
+                          </button>
+                        </>
+                      )}
+                    </div>
+                    <button onClick={() => handleClientSearch()}>
+                      Existing client
+                    </button>
+                  </div>
+                )}
+                <br />
+                <label htmlFor="">Name: </label>
+                <input
+                  type="text"
+                  id="name"
+                  value={newProject.name}
+                  onChange={handleChange}
+                />
+                <br />
+                <label htmlFor="">Description: </label>
+                <input
+                  type="text"
+                  id="description"
+                  value={newProject.description}
+                  onChange={handleChange}
+                />
+                <br />
+                <label htmlFor="">Budget: </label>
+                <input
+                  type="text"
+                  id="budget"
+                  value={newProject.budget}
+                  onChange={handleChange}
+                />
+                <br />
+                <label htmlFor="">Rate(S$/Hour): </label>
+                <input
+                  type="text"
+                  id="ratePerHour"
+                  value={newProject.ratePerHour}
+                  onChange={handleChange}
+                />
+                <br />
+                <label htmlFor="">Due Date: </label>
+                <input
+                  type="date"
+                  id="dueDate"
+                  value={newProject.dueDate}
+                  onChange={handleChange}
+                />
+                <br />
+                <label htmlFor="">Categories: </label>
+                <input
+                  type="text"
+                  id="categories"
+                  value={newProject.categories}
+                  onChange={handleChange}
+                />
+                <br />
+                <button type="submit">Submit</button>
+              </form>
+            </CardContent>
+          </Card>
+        </Box>
+      </Box>
+    </Box>
   );
 }

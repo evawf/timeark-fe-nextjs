@@ -85,9 +85,6 @@ export default function UpdateProject({ params }: ProjectId | any) {
             >
               <CardContent>
                 <form onSubmit={(e: React.SyntheticEvent) => handleSubmit(e)}>
-                  {/* <label htmlFor="">Name: </label>
-                  <input type="text" id="name" defaultValue={project.name} />
-                  <br /> */}
                   <FormControl fullWidth sx={{ mt: 2 }}>
                     <InputLabel htmlFor="outlined-adornment-name">
                       Name
@@ -100,13 +97,6 @@ export default function UpdateProject({ params }: ProjectId | any) {
                       label="name"
                     />
                   </FormControl>
-                  {/* <label htmlFor="">Description: </label>
-                  <input
-                    type="text"
-                    id="description"
-                    defaultValue={project.description}
-                  />
-                  <br /> */}
                   <FormControl fullWidth sx={{ mt: 2 }}>
                     <InputLabel htmlFor="outlined-adornment-description">
                       Description
@@ -124,13 +114,6 @@ export default function UpdateProject({ params }: ProjectId | any) {
                       }}
                     />
                   </FormControl>
-                  {/* <label htmlFor="">Budget: </label>
-                  <input
-                    type="text"
-                    id="budget"
-                    defaultValue={project.budget}
-                  />
-                  <br /> */}
                   <FormControl fullWidth sx={{ mt: 2 }}>
                     <InputLabel htmlFor="outlined-adornment-budget">
                       Budget(S$)
@@ -143,13 +126,7 @@ export default function UpdateProject({ params }: ProjectId | any) {
                       label="budget(S$)"
                     />
                   </FormControl>
-                  {/* <label htmlFor="">Rate($S/Hour): </label>
-                  <input
-                    type="text"
-                    id="ratePerHour"
-                    defaultValue={project.ratePerHour}
-                  />
-                  <br /> */}
+
                   <FormControl fullWidth sx={{ mt: 2 }}>
                     <InputLabel htmlFor="outlined-adornment-ratePerHour">
                       Rate (S$/hour)
@@ -162,13 +139,6 @@ export default function UpdateProject({ params }: ProjectId | any) {
                       label="Rate (S$/hour)"
                     />
                   </FormControl>
-                  {/* <label htmlFor="">Due Date: </label>
-                  <input
-                    type="text"
-                    id="dueDate"
-                    defaultValue={project.dueDate}
-                  />
-                  <br /> */}
                   <FormControl fullWidth sx={{ mt: 2 }}>
                     <InputLabel htmlFor="outlined-adornment-dueDate">
                       Due Date
@@ -183,13 +153,6 @@ export default function UpdateProject({ params }: ProjectId | any) {
                       label="Due Date"
                     />
                   </FormControl>
-                  {/* <label htmlFor="">Categories: </label>
-                  <input
-                    type="text"
-                    id="categories"
-                    defaultValue={project.categories}
-                  />
-                  <br /> */}
                   <FormControl fullWidth sx={{ mt: 2 }}>
                     <InputLabel htmlFor="outlined-adornment-categories">
                       Categories

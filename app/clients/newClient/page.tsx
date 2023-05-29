@@ -99,21 +99,7 @@ export default function NewClient() {
                     label="company name"
                   />
                 </FormControl>
-                {/* <label htmlFor="">Company Name: </label>
-                <input
-                  type="text"
-                  id="name"
-                  value={newClient.name}
-                  onChange={handleChange}
-                /> */}
-                {/* <br />
-                <label htmlFor="">Country: </label>
-                <input
-                  type="text"
-                  id="country"
-                  value={newClient.country}
-                  onChange={handleChange}
-                /> */}
+
                 <FormControl fullWidth sx={{ mt: 2 }}>
                   <InputLabel htmlFor="outlined-adornment-country">
                     Country
@@ -127,14 +113,7 @@ export default function NewClient() {
                     label="country"
                   />
                 </FormControl>
-                {/* <br />
-                <label htmlFor="">City: </label>
-                <input
-                  type="text"
-                  id="city"
-                  value={newClient.city}
-                  onChange={handleChange}
-                /> */}
+
                 <FormControl fullWidth sx={{ mt: 2 }}>
                   <InputLabel htmlFor="outlined-adornment-city">
                     City
@@ -148,14 +127,7 @@ export default function NewClient() {
                     label="city"
                   />
                 </FormControl>
-                {/* <br />
-                <label htmlFor="">Address: </label>
-                <input
-                  type="text"
-                  id="address"
-                  value={newClient.address}
-                  onChange={handleChange}
-                /> */}
+
                 <FormControl fullWidth sx={{ mt: 2 }}>
                   <InputLabel htmlFor="outlined-adornment-address">
                     Address
@@ -169,15 +141,7 @@ export default function NewClient() {
                     label="address"
                   />
                 </FormControl>
-                {/* <br />
 
-                <label htmlFor="">Postal Code: </label>
-                <input
-                  type="text"
-                  id="postalCode"
-                  value={newClient.postalCode}
-                  onChange={handleChange}
-                /> */}
                 <FormControl fullWidth sx={{ mt: 2 }}>
                   <InputLabel htmlFor="outlined-adornment-postalCode">
                     Postal Code
@@ -191,14 +155,7 @@ export default function NewClient() {
                     label="postal code"
                   />
                 </FormControl>
-                {/* <br />
-                <label htmlFor="">Registration No.:</label>
-                <input
-                  type="text"
-                  id="registrationNumber"
-                  value={newClient.registrationNumber}
-                  onChange={handleChange}
-                /> */}
+
                 <FormControl fullWidth sx={{ mt: 2 }}>
                   <InputLabel htmlFor="outlined-adornment-registrationNumber">
                     Registration No.
@@ -212,14 +169,7 @@ export default function NewClient() {
                     label="registration No."
                   />
                 </FormControl>
-                {/* <br />
-                <label htmlFor="">Contact: </label>
-                <input
-                  type="text"
-                  id="contact"
-                  value={newClient.contact}
-                  onChange={handleChange}
-                /> */}
+
                 <FormControl fullWidth sx={{ mt: 2 }}>
                   <InputLabel htmlFor="outlined-adornment-contact">
                     Contact
@@ -233,15 +183,7 @@ export default function NewClient() {
                     label="contact"
                   />
                 </FormControl>
-                {/* <br />
-                <label htmlFor="">Email: </label>
-                <input
-                  type="text"
-                  id="email"
-                  value={newClient.email}
-                  onChange={handleChange}
-                />
-                <br /> */}
+
                 <FormControl fullWidth sx={{ mt: 2 }}>
                   <InputLabel htmlFor="outlined-adornment-email">
                     Email
