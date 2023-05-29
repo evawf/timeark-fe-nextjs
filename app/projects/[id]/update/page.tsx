@@ -5,6 +5,7 @@ import GetSingleProject from "@/lib/project/fetchSingleProject";
 import Project from "@/types/project";
 import UpdateProjectInfo from "../../../../lib/project/updateProject";
 import Sidebar from "@/app/components/Sidebar";
+import moment from "moment";
 
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
@@ -73,39 +74,146 @@ export default function UpdateProject({ params }: ProjectId | any) {
               alignItems: "center",
             }}
           >
-            <form onSubmit={(e: React.SyntheticEvent) => handleSubmit(e)}>
-              <label htmlFor="">Name: </label>
-              <input type="text" id="name" defaultValue={project.name} />
-              <br />
-              <label htmlFor="">Description: </label>
-              <input
-                type="text"
-                id="description"
-                defaultValue={project.description}
-              />
-              <br />
-              <label htmlFor="">Budget: </label>
-              <input type="text" id="budget" defaultValue={project.budget} />
-              <br />
-              <label htmlFor="">Rate($S/Hour): </label>
-              <input
-                type="text"
-                id="ratePerHour"
-                defaultValue={project.ratePerHour}
-              />
-              <br />
-              <label htmlFor="">Due Date: </label>
-              <input type="text" id="dueDate" defaultValue={project.dueDate} />
-              <br />
-              <label htmlFor="">Categories: </label>
-              <input
-                type="text"
-                id="categories"
-                defaultValue={project.categories}
-              />
-              <br />
-              <button type="submit">Update Project</button>
-            </form>
+            <Card
+              sx={{
+                width: 400,
+                margin: 1,
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "space-between",
+              }}
+            >
+              <CardContent>
+                <form onSubmit={(e: React.SyntheticEvent) => handleSubmit(e)}>
+                  {/* <label htmlFor="">Name: </label>
+                  <input type="text" id="name" defaultValue={project.name} />
+                  <br /> */}
+                  <FormControl fullWidth sx={{ mt: 2 }}>
+                    <InputLabel htmlFor="outlined-adornment-name">
+                      Name
+                    </InputLabel>
+                    <OutlinedInput
+                      required
+                      type="text"
+                      id="name"
+                      defaultValue={project.name}
+                      label="name"
+                    />
+                  </FormControl>
+                  {/* <label htmlFor="">Description: </label>
+                  <input
+                    type="text"
+                    id="description"
+                    defaultValue={project.description}
+                  />
+                  <br /> */}
+                  <FormControl fullWidth sx={{ mt: 2 }}>
+                    <InputLabel htmlFor="outlined-adornment-description">
+                      Description
+                    </InputLabel>
+                    <OutlinedInput
+                      required
+                      type="text"
+                      id="description"
+                      defaultValue={project.description}
+                      label="description"
+                      multiline
+                      sx={{
+                        height: 80,
+                        wrap: "soft",
+                      }}
+                    />
+                  </FormControl>
+                  {/* <label htmlFor="">Budget: </label>
+                  <input
+                    type="text"
+                    id="budget"
+                    defaultValue={project.budget}
+                  />
+                  <br /> */}
+                  <FormControl fullWidth sx={{ mt: 2 }}>
+                    <InputLabel htmlFor="outlined-adornment-budget">
+                      Budget(S$)
+                    </InputLabel>
+                    <OutlinedInput
+                      required
+                      type="text"
+                      id="budget"
+                      defaultValue={project.budget}
+                      label="budget(S$)"
+                    />
+                  </FormControl>
+                  {/* <label htmlFor="">Rate($S/Hour): </label>
+                  <input
+                    type="text"
+                    id="ratePerHour"
+                    defaultValue={project.ratePerHour}
+                  />
+                  <br /> */}
+                  <FormControl fullWidth sx={{ mt: 2 }}>
+                    <InputLabel htmlFor="outlined-adornment-ratePerHour">
+                      Rate (S$/hour)
+                    </InputLabel>
+                    <OutlinedInput
+                      required
+                      type="text"
+                      id="ratePerHour"
+                      defaultValue={project.ratePerHour}
+                      label="Rate (S$/hour)"
+                    />
+                  </FormControl>
+                  {/* <label htmlFor="">Due Date: </label>
+                  <input
+                    type="text"
+                    id="dueDate"
+                    defaultValue={project.dueDate}
+                  />
+                  <br /> */}
+                  <FormControl fullWidth sx={{ mt: 2 }}>
+                    <InputLabel htmlFor="outlined-adornment-dueDate">
+                      Due Date
+                    </InputLabel>
+                    <OutlinedInput
+                      required
+                      type="text"
+                      id="dueDate"
+                      defaultValue={moment(project.dueDate).format(
+                        "YYYY-MM-DD"
+                      )}
+                      label="Due Date"
+                    />
+                  </FormControl>
+                  {/* <label htmlFor="">Categories: </label>
+                  <input
+                    type="text"
+                    id="categories"
+                    defaultValue={project.categories}
+                  />
+                  <br /> */}
+                  <FormControl fullWidth sx={{ mt: 2 }}>
+                    <InputLabel htmlFor="outlined-adornment-categories">
+                      Categories
+                    </InputLabel>
+                    <OutlinedInput
+                      required
+                      type="text"
+                      id="categories"
+                      defaultValue={project.categories}
+                      label="Categories"
+                    />
+                  </FormControl>
+                  <Button
+                    fullWidth
+                    variant="contained"
+                    color="success"
+                    sx={{ mt: 2, height: "50px" }}
+                    type="submit"
+                  >
+                    Update Project
+                  </Button>
+                </form>
+              </CardContent>
+            </Card>
           </Box>
         ) : (
           <Box>Loading</Box>

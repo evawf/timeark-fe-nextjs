@@ -204,7 +204,7 @@ export default function UpdateClient({ params }: ClientId | any) {
             </Card>
           </Box>
         ) : (
-          <>Loading</>
+          <Box>Loading</Box>
         )}
       </Box>
     </Box>
