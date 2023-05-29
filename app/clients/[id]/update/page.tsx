@@ -8,19 +8,10 @@ import Sidebar from "@/app/components/Sidebar";
 
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
 import FormControl from "@mui/material/FormControl";
-import Visibility from "@mui/icons-material/Visibility";
-import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import InputLabel from "@mui/material/InputLabel";
-import InputAdornment from "@mui/material/InputAdornment";
-import IconButton from "@mui/material/IconButton";
-import Input from "@mui/material/Input";
-import FilledInput from "@mui/material/FilledInput";
 import OutlinedInput from "@mui/material/OutlinedInput";
 
 interface ClientId {
@@ -81,7 +72,7 @@ export default function UpdateClient({ params }: ClientId | any) {
     <Box sx={{ marginTop: "64px", display: "flex", flexDirection: "row" }}>
       <Sidebar />
       <Box sx={{ width: "100%", margin: 2 }}>
-        <h2 style={{ textAlign: "center" }}>Update Client Page</h2>
+        <h2 style={{ textAlign: "center" }}>Update Client</h2>
         {client ? (
           <Box
             sx={{

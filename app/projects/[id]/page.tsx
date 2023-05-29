@@ -11,6 +11,7 @@ import updateTask from "@/lib/task/updateTask";
 import deleteTask from "@/lib/task/deleteTask";
 import Sidebar from "@/app/components/Sidebar";
 import moment from "moment";
+import Divider from "@mui/material/Divider";
 
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
@@ -18,6 +19,38 @@ import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
+
+import { styled } from "@mui/material/styles";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell, { tableCellClasses } from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
+
+import EditNoteIcon from "@mui/icons-material/EditNote";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  [`&.${tableCellClasses.head}`]: {
+    backgroundColor: theme.palette.common.black,
+    color: theme.palette.common.white,
+  },
+  [`&.${tableCellClasses.body}`]: {
+    fontSize: 14,
+  },
+}));
+
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+  "&:nth-of-type(odd)": {
+    backgroundColor: theme.palette.action.hover,
+  },
+  // hide last border
+  "&:last-child td, &:last-child th": {
+    border: 0,
+  },
+}));
 
 interface ProjectId {
   id: string;
@@ -208,8 +241,15 @@ export default function ProjectPage({ params }: ProjectId | any) {
                     <Typography
                       key={`cat-${idx}`}
                       variant="body1"
-                      color="text.primary"
-                      sx={{ textAlign: "start", ml: 1, mr: 1 }}
+                      color="text.secondary"
+                      sx={{
+                        textAlign: "start",
+                        ml: 1,
+                        mr: 1,
+                        backgroundColor: "gray",
+                        p: 0.5,
+                        borderRadius: 1,
+                      }}
                     >
                       {cat}
                     </Typography>
@@ -237,51 +277,85 @@ export default function ProjectPage({ params }: ProjectId | any) {
               </CardActions>
 
               {/* ====================== Task List ====================== */}
-              <CardContent sx={{ alignContent: "center", margin: 1 }}>
-                <Box>Task List: </Box>
-                {taskList ? (
-                  <div>
-                    <ul>
-                      {taskList.map((t, idx) => (
-                        <li key={`task${idx}`}>
-                          <span> Name: {t.name} |</span>
-
-                          <span>| Category: {t.categoryName} |</span>
-                          <span>
-                            | Status: {t.isDone ? "Done" : "In process"}
-                          </span>
-                          <span>
-                            <button onClick={() => handleUpdateTask(t.id)}>
-                              Update Task
-                            </button>{" "}
-                            |
-                          </span>
-                          <span>
-                            |{" "}
-                            <button onClick={() => handleDeleteTask(t.id)}>
-                              Delete Task
-                            </button>
-                          </span>
-                        </li>
-                      ))}
-                    </ul>
-                    <button onClick={() => showNewTaskFormSection()}>
-                      Add Task
-                    </button>
-                  </div>
-                ) : (
-                  <div>
-                    <p>You haven't added any task yet.</p>
-                    <button onClick={() => showNewTaskFormSection()}>
-                      Add Task
-                    </button>
-                  </div>
-                )}
-              </CardContent>
+              <Divider sx={{ mt: 5 }} />
+              <Box sx={{ alignContent: "center", m: 6 }}>
+                {/* <Box>
+                  <Typography sx={{ textAlign: "center" }}>
+                  Project Task List
+                    <Typography/>
+                  </Box> */}
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    my: 1,
+                  }}
+                >
+                  <Typography sx={{ textAlign: "center" }} variant="h5">
+                    Project Task List
+                  </Typography>
+                  <Button
+                    onClick={() => showNewTaskFormSection()}
+                    color="success"
+                    variant="contained"
+                  >
+                    Add Task
+                  </Button>
+                </Box>
+                <TableContainer component={Paper}>
+                  <Table sx={{ width: "100%" }} aria-label="customized table">
+                    <TableHead>
+                      <TableRow>
+                        <StyledTableCell>Task Name</StyledTableCell>
+                        <StyledTableCell align="right">
+                          Task Category
+                        </StyledTableCell>
+                        <StyledTableCell align="right">Status</StyledTableCell>
+                        <StyledTableCell align="right">Update</StyledTableCell>
+                        <StyledTableCell align="right">Delete</StyledTableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {taskList ? (
+                        <>
+                          {taskList.map((t, idx) => (
+                            <StyledTableRow key={`task${idx}`}>
+                              <StyledTableCell component="th" scope="row">
+                                {t.name}
+                              </StyledTableCell>
+                              <StyledTableCell align="right">
+                                {t.categoryName}
+                              </StyledTableCell>
+                              <StyledTableCell align="right">
+                                {t.isDone ? "Done" : "In process"}
+                              </StyledTableCell>
+                              <StyledTableCell align="right">
+                                <EditNoteIcon
+                                  onClick={() => handleUpdateTask(t.id)}
+                                />
+                              </StyledTableCell>
+                              <StyledTableCell align="right">
+                                <DeleteForeverIcon
+                                  onClick={() => handleDeleteTask(t.id)}
+                                />
+                              </StyledTableCell>
+                            </StyledTableRow>
+                          ))}
+                        </>
+                      ) : (
+                        <Box>
+                          <p>You haven't added any task yet.</p>
+                        </Box>
+                      )}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </Box>
             </Card>
           </Box>
         ) : (
-          <div>Loading</div>
+          <Box>Loading</Box>
         )}
       </Box>
       <Box>

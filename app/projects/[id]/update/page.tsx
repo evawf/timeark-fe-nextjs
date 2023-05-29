@@ -6,6 +6,14 @@ import Project from "@/types/project";
 import UpdateProjectInfo from "../../../../lib/project/updateProject";
 import Sidebar from "@/app/components/Sidebar";
 
+import Box from "@mui/material/Box";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import Button from "@mui/material/Button";
+import FormControl from "@mui/material/FormControl";
+import InputLabel from "@mui/material/InputLabel";
+import OutlinedInput from "@mui/material/OutlinedInput";
+
 interface ProjectId {
   id: string;
 }
@@ -52,48 +60,57 @@ export default function UpdateProject({ params }: ProjectId | any) {
   };
 
   return (
-    <div>
+    <Box sx={{ marginTop: "64px", display: "flex", flexDirection: "row" }}>
       <Sidebar />
-      Update Project page
-      {project ? (
-        <div>
-          <form onSubmit={(e: React.SyntheticEvent) => handleSubmit(e)}>
-            <label htmlFor="">Name: </label>
-            <input type="text" id="name" defaultValue={project.name} />
-            <br />
-            <label htmlFor="">Description: </label>
-            <input
-              type="text"
-              id="description"
-              defaultValue={project.description}
-            />
-            <br />
-            <label htmlFor="">Budget: </label>
-            <input type="text" id="budget" defaultValue={project.budget} />
-            <br />
-            <label htmlFor="">Rate($S/Hour): </label>
-            <input
-              type="text"
-              id="ratePerHour"
-              defaultValue={project.ratePerHour}
-            />
-            <br />
-            <label htmlFor="">Due Date: </label>
-            <input type="text" id="dueDate" defaultValue={project.dueDate} />
-            <br />
-            <label htmlFor="">Categories: </label>
-            <input
-              type="text"
-              id="categories"
-              defaultValue={project.categories}
-            />
-            <br />
-            <button type="submit">Update Project</button>
-          </form>
-        </div>
-      ) : (
-        <div>Loading</div>
-      )}
-    </div>
+      <Box sx={{ width: "100%", margin: 2 }}>
+        <h2 style={{ textAlign: "center" }}>Update Project</h2>
+        {project ? (
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <form onSubmit={(e: React.SyntheticEvent) => handleSubmit(e)}>
+              <label htmlFor="">Name: </label>
+              <input type="text" id="name" defaultValue={project.name} />
+              <br />
+              <label htmlFor="">Description: </label>
+              <input
+                type="text"
+                id="description"
+                defaultValue={project.description}
+              />
+              <br />
+              <label htmlFor="">Budget: </label>
+              <input type="text" id="budget" defaultValue={project.budget} />
+              <br />
+              <label htmlFor="">Rate($S/Hour): </label>
+              <input
+                type="text"
+                id="ratePerHour"
+                defaultValue={project.ratePerHour}
+              />
+              <br />
+              <label htmlFor="">Due Date: </label>
+              <input type="text" id="dueDate" defaultValue={project.dueDate} />
+              <br />
+              <label htmlFor="">Categories: </label>
+              <input
+                type="text"
+                id="categories"
+                defaultValue={project.categories}
+              />
+              <br />
+              <button type="submit">Update Project</button>
+            </form>
+          </Box>
+        ) : (
+          <Box>Loading</Box>
+        )}
+      </Box>
+    </Box>
   );
 }
