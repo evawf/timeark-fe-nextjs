@@ -7,6 +7,7 @@ import AddNewProject from "../../../lib/project/addNewProject";
 import getClients from "@/lib/client/fetchClients";
 import getClientByRegistrationNo from "@/lib/client/fetchClientByRegistrationNo";
 import Sidebar from "@/app/components/Sidebar";
+import TextField from "@mui/material/TextField";
 
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
@@ -15,8 +16,20 @@ import Button from "@mui/material/Button";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import OutlinedInput from "@mui/material/OutlinedInput";
+import MenuItem from "@mui/material/MenuItem";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
+import CardActions from "@mui/material/CardActions";
+import { el } from "date-fns/locale";
 
 export default function NewProject() {
+  const [selected, setSelected] = useState("none");
+
+  const [focus, setFocused] = useState(false);
+  const [hasDateValue, sethasDateValue] = useState(false);
+
+  const onFocus = () => setFocused(true);
+  const onBlur = () => setFocused(false);
+
   const [registrationNo, setRegistrationNo] = useState("");
   const [isNewClient, setIsNewClient] = useState(false);
   const [showCreateNewClientBtn, setShowCreateNewClientBtn] = useState(false);
@@ -24,7 +37,7 @@ export default function NewProject() {
   const router = useRouter();
   const [clientList, setClentList] = useState<Client[]>([]);
   const [newProject, setNewProject] = useState<Project>({
-    id: "",
+    id: clientList[0]?.id,
     name: "",
     description: "",
     budget: "",
@@ -49,8 +62,18 @@ export default function NewProject() {
     isAuth === "true" ? getClientsData() : router.push("/login");
   }, []);
 
+  const handleClientChange = (e: SelectChangeEvent) => {
+    setNewProject({
+      ...newProject,
+      clientId: e.target.value,
+    });
+  };
+
   const handleChange = (e: any) => {
     e.preventDefault();
+    if (e.target.value) sethasDateValue(true);
+    else sethasDateValue(false);
+
     const { id, value } = e.target;
     setNewProject({
       ...newProject,
@@ -93,6 +116,8 @@ export default function NewProject() {
     }
   };
 
+  console.log("new project info: ", newProject);
+
   return (
     <Box sx={{ marginTop: "64px", display: "flex", flexDirection: "row" }}>
       <Sidebar />
@@ -120,136 +145,227 @@ export default function NewProject() {
                 action=""
                 onSubmit={(e: React.SyntheticEvent) => handleSubmit(e)}
               >
-                <FormControl></FormControl>
-                <label htmlFor="">Select A Client: </label>
+                {/* <label htmlFor="">Existing Client? </label> */}
                 {!isNewClient && clientList.length ? (
-                  <div>
-                    <select
-                      name="clientId"
-                      id="clientId"
-                      onChange={handleChange}
-                    >
-                      <option value="">-- Select a client --</option>
-                      {clientList.map((c, idx) => (
-                        <option value={c.id} key={`client${idx}`}>
-                          {c.name}
-                        </option>
-                      ))}
-                    </select>
-                    <button onClick={() => handleClientSearch()}>
-                      Search client
-                    </button>
-                  </div>
+                  <>
+                    <FormControl fullWidth sx={{ mt: 2 }}>
+                      <InputLabel htmlFor="outlined-adornment-select-client">
+                        Select client
+                      </InputLabel>
+                      <Select
+                        labelId="outlined-adornment-select-client"
+                        name="clientId"
+                        id="clientId"
+                        label="Select client"
+                        onChange={handleClientChange}
+                        defaultValue={clientList[0].id}
+                        displayEmpty
+                      >
+                        {clientList.map((c, idx) => (
+                          <MenuItem value={c.id} key={`client${idx}`}>
+                            {c.name}
+                          </MenuItem>
+                        ))}
+                        <MenuItem
+                          onClick={() => handleClientSearch()}
+                          sx={{ backgroundColor: "pink" }}
+                        >
+                          SEARCH CLIENT
+                        </MenuItem>
+                      </Select>
+                    </FormControl>
+                  </>
                 ) : (
-                  <div>
-                    <h5>Search now!</h5>
-                    <div>
-                      <label htmlFor="">
-                        Search client in database: Input client registration No.
-                      </label>
-                      <input
+                  <>
+                    <h5 style={{ textAlign: "center" }}>Searching...</h5>
+                    <FormControl fullWidth sx={{ mt: 2 }}>
+                      <InputLabel htmlFor="outlined-adornment-registration-no">
+                        Registration No.
+                      </InputLabel>
+                      <OutlinedInput
+                        required
                         type="search"
                         id="search"
                         onChange={handleSearchChange}
+                        label="Registration No."
                       />
-                      <button onClick={() => handleSearchSubmit()}>
+                      <Button
+                        onClick={() => handleSearchSubmit()}
+                        fullWidth
+                        variant="contained"
+                        color="success"
+                        sx={{ my: 2, height: "50px" }}
+                      >
                         Search
-                      </button>
-                    </div>
-                    <div>
+                      </Button>
+                    </FormControl>
+                    <>
                       {client && (
                         <>
-                          Search Client info:
+                          <h4 style={{ textAlign: "center" }}>Client found!</h4>
                           <br />
-                          Name: {client.name}
-                          <br />
-                          Address: {client.address}
-                          <br />
-                          Registration No.: {client.registrationNumber}
-                          <br />
-                          Contact: {client.contact}
-                          <br />
-                          Email: {client.email}
-                          <br />
-                          <div
+                          <Card sx={{ border: selected }}>
+                            <CardContent>
+                              {client.name}
+                              <br />
+                              {client.address}
+                              <br />
+                              {client.registrationNumber}
+                              <br />
+                              {client.contact}
+                              <br />
+                              {client.email}
+                            </CardContent>
+                          </Card>
+                          <Button
+                            fullWidth
+                            variant="outlined"
+                            color="success"
+                            sx={{ mt: 2, height: "50px" }}
                             onClick={() => {
                               setNewProject({
                                 ...newProject,
                                 clientId: client.id,
                               });
+                              if (newProject.clientId !== client.id) {
+                                setSelected("2px solid green");
+                              } else {
+                                setSelected("none");
+                              }
                             }}
                           >
-                            Select this new client
-                          </div>
+                            Select this client
+                          </Button>
                         </>
                       )}
-                    </div>
+                    </>
                     <div>
                       {showCreateNewClientBtn && (
                         <>
-                          <button
+                          <Button
+                            fullWidth
+                            variant="contained"
+                            color="secondary"
+                            sx={{ mt: 2, height: "50px" }}
                             onClick={() => router.push("/clients/newClient")}
                           >
                             Create New Client
-                          </button>
+                          </Button>
                         </>
                       )}
                     </div>
-                    <button onClick={() => handleClientSearch()}>
+                    <Button
+                      fullWidth
+                      variant="contained"
+                      color="primary"
+                      sx={{ mt: 2, height: "50px" }}
+                      onClick={() => handleClientSearch()}
+                    >
                       Existing client
-                    </button>
-                  </div>
+                    </Button>
+                  </>
                 )}
-                <br />
-                <label htmlFor="">Name: </label>
-                <input
-                  type="text"
-                  id="name"
-                  value={newProject.name}
-                  onChange={handleChange}
-                />
-                <br />
-                <label htmlFor="">Description: </label>
-                <input
-                  type="text"
-                  id="description"
-                  value={newProject.description}
-                  onChange={handleChange}
-                />
-                <br />
-                <label htmlFor="">Budget: </label>
-                <input
-                  type="text"
-                  id="budget"
-                  value={newProject.budget}
-                  onChange={handleChange}
-                />
-                <br />
-                <label htmlFor="">Rate(S$/Hour): </label>
-                <input
-                  type="text"
-                  id="ratePerHour"
-                  value={newProject.ratePerHour}
-                  onChange={handleChange}
-                />
-                <br />
-                <label htmlFor="">Due Date: </label>
-                <input
-                  type="date"
-                  id="dueDate"
-                  value={newProject.dueDate}
-                  onChange={handleChange}
-                />
-                <br />
-                <label htmlFor="">Categories: </label>
-                <input
-                  type="text"
-                  id="categories"
-                  value={newProject.categories}
-                  onChange={handleChange}
-                />
-                <br />
-                <button type="submit">Submit</button>
+                <FormControl fullWidth sx={{ mt: 2 }}>
+                  <InputLabel htmlFor="outlined-adornment-name">
+                    Name
+                  </InputLabel>
+                  <OutlinedInput
+                    required
+                    type="text"
+                    id="name"
+                    value={newProject.name}
+                    onChange={handleChange}
+                    label="Name"
+                  />
+                </FormControl>
+
+                <FormControl fullWidth sx={{ mt: 2 }}>
+                  <InputLabel htmlFor="outlined-adornment-description">
+                    Description
+                  </InputLabel>
+                  <OutlinedInput
+                    required
+                    type="text"
+                    id="description"
+                    value={newProject.description}
+                    onChange={handleChange}
+                    label="description"
+                    multiline
+                    fullWidth
+                    sx={{
+                      minHeight: 120,
+                      wrap: "soft",
+                      overflow: "auto",
+                    }}
+                  />
+                </FormControl>
+
+                <FormControl fullWidth sx={{ mt: 2 }}>
+                  <InputLabel htmlFor="outlined-adornment-budget">
+                    Budget
+                  </InputLabel>
+                  <OutlinedInput
+                    required
+                    type="text"
+                    id="budget"
+                    value={newProject.budget}
+                    onChange={handleChange}
+                    label="budget"
+                  />
+                </FormControl>
+
+                <FormControl fullWidth sx={{ mt: 2 }}>
+                  <InputLabel htmlFor="outlined-adornment-ratePerHour">
+                    Rate(S$/Hour)
+                  </InputLabel>
+                  <OutlinedInput
+                    required
+                    type="text"
+                    id="ratePerHour"
+                    value={newProject.ratePerHour}
+                    onChange={handleChange}
+                    label="Rate(S$/hour)"
+                  />
+                </FormControl>
+
+                <FormControl fullWidth sx={{ mt: 2 }}>
+                  <InputLabel htmlFor="outlined-adornment-due-date">
+                    Due Date
+                  </InputLabel>
+                  <OutlinedInput
+                    required
+                    onFocus={onFocus}
+                    onBlur={onBlur}
+                    type={hasDateValue || focus ? "date" : "text"}
+                    id="dueDate"
+                    value={newProject.dueDate}
+                    onChange={handleChange}
+                    label="due date"
+                  />
+                </FormControl>
+
+                <FormControl fullWidth sx={{ mt: 2 }}>
+                  <InputLabel htmlFor="outlined-adornment-categories">
+                    Categories
+                  </InputLabel>
+                  <OutlinedInput
+                    required
+                    type="text"
+                    id="categories"
+                    value={newProject.categories}
+                    onChange={handleChange}
+                    label="Categories"
+                  />
+                </FormControl>
+                <Button
+                  fullWidth
+                  variant="contained"
+                  color="success"
+                  sx={{ mt: 2, height: "50px" }}
+                  type="submit"
+                >
+                  Submit
+                </Button>
               </form>
             </CardContent>
           </Card>

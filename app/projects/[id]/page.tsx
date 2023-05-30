@@ -344,9 +344,11 @@ export default function ProjectPage({ params }: ProjectId | any) {
                           ))}
                         </>
                       ) : (
-                        <Box>
-                          <p>You haven't added any task yet.</p>
-                        </Box>
+                        <StyledTableRow>
+                          <StyledTableCell component="th" scope="row">
+                            You haven't added any task yet.
+                          </StyledTableCell>
+                        </StyledTableRow>
                       )}
                     </TableBody>
                   </Table>

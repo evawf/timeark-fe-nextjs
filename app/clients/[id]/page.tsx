@@ -39,6 +39,8 @@ export default function ClientPage({ params }: ClientId | any) {
     if (input === "Y") {
       DeleteClient(params.id);
       alert("Your client has been deleted!");
+    } else {
+      alert("Sorry, your input is not correct!");
     }
     return router.push("/clients");
   };

@@ -109,8 +109,9 @@ export default function UpdateProject({ params }: ProjectId | any) {
                       label="description"
                       multiline
                       sx={{
-                        height: 80,
+                        minHeight: 120,
                         wrap: "soft",
+                        overflow: "auto",
                       }}
                     />
                   </FormControl>
@@ -126,7 +127,6 @@ export default function UpdateProject({ params }: ProjectId | any) {
                       label="budget(S$)"
                     />
                   </FormControl>
-
                   <FormControl fullWidth sx={{ mt: 2 }}>
                     <InputLabel htmlFor="outlined-adornment-ratePerHour">
                       Rate (S$/hour)
