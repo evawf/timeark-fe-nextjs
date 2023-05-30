@@ -7,6 +7,45 @@ import moment from "moment";
 import Link from "next/link";
 import Sidebar from "../components/Sidebar";
 
+import Box from "@mui/material/Box";
+import Card from "@mui/material/Card";
+import CardActions from "@mui/material/CardActions";
+import CardContent from "@mui/material/CardContent";
+import CardMedia from "@mui/material/CardMedia";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
+
+import { styled } from "@mui/material/styles";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell, { tableCellClasses } from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
+
+import VisibilityIcon from "@mui/icons-material/Visibility";
+
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  [`&.${tableCellClasses.head}`]: {
+    backgroundColor: theme.palette.common.black,
+    color: theme.palette.common.white,
+  },
+  [`&.${tableCellClasses.body}`]: {
+    fontSize: 14,
+  },
+}));
+
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+  "&:nth-of-type(odd)": {
+    backgroundColor: theme.palette.action.hover,
+  },
+  // hide last border
+  "&:last-child td, &:last-child th": {
+    border: 0,
+  },
+}));
+
 export default function Invoices() {
   const router = useRouter();
   const [invoiceList, setInvoiceList] = useState<Invoice[]>([]);
@@ -24,34 +63,96 @@ export default function Invoices() {
     isAuth === "true" ? getInvoicesData() : router.push("/login");
   }, []);
   return (
-    <div>
+    <Box sx={{ marginTop: "64px", display: "flex", flexDirection: "row" }}>
       <Sidebar />
-      <h4>My Invoices: </h4>
-      <button onClick={() => router.push(`/invoices/newInvoice`)}>
-        Generate New Invoice
-      </button>
-      <div>
-        {invoiceList.length !== 0 ? (
-          <ul>
-            {invoiceList.map((i) => (
-              <li key={i.id}>
-                <p>Project name: {i.project.name}</p>
-                <p>Client name: {i.project.client.name}</p>
-                <p>Issue date: {moment(i.issueDate).format("YYYY-MM-DD")}</p>
-                <p>Payment: {i.isPaid ? <>PAID</> : <>UNPAID</>}</p>
-                {/* <Link href={`/invoices/${i.id}`}>View</Link> */}
-                <button onClick={() => router.push(`/invoices/${i.id}`)}>
-                  View
-                </button>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <>
-            <h4>You haven't generated any invoice yet.</h4>
-          </>
-        )}
-      </div>
-    </div>
+      <Box sx={{ width: "100%", margin: 2 }}>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+            my: 1,
+          }}
+        >
+          <Typography sx={{ textAlign: "center" }} variant="h4">
+            My Invoices
+          </Typography>
+          <Button
+            onClick={() => router.push(`/invoices/newInvoice`)}
+            color="success"
+            variant="contained"
+          >
+            Generate New Invoice
+          </Button>
+        </Box>
+        <TableContainer component={Paper}>
+          <Table sx={{ width: "100%" }} aria-label="customized table">
+            <TableHead>
+              <TableRow>
+                <StyledTableCell>Project Name</StyledTableCell>
+                <StyledTableCell align="right">Client Name</StyledTableCell>
+                <StyledTableCell align="right">Rate(S$/hour)</StyledTableCell>
+                <StyledTableCell align="right">Time(hours)</StyledTableCell>
+                <StyledTableCell align="right">Amount(S$)</StyledTableCell>
+                <StyledTableCell align="right">Issue Date</StyledTableCell>
+                <StyledTableCell align="right">Payment Status</StyledTableCell>
+
+                <StyledTableCell align="right">View</StyledTableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {invoiceList.length !== 0 ? (
+                <>
+                  {invoiceList.map((i) => (
+                    <StyledTableRow key={i.id}>
+                      <StyledTableCell component="th" scope="row">
+                        {i.project.name}
+                      </StyledTableCell>
+                      <StyledTableCell align="right">
+                        {i.project.client.name}
+                      </StyledTableCell>
+                      <StyledTableCell align="right">
+                        {i.project.ratePerHour}
+                      </StyledTableCell>
+                      <StyledTableCell align="right">
+                        {i.chargeable_tasks
+                          .reduce((a, b) => a + Number(b.timeSpent), 0)
+                          .toFixed(2)}
+                      </StyledTableCell>
+                      <StyledTableCell align="right">
+                        {(
+                          i.chargeable_tasks.reduce(
+                            (a, b) => a + Number(b.timeSpent),
+                            0
+                          ) * Number(i.project.ratePerHour)
+                        ).toFixed(2)}
+                      </StyledTableCell>
+                      <StyledTableCell align="right">
+                        {moment(i.issueDate).format("YYYY-MM-DD")}
+                      </StyledTableCell>
+                      <StyledTableCell align="right">
+                        {i.isPaid ? <>PAID</> : <>UNPAID</>}
+                      </StyledTableCell>
+                      {/* <Link href={`/invoices/${i.id}`}>View</Link> */}
+                      <StyledTableCell align="right">
+                        <VisibilityIcon
+                          onClick={() => router.push(`/invoices/${i.id}`)}
+                        />
+                      </StyledTableCell>
+                    </StyledTableRow>
+                  ))}
+                </>
+              ) : (
+                <StyledTableRow>
+                  <StyledTableCell component="th" scope="row">
+                    You haven't generated any invoice yet.
+                  </StyledTableCell>
+                </StyledTableRow>
+              )}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Box>
+    </Box>
   );
 }

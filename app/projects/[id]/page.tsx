@@ -279,11 +279,6 @@ export default function ProjectPage({ params }: ProjectId | any) {
               {/* ====================== Task List ====================== */}
               <Divider sx={{ mt: 5 }} />
               <Box sx={{ alignContent: "center", m: 6 }}>
-                {/* <Box>
-                  <Typography sx={{ textAlign: "center" }}>
-                  Project Task List
-                    <Typography/>
-                  </Box> */}
                 <Box
                   sx={{
                     display: "flex",
