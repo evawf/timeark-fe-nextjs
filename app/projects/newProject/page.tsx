@@ -7,7 +7,6 @@ import AddNewProject from "../../../lib/project/addNewProject";
 import getClients from "@/lib/client/fetchClients";
 import getClientByRegistrationNo from "@/lib/client/fetchClientByRegistrationNo";
 import Sidebar from "@/app/components/Sidebar";
-import TextField from "@mui/material/TextField";
 
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
@@ -18,8 +17,6 @@ import InputLabel from "@mui/material/InputLabel";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import MenuItem from "@mui/material/MenuItem";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
-import CardActions from "@mui/material/CardActions";
-import { el } from "date-fns/locale";
 
 export default function NewProject() {
   const [selected, setSelected] = useState("none");
@@ -145,7 +142,6 @@ export default function NewProject() {
                 action=""
                 onSubmit={(e: React.SyntheticEvent) => handleSubmit(e)}
               >
-                {/* <label htmlFor="">Existing Client? </label> */}
                 {!isNewClient && clientList.length ? (
                   <>
                     <FormControl fullWidth sx={{ mt: 2 }}>

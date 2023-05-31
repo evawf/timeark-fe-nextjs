@@ -8,6 +8,11 @@ import moment from "moment";
 import Sidebar from "@/app/components/Sidebar";
 
 //************ Form ************/
+import Box from "@mui/material/Box";
+import Card from "@mui/material/Card";
+import CardActions from "@mui/material/CardActions";
+import CardContent from "@mui/material/CardContent";
+
 import Select from "@mui/joy/Select";
 import Option from "@mui/joy/Option";
 import Button from "@mui/joy/Button";
@@ -61,80 +66,104 @@ export default function NewInvoice() {
   }, []);
 
   return (
-    <div>
+    <Box sx={{ marginTop: "64px", display: "flex", flexDirection: "row" }}>
       <Sidebar />
-      <h4>New invioce page</h4>
-      <section>
-        <form
-          action=""
-          onSubmit={(event: React.FormEvent<HTMLFormElement>) => {
-            event.preventDefault();
-            generateNewInvoice(event);
+      <Box sx={{ width: "100%", margin: 2 }}>
+        <h4 style={{ textAlign: "center" }}>Create New Invioce</h4>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "center",
+            alignItems: "center",
           }}
         >
-          <Stack spacing={2} sx={{ maxWidth: 500 }}>
-            <FormControl>
-              <FormLabel>Select project: </FormLabel>
-              {projectList.length ? (
-                <Select
-                  placeholder="Select a project"
-                  sx={{ width: 240 }}
-                  onChange={(e, newValue) => {
-                    setSelectedProject(String(newValue));
-                  }}
-                >
-                  {projectList.map((p) => (
-                    <Option value={p.id} key={p.id}>
-                      {p.name}({p.client.name})
-                    </Option>
-                  ))}
-                </Select>
-              ) : (
-                <>
-                  <button onClick={() => router.push("/projects/newProject")}>
-                    Add New Project
-                  </button>
-                </>
-              )}
-            </FormControl>
-            <FormControl>
-              <FormLabel>Select Year: </FormLabel>
-              <Select
-                defaultValue={currentYear}
-                sx={{ width: 240 }}
-                onChange={(e, newValue) => {
-                  setSelectedYear(Number(newValue));
+          <Card
+            sx={{
+              width: 400,
+              margin: 1,
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-between",
+            }}
+          >
+            <CardContent>
+              <form
+                action=""
+                onSubmit={(event: React.FormEvent<HTMLFormElement>) => {
+                  event.preventDefault();
+                  generateNewInvoice(event);
                 }}
               >
-                {yearOptions.map((y, idx) => (
-                  <Option value={y} key={idx}>
-                    {y}
-                  </Option>
-                ))}
-              </Select>
-            </FormControl>
-            <FormControl>
-              <FormLabel>Select Month: </FormLabel>
-              <Select
-                defaultValue={defaultMonth}
-                sx={{ width: 240 }}
-                onChange={(e, newValue) => {
-                  setSelectedMonth(Number(newValue));
-                }}
-              >
-                {monthOptions.map((m, idx) => (
-                  <Option value={m} key={idx}>
-                    {m}
-                  </Option>
-                ))}
-              </Select>
-            </FormControl>
-            <FormControl>
-              <Button type="submit">Generate Invoice</Button>
-            </FormControl>
-          </Stack>
-        </form>
-      </section>
-    </div>
+                <Stack spacing={2} sx={{ maxWidth: 400 }}>
+                  <FormControl>
+                    <FormLabel>Select Project: </FormLabel>
+                    {projectList.length ? (
+                      <Select
+                        placeholder="Select a project"
+                        onChange={(e, newValue) => {
+                          setSelectedProject(String(newValue));
+                        }}
+                      >
+                        {projectList.map((p) => (
+                          <Option value={p.id} key={p.id}>
+                            {p.name}({p.client.name})
+                          </Option>
+                        ))}
+                      </Select>
+                    ) : (
+                      <>
+                        <Button
+                          color="primary"
+                          sx={{ mt: 2, height: "50px" }}
+                          onClick={() => router.push("/projects/newProject")}
+                        >
+                          Add New Project
+                        </Button>
+                      </>
+                    )}
+                  </FormControl>
+                  <FormControl>
+                    <FormLabel>Select Year: </FormLabel>
+                    <Select
+                      defaultValue={currentYear}
+                      onChange={(e, newValue) => {
+                        setSelectedYear(Number(newValue));
+                      }}
+                    >
+                      {yearOptions.map((y, idx) => (
+                        <Option value={y} key={idx}>
+                          {y}
+                        </Option>
+                      ))}
+                    </Select>
+                  </FormControl>
+                  <FormControl>
+                    <FormLabel>Select Month: </FormLabel>
+                    <Select
+                      defaultValue={defaultMonth}
+                      onChange={(e, newValue) => {
+                        setSelectedMonth(Number(newValue));
+                      }}
+                    >
+                      {monthOptions.map((m, idx) => (
+                        <Option value={m} key={idx}>
+                          {m}
+                        </Option>
+                      ))}
+                    </Select>
+                  </FormControl>
+                  <FormControl>
+                    <Button type="submit" color="success">
+                      Generate Invoice
+                    </Button>
+                  </FormControl>
+                </Stack>
+              </form>
+            </CardContent>
+          </Card>
+        </Box>
+      </Box>
+    </Box>
   );
 }
