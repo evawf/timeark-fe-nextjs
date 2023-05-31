@@ -14,6 +14,9 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
 import { styled } from "@mui/material/styles";
+import Divider from "@mui/material/Divider";
+
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
 export default function MyProfile() {
   const [userData, setUserData] = useState<User | any>();
@@ -85,14 +88,27 @@ export default function MyProfile() {
               }}
             >
               <CardContent>
-                <Box>Avatar: {userData.avatar}</Box>
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "center",
+                    alignContent: "center",
+                    my: 2,
+                  }}
+                >
+                  <AccountCircleIcon
+                    sx={{ width: "150px", height: "150px", color: "gray" }}
+                  />
+                </Box>
+                <Divider />
                 <Box
                   sx={{
                     display: "flex",
                     flexDirection: "row",
                     justifyContent: "center",
                     alignContent: "space-between",
-                    my: 1,
+                    mt: 5,
                   }}
                 >
                   <Box
@@ -134,7 +150,6 @@ export default function MyProfile() {
                     </Typography>
                   </Box>
                 </Box>
-
                 <Box
                   sx={{
                     display: "flex",
@@ -183,7 +198,6 @@ export default function MyProfile() {
                     </Typography>
                   </Box>
                 </Box>
-
                 <Box
                   sx={{
                     display: "flex",
@@ -231,7 +245,6 @@ export default function MyProfile() {
                     </Typography>
                   </Box>
                 </Box>
-
                 <Box
                   sx={{
                     display: "flex",
@@ -281,7 +294,6 @@ export default function MyProfile() {
                     </Typography>
                   </Box>
                 </Box>
-
                 <Box
                   sx={{
                     display: "flex",
@@ -331,7 +343,6 @@ export default function MyProfile() {
                     </Typography>
                   </Box>
                 </Box>
-
                 <Box
                   sx={{
                     display: "flex",
