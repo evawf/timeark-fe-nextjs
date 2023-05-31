@@ -32,6 +32,21 @@ import Paper from "@mui/material/Paper";
 import EditNoteIcon from "@mui/icons-material/EditNote";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 
+import Modal from "@mui/joy/Modal";
+import ModalDialog from "@mui/joy/ModalDialog";
+import FormControl from "@mui/joy/FormControl";
+import FormLabel from "@mui/joy/FormLabel";
+import Input from "@mui/joy/Input";
+
+//************ Form ************/
+import Select from "@mui/joy/Select";
+import MenuItem from "@mui/material/MenuItem";
+import Option from "@mui/joy/Option";
+import Stack from "@mui/joy/Stack";
+import InputLabel from "@mui/material/InputLabel";
+import NativeSelect from "@mui/material/NativeSelect";
+import InputBase from "@mui/material/InputBase";
+
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.black,
@@ -53,20 +68,21 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 interface ProjectId {
-  id: string;
+  id: string | number;
 }
 
-export default function ProjectPage({ params }: ProjectId | any) {
+export default function ProjectPage({ params }: { params: { id: string } }) {
+  const [open, setOpen] = useState<boolean>(false);
+  const [openUpdate, setOpenUpdate] = useState<boolean>(false);
   const router = useRouter();
   const [project, setProject] = useState<Project>();
   const [taskList, setTaskList] = useState<Task[]>([]);
-  const [showNewTaskForm, setShowNewTaskForm] = useState(false);
   const [showUpdateTaskForm, setShowUpdateTaskForm] = useState(false);
   const [taskToBeUpdated, setTaskToBeUpdated] = useState<Task>();
   const [newTask, setNewTask] = useState<Task>({
     id: "",
     name: "",
-    categoryName: "",
+    categoryName: project ? String(project?.categories[0]) : "",
     projectId: params.id,
     isDone: false,
     isDeleted: false,
@@ -98,28 +114,40 @@ export default function ProjectPage({ params }: ProjectId | any) {
   };
 
   // *********************** Add New Task ***********************
-  const showNewTaskFormSection = () => {
-    setShowNewTaskForm(true);
+  // const showNewTaskFormSection = () => {
+  //   // setShowNewTaskForm(true);
+  //   setOpen(true);
+  // };
+
+  const handleCloseNewTaskEntryWindow = () => {
+    setOpen(false);
   };
 
   const handleChange = (e: any) => {
     e.preventDefault();
-    const { id, value } = e.target;
+    const { name, value } = e.target;
     setNewTask({
       ...newTask,
-      [e.target.id]: value,
+      [e.target.name]: String(value),
     });
   };
 
   const handleAddNewTask = async (e: React.FormEvent) => {
     e.preventDefault();
+    console.log("new task: ", newTask);
     const res = await AddNewTask(newTask);
     setTaskList([...taskList, res.newTask]);
   };
 
   // *********************** Update Single Task ***********************
+
+  const handleCloseUpdateTaskEntryWindow = () => {
+    setOpenUpdate(false);
+  };
+
   const handleUpdateTask = (taskId: string) => {
-    setShowUpdateTaskForm(true);
+    // setShowUpdateTaskForm(true);
+    setOpenUpdate(true);
     const task = taskList.filter((t) => {
       if (t.id === taskId) {
         return t;
@@ -291,7 +319,8 @@ export default function ProjectPage({ params }: ProjectId | any) {
                     Project Task List
                   </Typography>
                   <Button
-                    onClick={() => showNewTaskFormSection()}
+                    // onClick={() => showNewTaskFormSection()}
+                    onClick={() => setOpen(true)}
                     color="success"
                     variant="contained"
                   >
@@ -355,78 +384,161 @@ export default function ProjectPage({ params }: ProjectId | any) {
           <Box>Loading</Box>
         )}
       </Box>
-      <Box>
-        {showNewTaskForm && (
-          <div>
-            {/* ====================== New Task Form ====================== */}
-            <p>Add New Task Form</p>
-            <form
-              action=""
-              onSubmit={(e: React.SyntheticEvent) => handleAddNewTask(e)}
-            >
-              <label htmlFor="">Task Name: </label>
-              <input type="text" id="name" onChange={handleChange} />
-              <br />
-              <label htmlFor="">Task category: </label>
-              <select
-                name="categoryName"
-                id="categoryName"
-                onChange={handleChange}
-              >
-                <option value="">-- Select a category --</option>
-                {project?.categories.map((c, idx) => (
-                  <option value={c} key={`${c}${idx}`}>
-                    {c}
+
+      {/* ====================== New Task Form ====================== */}
+
+      <Modal open={open} onClose={() => handleCloseNewTaskEntryWindow()}>
+        <ModalDialog
+          aria-labelledby="basic-modal-dialog-title"
+          aria-describedby="basic-modal-dialog-description"
+          sx={{ maxWidth: 500 }}
+        >
+          <Typography
+            id="basic-modal-dialog-title"
+            component="h2"
+            style={{ fontWeight: "bold", textAlign: "center" }}
+          >
+            Add New Task
+          </Typography>
+          <form
+            onSubmit={(e: React.SyntheticEvent) => {
+              handleAddNewTask(e);
+              setOpen(false);
+            }}
+          >
+            <Stack spacing={2}>
+              <FormControl>
+                <label htmlFor="">Name: </label>
+                <Input
+                  type="text"
+                  id="name"
+                  name="name"
+                  onChange={handleChange}
+                />
+              </FormControl>
+
+              <FormControl>
+                <label htmlFor="">Category: </label>
+                <select
+                  name="categoryName"
+                  id="categoryName"
+                  onChange={handleChange}
+                  style={{
+                    height: "40px",
+                    borderRadius: "9px",
+                    border: "1px solid lightgray",
+                  }}
+                >
+                  <option value="" style={{ textAlign: "center" }}>
+                    -- Select a category --
                   </option>
-                ))}
-              </select>
-              <br />
-              <button type="submit">Submit</button>
-            </form>
-          </div>
-        )}
-      </Box>
-      <Box>
-        {/* ====================== Update Single Task Form ====================== */}
-        {showUpdateTaskForm && (
-          <div>
-            <p>Update Task</p>
-            <form
-              action=""
-              onSubmit={(e: React.SyntheticEvent) => handleSubmitUpdatedTask(e)}
-            >
-              <label htmlFor="">Task Name: </label>
-              <input
-                type="text"
-                id="name"
-                defaultValue={taskToBeUpdated?.name}
-              />
-              <br />
-              <label htmlFor="">Task category: </label>
-              <select
-                name="categoryName"
-                id="categoryName"
-                onChange={handleChange}
-              >
-                <option value="">-- Select a category --</option>
-                {project?.categories.map((c, idx) => (
-                  <option value={c} key={`${c}${idx}`}>
-                    {c}
+                  {project?.categories.map((c, idx) => (
+                    <option
+                      value={c}
+                      key={`${c}${idx}`}
+                      style={{ textAlign: "center" }}
+                    >
+                      {c}
+                    </option>
+                  ))}
+                </select>
+              </FormControl>
+
+              <FormControl>
+                <Button type="submit" color={"success"} variant={"contained"}>
+                  Submit
+                </Button>
+              </FormControl>
+            </Stack>
+          </form>
+        </ModalDialog>
+      </Modal>
+
+      {/* ====================== Update Single Task Form ====================== */}
+      <Modal
+        open={openUpdate}
+        onClose={() => handleCloseUpdateTaskEntryWindow()}
+      >
+        <ModalDialog>
+          <Typography
+            id="basic-modal-dialog-title"
+            component="h2"
+            style={{ fontWeight: "bold", textAlign: "center" }}
+          >
+            Update Task
+          </Typography>
+          <form
+            action=""
+            onSubmit={(e: React.SyntheticEvent) => {
+              handleSubmitUpdatedTask(e);
+              setOpenUpdate(false);
+            }}
+          >
+            <Stack spacing={2}>
+              <FormControl>
+                <label htmlFor="">Task Name: </label>
+                <input
+                  type="text"
+                  id="name"
+                  defaultValue={taskToBeUpdated?.name}
+                  style={{
+                    height: "40px",
+                    borderRadius: "9px",
+                    border: "1px solid lightgray",
+                    padding: "5px",
+                  }}
+                />
+              </FormControl>
+              <FormControl>
+                <label htmlFor="">Task category: </label>
+                <select
+                  name="categoryName"
+                  id="categoryName"
+                  onChange={handleChange}
+                  style={{
+                    height: "40px",
+                    borderRadius: "9px",
+                    border: "1px solid lightgray",
+                  }}
+                >
+                  <option value="" style={{ textAlign: "center" }}>
+                    -- Select a category --
                   </option>
-                ))}
-              </select>
-              <br />
-              <label htmlFor="">Task status: </label>
-              <select name="" id="isDone">
-                <option value={"false"}>In process</option>
-                <option value={"true"}>Done</option>
-              </select>
-              <br />
-              <button type="submit">Update Task</button>
-            </form>
-          </div>
-        )}
-      </Box>
+                  {project?.categories.map((c, idx) => (
+                    <option
+                      value={c}
+                      key={`${c}${idx}`}
+                      style={{ textAlign: "center" }}
+                    >
+                      {c}
+                    </option>
+                  ))}
+                </select>
+              </FormControl>
+              <FormControl>
+                <label htmlFor="">Task status: </label>
+                <select
+                  name=""
+                  id="isDone"
+                  style={{
+                    height: "40px",
+                    borderRadius: "9px",
+                    border: "1px solid lightgray",
+                  }}
+                >
+                  <option value={"false"}>In process</option>
+                  <option value={"true"}>Done</option>
+                </select>
+              </FormControl>
+              <FormControl>
+                <Button type="submit" color={"success"} variant={"contained"}>
+                  Update Task
+                </Button>
+              </FormControl>
+            </Stack>
+          </form>
+        </ModalDialog>
+      </Modal>
     </Box>
   );
 }

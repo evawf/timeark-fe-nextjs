@@ -157,12 +157,9 @@ export default function InvoicePage({ params }: InvoiceId | any) {
                 <p>Amount Due: S${dueAmount.toFixed(2)}</p>
               </CardContent>
               <h3 style={{ textAlign: "center" }}>Billing details:</h3>
-              <CardContent sx={{ mx: 5 }}>
+              <CardContent sx={{ mx: 2 }}>
                 <TableContainer component={Paper}>
-                  <Table
-                    sx={{ width: "100%", m: 1, p: 1, height: "auto" }}
-                    aria-label="spanning table"
-                  >
+                  <Table aria-label="spanning table">
                     <TableHead>
                       <TableRow>
                         <TableCell sx={{ fontWeight: "bold" }}>Tasks</TableCell>
@@ -201,7 +198,9 @@ export default function InvoicePage({ params }: InvoiceId | any) {
                         >
                           Total
                         </TableCell>
-                        <TableCell>{Number(dueAmount).toFixed(2)}</TableCell>
+                        <TableCell sx={{ fontWeight: "bold", color: "red" }}>
+                          {Number(dueAmount).toFixed(2)}
+                        </TableCell>
                       </TableRow>
                     </TableBody>
                   </Table>
