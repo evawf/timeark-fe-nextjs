@@ -6,6 +6,15 @@ import { useRouter } from "next/navigation";
 import UpdateUserProfile from "../../../lib/updateUserProfile";
 import Sidebar from "../../components/Sidebar";
 
+import Box from "@mui/material/Box";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
+import Divider from "@mui/material/Divider";
+
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+
 export default function MyProfile() {
   const [userData, setUserData] = useState<User | any>();
   const router = useRouter();
@@ -17,7 +26,6 @@ export default function MyProfile() {
       id: user.id.toString(),
       firstName: user.firstName,
       lastName: user.lastName,
-      email: user.email,
       avatar: user.avatar,
       companyName: user.companyName,
       registrationNumber: user.registrationNumber,
@@ -26,6 +34,7 @@ export default function MyProfile() {
       country: user.country,
       postalCode: user.postalCode,
       contact: user.contact,
+      email: user.email,
     };
 
     return setUserData(userProfile);
@@ -42,7 +51,7 @@ export default function MyProfile() {
     const target = e.target as typeof e.target & {
       firstName: { value: string };
       lastName: { value: string };
-      avatar: { value: string };
+      // avatar: { value: string };
       companyName: { value: string };
       registrationNumber: { value: string };
       address: { value: string };
@@ -50,12 +59,13 @@ export default function MyProfile() {
       country: { value: string };
       postalCode: { value: string };
       contact: { value: string };
+      email: { value: string };
     };
 
     const updatedUserData = {
       firstName: target.firstName.value,
       lastName: target.lastName.value,
-      avatar: target.avatar.value,
+      // avatar: target.avatar.value,
       companyName: target.companyName.value,
       registrationNumber: target.registrationNumber.value,
       address: target.address.value,
@@ -63,7 +73,10 @@ export default function MyProfile() {
       country: target.country.value,
       postalCode: target.postalCode.value,
       contact: target.contact.value,
+      email: target.email.value,
     };
+
+    console.log("user updated: ", updatedUserData);
 
     let userId: string | any = localStorage.getItem("userId");
 
@@ -75,79 +88,559 @@ export default function MyProfile() {
   };
 
   return (
-    <div>
+    <Box sx={{ marginTop: "64px", display: "flex", flexDirection: "row" }}>
       <Sidebar />
-      Update user profile page
-      <div>
+      <Box sx={{ width: "100%", margin: 2 }}>
+        <h2 style={{ textAlign: "center" }}>Update My Profile</h2>
         {userData ? (
-          <>
-            <form onSubmit={(e: React.SyntheticEvent) => handleSubmit(e)}>
-              <label htmlFor="">First Name: </label>
-              <input
-                type="text"
-                id="firstName"
-                defaultValue={userData.firstName}
-              />
-              <br />
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+              mt: 5,
+            }}
+          >
+            <Card
+              sx={{
+                width: "80%",
+                margin: 1,
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "space-between",
+                // backgroundColor: "lightblue",
+                height: "auto",
+              }}
+            >
+              <CardContent>
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "center",
+                    alignContent: "center",
+                    my: 2,
+                  }}
+                >
+                  <AccountCircleIcon
+                    sx={{ width: "150px", height: "150px", color: "gray" }}
+                  />
+                </Box>
+                <Divider />
 
-              <label htmlFor="">Last Name: </label>
-              <input
-                type="text"
-                id="lastName"
-                defaultValue={userData.lastName}
-              />
-              <br />
+                <form onSubmit={(e: React.SyntheticEvent) => handleSubmit(e)}>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      flexDirection: "row",
+                      justifyContent: "center",
+                      alignContent: "space-between",
+                      mt: 5,
+                    }}
+                  >
+                    <Box
+                      sx={{
+                        display: "flex",
+                        flexDirection: "row",
+                        mx: 1,
+                        border: "none",
+                        height: "50px",
+                        borderRadius: "15px",
+                        alignItems: "center",
+                        width: "50%",
+                      }}
+                    >
+                      <label
+                        htmlFor=""
+                        style={{
+                          marginLeft: 2,
+                          marginRight: 0,
+                          width: "40%",
+                          height: "50px",
+                          display: "flex",
+                          alignItems: "center",
+                          backgroundColor: "lightgrey",
+                          borderRadius: "10px 0 0 10px",
+                          padding: "10px",
+                        }}
+                      >
+                        First Name
+                      </label>
+                      <input
+                        style={{
+                          marginLeft: 0,
+                          marginRight: 2,
+                          width: "60%",
+                          border: "1px solid lightgray",
+                          height: "50px",
+                          padding: "10px",
+                          borderRadius: "0 10px 10px 0",
+                        }}
+                        type="text"
+                        id="firstName"
+                        defaultValue={userData.firstName}
+                      />
+                    </Box>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        flexDirection: "row",
+                        mx: 1,
+                        border: "none",
+                        height: "50px",
+                        borderRadius: "15px",
+                        alignItems: "center",
+                        width: "50%",
+                      }}
+                    >
+                      <label
+                        htmlFor=""
+                        style={{
+                          marginLeft: 2,
+                          marginRight: 0,
+                          width: "40%",
+                          height: "50px",
+                          display: "flex",
+                          alignItems: "center",
+                          backgroundColor: "lightgrey",
+                          borderRadius: "10px 0 0 10px",
+                          padding: "10px",
+                        }}
+                      >
+                        Last Name:{" "}
+                      </label>
+                      <input
+                        style={{
+                          marginLeft: 0,
+                          marginRight: 2,
+                          width: "60%",
+                          border: "1px solid lightgray",
+                          height: "50px",
+                          padding: "10px",
+                          borderRadius: "0 10px 10px 0",
+                        }}
+                        type="text"
+                        id="lastName"
+                        defaultValue={userData.lastName}
+                      />
+                    </Box>
+                  </Box>
 
-              <label htmlFor="">avatar</label>
-              <input type="text" id="avatar" defaultValue={userData.avatar} />
-              <br />
+                  <Box
+                    sx={{
+                      display: "flex",
+                      flexDirection: "row",
+                      justifyContent: "center",
+                      alignContent: "space-between",
+                      mt: 1,
+                    }}
+                  >
+                    <Box
+                      sx={{
+                        display: "flex",
+                        flexDirection: "row",
+                        mx: 1,
+                        border: "none",
+                        height: "50px",
+                        borderRadius: "15px",
+                        alignItems: "center",
+                        width: "50%",
+                      }}
+                    >
+                      <label
+                        htmlFor=""
+                        style={{
+                          marginLeft: 2,
+                          marginRight: 0,
+                          width: "40%",
+                          height: "50px",
+                          display: "flex",
+                          alignItems: "center",
+                          backgroundColor: "lightgrey",
+                          borderRadius: "10px 0 0 10px",
+                          padding: "10px",
+                        }}
+                      >
+                        Company Name:{" "}
+                      </label>
+                      <input
+                        style={{
+                          marginLeft: 0,
+                          marginRight: 2,
+                          width: "60%",
+                          border: "1px solid lightgray",
+                          height: "50px",
+                          padding: "10px",
+                          borderRadius: "0 10px 10px 0",
+                        }}
+                        type="text"
+                        id="companyName"
+                        defaultValue={userData.companyName}
+                      />
+                    </Box>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        flexDirection: "row",
+                        mx: 1,
+                        border: "none",
+                        height: "50px",
+                        borderRadius: "15px",
+                        alignItems: "center",
+                        width: "50%",
+                      }}
+                    >
+                      <label
+                        htmlFor=""
+                        style={{
+                          marginLeft: 2,
+                          marginRight: 0,
+                          width: "40%",
+                          height: "50px",
+                          display: "flex",
+                          alignItems: "center",
+                          backgroundColor: "lightgrey",
+                          borderRadius: "10px 0 0 10px",
+                          padding: "10px",
+                        }}
+                      >
+                        Registration No.:{" "}
+                      </label>
+                      <input
+                        style={{
+                          marginLeft: 0,
+                          marginRight: 2,
+                          width: "60%",
+                          border: "1px solid lightgray",
+                          height: "50px",
+                          padding: "10px",
+                          borderRadius: "0 10px 10px 0",
+                        }}
+                        type="text"
+                        id="registrationNumber"
+                        defaultValue={userData.registrationNumber}
+                      />
+                    </Box>
+                  </Box>
 
-              <label htmlFor="">Company Name: </label>
-              <input
-                type="text"
-                id="companyName"
-                defaultValue={userData.companyName}
-              />
-              <br />
+                  <Box
+                    sx={{
+                      display: "flex",
+                      flexDirection: "row",
+                      justifyContent: "center",
+                      alignContent: "space-between",
+                      mt: 1,
+                    }}
+                  >
+                    <Box
+                      sx={{
+                        display: "flex",
+                        flexDirection: "row",
+                        mx: 1,
+                        border: "none",
+                        height: "50px",
+                        borderRadius: "15px",
+                        alignItems: "center",
+                        width: "50%",
+                      }}
+                    >
+                      <label
+                        htmlFor=""
+                        style={{
+                          marginLeft: 2,
+                          marginRight: 0,
+                          width: "40%",
+                          height: "50px",
+                          display: "flex",
+                          alignItems: "center",
+                          backgroundColor: "lightgrey",
+                          borderRadius: "10px 0 0 10px",
+                          padding: "10px",
+                        }}
+                      >
+                        Address:{" "}
+                      </label>
+                      <input
+                        style={{
+                          marginLeft: 0,
+                          marginRight: 2,
+                          width: "60%",
+                          border: "1px solid lightgray",
+                          height: "50px",
+                          padding: "10px",
+                          borderRadius: "0 10px 10px 0",
+                        }}
+                        type="text"
+                        id="address"
+                        defaultValue={userData.address}
+                      />
+                    </Box>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        flexDirection: "row",
+                        mx: 1,
+                        border: "none",
+                        height: "50px",
+                        borderRadius: "15px",
+                        alignItems: "center",
+                        width: "50%",
+                      }}
+                    >
+                      <label
+                        htmlFor=""
+                        style={{
+                          marginLeft: 2,
+                          marginRight: 0,
+                          width: "40%",
+                          height: "50px",
+                          display: "flex",
+                          alignItems: "center",
+                          backgroundColor: "lightgrey",
+                          borderRadius: "10px 0 0 10px",
+                          padding: "10px",
+                        }}
+                      >
+                        City:{" "}
+                      </label>
+                      <input
+                        style={{
+                          marginLeft: 0,
+                          marginRight: 2,
+                          width: "60%",
+                          border: "1px solid lightgray",
+                          height: "50px",
+                          padding: "10px",
+                          borderRadius: "0 10px 10px 0",
+                        }}
+                        type="text"
+                        id="city"
+                        defaultValue={userData.city}
+                      />
+                    </Box>
+                  </Box>
 
-              <label htmlFor="">Registration No.: </label>
-              <input
-                type="text"
-                id="registrationNumber"
-                defaultValue={userData.registrationNumber}
-              />
-              <br />
+                  <Box
+                    sx={{
+                      display: "flex",
+                      flexDirection: "row",
+                      justifyContent: "center",
+                      alignContent: "space-between",
+                      my: 1,
+                    }}
+                  >
+                    <Box
+                      sx={{
+                        display: "flex",
+                        flexDirection: "row",
+                        mx: 1,
+                        // border: "1px solid black",
+                        height: "50px",
+                        borderRadius: "15px",
+                        alignItems: "center",
+                        width: "50%",
+                      }}
+                    >
+                      <label
+                        htmlFor=""
+                        style={{
+                          marginLeft: 2,
+                          marginRight: 0,
+                          width: "40%",
+                          height: "50px",
+                          display: "flex",
+                          alignItems: "center",
+                          backgroundColor: "lightgrey",
+                          borderRadius: "10px 0 0 10px",
+                          padding: "10px",
+                        }}
+                      >
+                        Country:{" "}
+                      </label>
+                      <input
+                        style={{
+                          marginLeft: 0,
+                          marginRight: 2,
+                          width: "60%",
+                          border: "1px solid lightgray",
+                          height: "50px",
+                          padding: "10px",
+                          borderRadius: "0 10px 10px 0",
+                        }}
+                        type="text"
+                        id="country"
+                        defaultValue={userData.country}
+                      />
+                    </Box>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        flexDirection: "row",
+                        mx: 1,
+                        // border: "1px solid black",
+                        height: "50px",
+                        borderRadius: "15px",
+                        alignItems: "center",
+                        width: "50%",
+                      }}
+                    >
+                      <label
+                        htmlFor=""
+                        style={{
+                          marginLeft: 2,
+                          marginRight: 0,
+                          width: "40%",
+                          height: "50px",
+                          display: "flex",
+                          alignItems: "center",
+                          backgroundColor: "lightgrey",
+                          borderRadius: "10px 0 0 10px",
+                          padding: "10px",
+                        }}
+                      >
+                        Postal Code:{" "}
+                      </label>
+                      <input
+                        style={{
+                          marginLeft: 0,
+                          marginRight: 2,
+                          width: "60%",
+                          border: "1px solid lightgray",
+                          height: "50px",
+                          padding: "10px",
+                          borderRadius: "0 10px 10px 0",
+                        }}
+                        type="text"
+                        id="postalCode"
+                        defaultValue={userData.postalCode}
+                      />
+                    </Box>
+                  </Box>
 
-              <label htmlFor="">Address: </label>
-              <input type="text" id="address" defaultValue={userData.address} />
-              <br />
-
-              <label htmlFor="">City: </label>
-              <input type="text" id="city" defaultValue={userData.city} />
-              <br />
-
-              <label htmlFor="">Country: </label>
-              <input type="text" id="country" defaultValue={userData.country} />
-              <br />
-
-              <label htmlFor="">Postal Code: </label>
-              <input
-                type="text"
-                id="postalCode"
-                defaultValue={userData.postalCode}
-              />
-              <br />
-
-              <label htmlFor="">Contact Number: </label>
-              <input type="text" id="contact" defaultValue={userData.contact} />
-              <br />
-              <button type="submit">Update</button>
-            </form>
-          </>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      flexDirection: "row",
+                      justifyContent: "center",
+                      alignContent: "space-between",
+                      mt: 1,
+                    }}
+                  >
+                    <Box
+                      sx={{
+                        display: "flex",
+                        flexDirection: "row",
+                        mx: 1,
+                        border: "none",
+                        height: "50px",
+                        borderRadius: "15px",
+                        alignItems: "center",
+                        width: "50%",
+                      }}
+                    >
+                      <label
+                        htmlFor=""
+                        style={{
+                          marginLeft: 2,
+                          marginRight: 0,
+                          width: "40%",
+                          height: "50px",
+                          display: "flex",
+                          alignItems: "center",
+                          backgroundColor: "lightgrey",
+                          borderRadius: "10px 0 0 10px",
+                          padding: "10px",
+                        }}
+                      >
+                        Contact Number:{" "}
+                      </label>
+                      <input
+                        style={{
+                          marginLeft: 0,
+                          marginRight: 2,
+                          width: "60%",
+                          border: "1px solid lightgray",
+                          height: "50px",
+                          padding: "10px",
+                          borderRadius: "0 10px 10px 0",
+                        }}
+                        type="text"
+                        id="contact"
+                        defaultValue={userData.contact}
+                      />
+                    </Box>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        flexDirection: "row",
+                        mx: 1,
+                        border: "none",
+                        height: "50px",
+                        borderRadius: "15px",
+                        alignItems: "center",
+                        width: "50%",
+                      }}
+                    >
+                      <label
+                        htmlFor=""
+                        style={{
+                          marginLeft: 2,
+                          marginRight: 0,
+                          width: "40%",
+                          height: "50px",
+                          display: "flex",
+                          alignItems: "center",
+                          backgroundColor: "lightgrey",
+                          borderRadius: "10px 0 0 10px",
+                          padding: "10px",
+                        }}
+                      >
+                        Email
+                      </label>
+                      <input
+                        style={{
+                          marginLeft: 0,
+                          marginRight: 2,
+                          width: "60%",
+                          border: "1px solid lightgray",
+                          height: "50px",
+                          padding: "10px",
+                          borderRadius: "0 10px 10px 0",
+                        }}
+                        type="text"
+                        id="email"
+                        defaultValue={userData.email}
+                      />
+                    </Box>
+                  </Box>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      flexDirection: "row",
+                      justifyContent: "center",
+                      alignContent: "center",
+                      mt: 1,
+                    }}
+                  >
+                    <Button
+                      fullWidth
+                      variant="contained"
+                      color="success"
+                      sx={{ mt: 2, height: "50px" }}
+                      type="submit"
+                    >
+                      Update
+                    </Button>
+                  </Box>
+                </form>
+              </CardContent>
+            </Card>
+          </Box>
         ) : (
           <>Loading</>
         )}
-      </div>
-    </div>
+      </Box>
+    </Box>
   );
 }
