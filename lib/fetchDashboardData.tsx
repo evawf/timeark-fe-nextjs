@@ -9,6 +9,7 @@ export default async function FetchDashboardData() {
       `${process.env.NEXT_PUBLIC_BACKEND_URL}/users/dashboard`
     );
 
+    console.log(res.data);
     return res.data;
   } catch (err) {
     console.log("msg: ", err);
