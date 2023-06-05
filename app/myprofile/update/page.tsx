@@ -624,10 +624,9 @@ export default function MyProfile() {
                     }}
                   >
                     <Button
-                      fullWidth
                       variant="contained"
                       color="success"
-                      sx={{ mt: 2, height: "50px" }}
+                      sx={{ mt: 2, height: "50px", width: "200px" }}
                       type="submit"
                     >
                       Update

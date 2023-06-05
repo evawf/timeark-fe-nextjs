@@ -8,12 +8,9 @@ import Sidebar from "../components/Sidebar";
 
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import Stack from "@mui/material/Stack";
-import { styled } from "@mui/material/styles";
 import Divider from "@mui/material/Divider";
 
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
@@ -116,17 +113,37 @@ export default function MyProfile() {
                       display: "flex",
                       flexDirection: "row",
                       mx: 1,
-                      border: "1px solid black",
+                      // border: "1px solid black",
                       height: "50px",
                       borderRadius: "15px",
                       alignItems: "center",
                       width: "50%",
                     }}
                   >
-                    <Typography sx={{ mx: 2, width: "40%" }}>
+                    <Typography
+                      sx={{
+                        width: "40%",
+                        backgroundColor: "lightgrey",
+                        height: "50px",
+                        borderRadius: "10px 0 0 10px",
+                        display: "flex",
+                        alignItems: "center",
+                        pl: 2,
+                      }}
+                    >
                       First Name:
                     </Typography>
-                    <Typography sx={{ mx: 2, width: "60%" }}>
+                    <Typography
+                      sx={{
+                        width: "60%",
+                        border: "1px solid lightgray",
+                        height: "50px",
+                        borderRadius: "0 10px 10px 0",
+                        display: "flex",
+                        alignItems: "center",
+                        pl: 2,
+                      }}
+                    >
                       {userData.firstName}
                     </Typography>
                   </Box>
@@ -135,17 +152,37 @@ export default function MyProfile() {
                       display: "flex",
                       flexDirection: "row",
                       mx: 1,
-                      border: "1px solid black",
+                      // border: "1px solid black",
                       height: "50px",
                       borderRadius: "15px",
                       alignItems: "center",
                       width: "50%",
                     }}
                   >
-                    <Typography sx={{ mx: 2, width: "40%" }}>
+                    <Typography
+                      sx={{
+                        width: "40%",
+                        backgroundColor: "lightgrey",
+                        height: "50px",
+                        borderRadius: "10px 0 0 10px",
+                        display: "flex",
+                        alignItems: "center",
+                        pl: 2,
+                      }}
+                    >
                       Last Name:
                     </Typography>
-                    <Typography sx={{ mx: 2, width: "60%" }}>
+                    <Typography
+                      sx={{
+                        width: "60%",
+                        border: "1px solid lightgray",
+                        height: "50px",
+                        borderRadius: "0 10px 10px 0",
+                        display: "flex",
+                        alignItems: "center",
+                        pl: 2,
+                      }}
+                    >
                       {userData.lastName}
                     </Typography>
                   </Box>
@@ -164,17 +201,37 @@ export default function MyProfile() {
                       display: "flex",
                       flexDirection: "row",
                       mx: 1,
-                      border: "1px solid black",
+                      // border: "1px solid black",
                       height: "50px",
                       borderRadius: "15px",
                       alignItems: "center",
                       width: "50%",
                     }}
                   >
-                    <Typography sx={{ mx: 2, width: "40%" }}>
+                    <Typography
+                      sx={{
+                        width: "40%",
+                        backgroundColor: "lightgrey",
+                        height: "50px",
+                        borderRadius: "10px 0 0 10px",
+                        display: "flex",
+                        alignItems: "center",
+                        pl: 2,
+                      }}
+                    >
                       Company Name:
                     </Typography>
-                    <Typography sx={{ mx: 2, width: "60%" }}>
+                    <Typography
+                      sx={{
+                        width: "60%",
+                        border: "1px solid lightgray",
+                        height: "50px",
+                        borderRadius: "0 10px 10px 0",
+                        display: "flex",
+                        alignItems: "center",
+                        pl: 2,
+                      }}
+                    >
                       {userData.companyName}
                     </Typography>
                   </Box>
@@ -183,17 +240,37 @@ export default function MyProfile() {
                       display: "flex",
                       flexDirection: "row",
                       mx: 1,
-                      border: "1px solid black",
+                      // border: "1px solid black",
                       height: "50px",
                       borderRadius: "15px",
                       alignItems: "center",
                       width: "50%",
                     }}
                   >
-                    <Typography sx={{ mx: 2, width: "40%" }}>
+                    <Typography
+                      sx={{
+                        width: "40%",
+                        backgroundColor: "lightgrey",
+                        height: "50px",
+                        borderRadius: "10px 0 0 10px",
+                        display: "flex",
+                        alignItems: "center",
+                        pl: 2,
+                      }}
+                    >
                       Registration Number:
                     </Typography>
-                    <Typography sx={{ mx: 2, width: "60%" }}>
+                    <Typography
+                      sx={{
+                        width: "60%",
+                        border: "1px solid lightgray",
+                        height: "50px",
+                        borderRadius: "0 10px 10px 0",
+                        display: "flex",
+                        alignItems: "center",
+                        pl: 2,
+                      }}
+                    >
                       {userData.registrationNumber}
                     </Typography>
                   </Box>
@@ -212,17 +289,37 @@ export default function MyProfile() {
                       display: "flex",
                       flexDirection: "row",
                       mx: 1,
-                      border: "1px solid black",
+                      // border: "1px solid black",
                       height: "50px",
                       borderRadius: "15px",
                       alignItems: "center",
                       width: "50%",
                     }}
                   >
-                    <Typography sx={{ mx: 2, width: "40%" }}>
+                    <Typography
+                      sx={{
+                        width: "40%",
+                        backgroundColor: "lightgrey",
+                        height: "50px",
+                        borderRadius: "10px 0 0 10px",
+                        display: "flex",
+                        alignItems: "center",
+                        pl: 2,
+                      }}
+                    >
                       Address:
                     </Typography>
-                    <Typography sx={{ mx: 2, width: "60%" }}>
+                    <Typography
+                      sx={{
+                        width: "60%",
+                        border: "1px solid lightgray",
+                        height: "50px",
+                        borderRadius: "0 10px 10px 0",
+                        display: "flex",
+                        alignItems: "center",
+                        pl: 2,
+                      }}
+                    >
                       {userData.address}
                     </Typography>
                   </Box>
@@ -232,15 +329,37 @@ export default function MyProfile() {
                       display: "flex",
                       flexDirection: "row",
                       mx: 1,
-                      border: "1px solid black",
+                      // border: "1px solid black",
                       height: "50px",
                       borderRadius: "15px",
                       alignItems: "center",
                       width: "50%",
                     }}
                   >
-                    <Typography sx={{ mx: 2, width: "40%" }}>City: </Typography>
-                    <Typography sx={{ mx: 2, width: "60%" }}>
+                    <Typography
+                      sx={{
+                        width: "40%",
+                        backgroundColor: "lightgrey",
+                        height: "50px",
+                        borderRadius: "10px 0 0 10px",
+                        display: "flex",
+                        alignItems: "center",
+                        pl: 2,
+                      }}
+                    >
+                      City:{" "}
+                    </Typography>
+                    <Typography
+                      sx={{
+                        width: "60%",
+                        border: "1px solid lightgray",
+                        height: "50px",
+                        borderRadius: "0 10px 10px 0",
+                        display: "flex",
+                        alignItems: "center",
+                        pl: 2,
+                      }}
+                    >
                       {userData.city}
                     </Typography>
                   </Box>
@@ -259,17 +378,37 @@ export default function MyProfile() {
                       display: "flex",
                       flexDirection: "row",
                       mx: 1,
-                      border: "1px solid black",
+                      // border: "1px solid black",
                       height: "50px",
                       borderRadius: "15px",
                       alignItems: "center",
                       width: "50%",
                     }}
                   >
-                    <Typography sx={{ mx: 2, width: "40%" }}>
+                    <Typography
+                      sx={{
+                        width: "40%",
+                        backgroundColor: "lightgrey",
+                        height: "50px",
+                        borderRadius: "10px 0 0 10px",
+                        display: "flex",
+                        alignItems: "center",
+                        pl: 2,
+                      }}
+                    >
                       Country:
                     </Typography>
-                    <Typography sx={{ mx: 2, width: "60%" }}>
+                    <Typography
+                      sx={{
+                        width: "60%",
+                        border: "1px solid lightgray",
+                        height: "50px",
+                        borderRadius: "0 10px 10px 0",
+                        display: "flex",
+                        alignItems: "center",
+                        pl: 2,
+                      }}
+                    >
                       {userData.country}
                     </Typography>
                   </Box>
@@ -278,17 +417,37 @@ export default function MyProfile() {
                       display: "flex",
                       flexDirection: "row",
                       mx: 1,
-                      border: "1px solid black",
+                      // border: "1px solid black",
                       height: "50px",
                       borderRadius: "15px",
                       alignItems: "center",
                       width: "50%",
                     }}
                   >
-                    <Typography sx={{ mx: 2, width: "40%" }}>
+                    <Typography
+                      sx={{
+                        width: "40%",
+                        backgroundColor: "lightgrey",
+                        height: "50px",
+                        borderRadius: "10px 0 0 10px",
+                        display: "flex",
+                        alignItems: "center",
+                        pl: 2,
+                      }}
+                    >
                       Postalcode:
                     </Typography>
-                    <Typography sx={{ mx: 2, width: "60%" }}>
+                    <Typography
+                      sx={{
+                        width: "60%",
+                        border: "1px solid lightgray",
+                        height: "50px",
+                        borderRadius: "0 10px 10px 0",
+                        display: "flex",
+                        alignItems: "center",
+                        pl: 2,
+                      }}
+                    >
                       {" "}
                       {userData.postalCode}
                     </Typography>
@@ -308,17 +467,37 @@ export default function MyProfile() {
                       display: "flex",
                       flexDirection: "row",
                       mx: 1,
-                      border: "1px solid black",
+                      // border: "1px solid black",
                       height: "50px",
                       borderRadius: "15px",
                       alignItems: "center",
                       width: "50%",
                     }}
                   >
-                    <Typography sx={{ mx: 2, width: "40%" }}>
+                    <Typography
+                      sx={{
+                        width: "40%",
+                        backgroundColor: "lightgrey",
+                        height: "50px",
+                        borderRadius: "10px 0 0 10px",
+                        display: "flex",
+                        alignItems: "center",
+                        pl: 2,
+                      }}
+                    >
                       Contact:{" "}
                     </Typography>
-                    <Typography sx={{ mx: 2, width: "60%" }}>
+                    <Typography
+                      sx={{
+                        width: "60%",
+                        border: "1px solid lightgray",
+                        height: "50px",
+                        borderRadius: "0 10px 10px 0",
+                        display: "flex",
+                        alignItems: "center",
+                        pl: 2,
+                      }}
+                    >
                       {" "}
                       {userData.contact}
                     </Typography>
@@ -328,17 +507,37 @@ export default function MyProfile() {
                       display: "flex",
                       flexDirection: "row",
                       mx: 1,
-                      border: "1px solid black",
+                      // border: "1px solid black",
                       height: "50px",
                       borderRadius: "15px",
                       alignItems: "center",
                       width: "50%",
                     }}
                   >
-                    <Typography sx={{ mx: 2, width: "40%" }}>
+                    <Typography
+                      sx={{
+                        width: "40%",
+                        backgroundColor: "lightgrey",
+                        height: "50px",
+                        borderRadius: "10px 0 0 10px",
+                        display: "flex",
+                        alignItems: "center",
+                        pl: 2,
+                      }}
+                    >
                       Email:{" "}
                     </Typography>
-                    <Typography sx={{ mx: 2, width: "60%" }}>
+                    <Typography
+                      sx={{
+                        width: "60%",
+                        border: "1px solid lightgray",
+                        height: "50px",
+                        borderRadius: "0 10px 10px 0",
+                        display: "flex",
+                        alignItems: "center",
+                        pl: 2,
+                      }}
+                    >
                       {userData.email}
                     </Typography>
                   </Box>
