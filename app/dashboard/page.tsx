@@ -34,12 +34,6 @@ export default function Dashboard() {
 
     console.log("data: ", data);
 
-    let barCartData = {
-      months: [],
-      projects: [],
-      amount: [],
-    };
-
     setBarData(data);
     return;
   };
