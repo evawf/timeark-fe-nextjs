@@ -11,30 +11,56 @@ import BarChart from "../components/BarChart";
 import moment from "moment";
 
 export default function Dashboard() {
-  const [barData, setBarData] = useState<any>([]);
+  const [barChartData, setBarChartData] = useState<any>({});
+  const [dateArr, setDateArr] = useState<any>([]);
+
   const router = useRouter();
 
   const getData = async () => {
     const res = await FetchDashboardData();
-    const chartData = res.barChartData;
-    chartData.sort((a: any, b: any) => a.issueDate - b.issueDate);
-    const data = chartData.map((d: any) => {
-      const amount =
-        Number(d.project.rate_per_hour) *
-        d.chargeable_tasks.reduce(
-          (a: any, c: any) => a + Number(c.time_spent),
-          0
-        );
-      return {
-        projectName: d.project.name,
-        amount: amount,
-        issueDate: moment(d.issueDate).format("DD-MM-YYYY"),
-      };
+    const project = res.barChartData.pop();
+    console.log("my project:", project);
+
+    const dataPerMonth: any = {};
+    project.invoices.forEach((i: any) => {
+      if (i.year === 2023) {
+        let amount = 0;
+        i.chargeable_tasks.forEach((t: any) => {
+          amount += t.time_spent * project.rate_per_hour;
+        });
+        dataPerMonth[i.month] = amount;
+      }
     });
+    // dataPerMonth = { 1: 12, 5:20, 6:18 }
+    const dataArray: any = [];
+    for (let i = 1; i <= 12; i++) {
+      dataArray.push(dataPerMonth[i]);
+    }
+    const serie = {
+      name: project.name,
+      data: dataArray,
+    };
 
-    console.log("data: ", data);
+    const data = {
+      labels: [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec",
+      ],
+      series: [serie],
+    };
+    setBarChartData(data);
+    // setDateArr(dateArr);
 
-    setBarData(data);
     return;
   };
 
@@ -59,10 +85,10 @@ export default function Dashboard() {
         <Box sx={{ mt: "20px" }}>
           <h2>Dashboard</h2>
         </Box>
-        {barData ? (
+        {barChartData ? (
           <Grid container spacing={0}>
             <Grid item xs={6}>
-              <BarChart barData={barData} />
+              <BarChart barChartData={barChartData} />
             </Grid>
             <Grid item xs={6}>
               <PieChart />
