@@ -20,6 +20,7 @@ const BarChart = ({ barChartData }: any) => {
   const colors = ["#5470C6", "#91CC75", "#EE6666"];
   const series: any = [];
 
+  console.log("barChartData: ", barChartData);
   if (barChartData.series) {
     barChartData.series.forEach((s: any) => {
       series.push({
@@ -31,9 +32,6 @@ const BarChart = ({ barChartData }: any) => {
       });
     });
   }
-
-  console.log("barChartData: ", barChartData);
-  console.log("series: ", series);
 
   const option = {
     color: colors,
