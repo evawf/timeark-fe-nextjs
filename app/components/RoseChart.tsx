@@ -19,7 +19,8 @@ const RoseChart = ({ roseChartData }: Props) => {
     },
     legend: {
       orient: "vertical",
-      left: "left",
+      left: 50,
+      top: "center",
     },
     tooltip: {
       trigger: "item",

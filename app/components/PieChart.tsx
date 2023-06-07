@@ -1,7 +1,5 @@
 import ReactEchart from "echarts-for-react";
-import React, { useState, useEffect } from "react";
-import FetchDashboardData from "../../lib/fetchDashboardData";
-import { useRouter } from "next/navigation";
+import React from "react";
 import Paper from "@mui/material/Paper";
 
 interface Props {
@@ -9,20 +7,24 @@ interface Props {
 }
 
 const PieChart = ({ pieChartData }: Props) => {
-  const router = useRouter();
+  let totalIncome: any = 0;
+  pieChartData.forEach((d) => {
+    totalIncome += Number(d.value);
+  });
   console.log("pieChartData:", pieChartData);
   const option = {
     title: {
-      text: "Total Income/Project",
-      // subtext: "Total time spent for each project",
+      text: `Total Income(S$): ${totalIncome.toFixed(2)} `,
+      subtext: "All Projects",
       left: "center",
     },
     tooltip: {
       trigger: "item",
     },
     legend: {
-      top: "5%",
-      left: "center",
+      orient: "vertical",
+      left: 50,
+      top: "center",
     },
     series: [
       {

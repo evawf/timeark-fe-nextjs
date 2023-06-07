@@ -41,6 +41,11 @@ const BarChart = ({ barChartData }: any) => {
         type: "cross",
       },
     },
+    title: {
+      text: "Monthly Income(S$)/Project",
+      subtext: "Total time spent for each project",
+      left: "center",
+    },
     grid: {
       right: "20%",
     },
@@ -51,9 +56,14 @@ const BarChart = ({ barChartData }: any) => {
         saveAsImage: { show: true },
       },
     },
+    // legend: {
+    //   //data: projects,
+    //   // data: ["Project 1", "Project 2", "Project 3"],
+    // },
     legend: {
-      //data: projects,
-      // data: ["Project 1", "Project 2", "Project 3"],
+      orient: "vertical",
+      right: 30,
+      top: "center",
     },
     xAxis: [
       {

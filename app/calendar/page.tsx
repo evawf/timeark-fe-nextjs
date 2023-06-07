@@ -65,15 +65,6 @@ export default function PickedDate({ params }: Date | any) {
   const [selectedProject, setSelectedProject] = useState("");
   const [selectedTask, setSelectedTask] = useState("");
 
-  const events = timeEntryList.map((t) => {
-    return {
-      title: t.task.name,
-      start: t.startTime,
-      end: t.endTime,
-      id: t.id,
-    };
-  });
-
   const handleGetTimeEntries = async () => {
     const res = await getTimeEntries();
     if (res.times) {
@@ -82,6 +73,16 @@ export default function PickedDate({ params }: Date | any) {
     }
     return;
   };
+
+  console.log("timeEntryList: ", timeEntryList);
+  const events = timeEntryList.map((t) => {
+    return {
+      title: t.name,
+      start: t.startTime,
+      end: t.endTime,
+      id: t.id,
+    };
+  });
 
   // Handle add new time entry: form -> select client - select project - select task - input start time
   const handleOpenAddNewTimeEntryModal = async () => {
@@ -97,7 +98,11 @@ export default function PickedDate({ params }: Date | any) {
   const getTasksByProjectId = async (selectedProject: string) => {
     const res = await getProjectTasks(selectedProject);
     const tasks: Task[] = res.tasks;
-    const undoneTasks: Task[] = tasks.filter((t) => !t.isDone);
+    console.log("tasks of selected project: ", tasks);
+    let undoneTasks: Task[] = [];
+    if (tasks) {
+      undoneTasks = tasks.filter((t) => !t.isDone);
+    }
     setTaskOptions(undoneTasks);
   };
 
@@ -120,6 +125,7 @@ export default function PickedDate({ params }: Date | any) {
     setSelectedTask("");
   };
 
+  console.log("selected project: ", selectedProject);
   // Handle view time entry & update & delete time entry
   const handleEditTimeEntry = async (timeEntryId: string) => {
     setUpdateForm(true);
@@ -203,143 +209,144 @@ export default function PickedDate({ params }: Date | any) {
   return (
     <Box sx={{ marginTop: "64px", display: "flex", flexDirection: "row" }}>
       <Sidebar />
-      <Box sx={{ width: "100%", margin: 2 }}>
-        <FullCalendar
-          plugins={[
-            dayGridPlugin,
-            timeGridPlugin,
-            interactionPlugin,
-            listPlugin,
-          ]}
-          initialView="timeGridWeek"
-          headerToolbar={{
-            left: "dayGridMonth,timeGridWeek,timeGridDay,listWeek",
-            center: "NEW",
-            right: "prev,next today",
-          }}
-          customButtons={{
-            NEW: {
-              text: `${today}`,
-              click: () => console.log("new event"),
-            },
-          }}
-          events={events}
-          eventColor="red"
-          nowIndicator
-          dateClick={(e) => handleOpenAddNewTimeEntryModal()}
-          eventClick={(e) => handleEditTimeEntry(e.event.id)}
-          height={"860px"}
-        />
+      {timeEntryList ? (
+        <Box sx={{ width: "100%", margin: 2 }}>
+          <FullCalendar
+            plugins={[
+              dayGridPlugin,
+              timeGridPlugin,
+              interactionPlugin,
+              listPlugin,
+            ]}
+            initialView="timeGridWeek"
+            headerToolbar={{
+              left: "dayGridMonth,timeGridWeek,timeGridDay,listWeek",
+              center: "NEW",
+              right: "prev,next today",
+            }}
+            customButtons={{
+              NEW: {
+                text: `${today}`,
+                click: () => console.log("new event"),
+              },
+            }}
+            events={events}
+            eventColor="red"
+            nowIndicator
+            dateClick={(e) => handleOpenAddNewTimeEntryModal()}
+            eventClick={(e) => handleEditTimeEntry(e.event.id)}
+            height={"860px"}
+          />
 
-        {/******************************** Add new time entry form ********************************/}
-        <Modal open={open} onClose={() => handleCloseNewTimeEntryWindow()}>
-          <ModalDialog
-            aria-labelledby="basic-modal-dialog-title"
-            aria-describedby="basic-modal-dialog-description"
-            sx={{ maxWidth: 500 }}
-          >
-            <Typography id="basic-modal-dialog-title" component="h2">
-              Start time tracker
-            </Typography>
-            <Typography
-              id="basic-modal-dialog-description"
-              textColor="text.tertiary"
+          {/******************************** Add new time entry form ********************************/}
+          <Modal open={open} onClose={() => handleCloseNewTimeEntryWindow()}>
+            <ModalDialog
+              aria-labelledby="basic-modal-dialog-title"
+              aria-describedby="basic-modal-dialog-description"
+              sx={{ maxWidth: 500 }}
             >
-              Fill in the information of the project.
-            </Typography>
-            <form
-              onSubmit={(event: React.FormEvent<HTMLFormElement>) => {
-                event.preventDefault();
-                setOpen(false);
-                handleAddNewTimeEntry();
-              }}
-            >
-              <Stack spacing={2}>
-                <FormControl>
-                  <FormLabel>Project: </FormLabel>
-                  {projectList.length ? (
-                    <Select
-                      placeholder="Select a project"
-                      sx={{ width: 240 }}
-                      onChange={(e, newValue) => {
-                        setSelectedProject(String(newValue));
-                        getTasksByProjectId(String(newValue));
-                      }}
-                    >
-                      {projectList.map((p) => (
-                        <Option value={p.id} key={p.id}>
-                          {p.name}({p.client.name})
-                        </Option>
-                      ))}
-                    </Select>
-                  ) : (
-                    <>
-                      <button
-                        onClick={() => router.push("/projects/newProject")}
+              <Typography id="basic-modal-dialog-title" component="h2">
+                Start time tracker
+              </Typography>
+              <Typography
+                id="basic-modal-dialog-description"
+                textColor="text.tertiary"
+              >
+                Fill in the information of the project.
+              </Typography>
+              <form
+                onSubmit={(event: React.FormEvent<HTMLFormElement>) => {
+                  event.preventDefault();
+                  setOpen(false);
+                  handleAddNewTimeEntry();
+                }}
+              >
+                <Stack spacing={2}>
+                  <FormControl>
+                    <FormLabel>Project: </FormLabel>
+                    {projectList.length ? (
+                      <Select
+                        placeholder="Select a project"
+                        sx={{ width: 240 }}
+                        onChange={(e, newValue) => {
+                          setSelectedProject(String(newValue));
+                          getTasksByProjectId(String(newValue));
+                        }}
                       >
-                        Add New Project
-                      </button>
-                    </>
-                  )}
-                </FormControl>
-                <FormControl>
-                  {selectedProject ? (
-                    <>
-                      <FormLabel>Task: </FormLabel>
-                      {taskOptions.length ? (
-                        <Select
-                          placeholder="Select a task"
-                          sx={{ width: 240 }}
-                          onChange={(e, newValue) =>
-                            setSelectedTask(String(newValue))
-                          }
+                        {projectList.map((p) => (
+                          <Option value={p.id} key={p.id}>
+                            {p.name}({p.client.name})
+                          </Option>
+                        ))}
+                      </Select>
+                    ) : (
+                      <>
+                        <button
+                          onClick={() => router.push("/projects/newProject")}
                         >
-                          {taskOptions.map((t) => (
-                            <Option value={t.id} key={`task${t.id}`}>
-                              {t.name}
-                            </Option>
-                          ))}
-                        </Select>
-                      ) : (
-                        <>
-                          <Button
-                            onClick={() =>
-                              router.push(`/projects/${selectedProject}`)
+                          Add New Project
+                        </button>
+                      </>
+                    )}
+                  </FormControl>
+                  <FormControl>
+                    {selectedProject ? (
+                      <>
+                        <FormLabel>Task: </FormLabel>
+                        {taskOptions.length ? (
+                          <Select
+                            placeholder="Select a task"
+                            sx={{ width: 240 }}
+                            onChange={(e, newValue) =>
+                              setSelectedTask(String(newValue))
                             }
                           >
-                            Add new task to selected project
-                          </Button>
-                        </>
-                      )}
-                    </>
-                  ) : (
-                    <></>
-                  )}
-                </FormControl>
-                <FormControl>
-                  {selectedTask ? (
-                    <>
-                      {/* <FormLabel>Start time: {today}</FormLabel> */}
-                      <Button type="submit">Start</Button>
-                    </>
-                  ) : (
-                    <></>
-                  )}
-                </FormControl>
-                {/* <Button type="submit">Start</Button> */}
-              </Stack>
-            </form>
-          </ModalDialog>
-        </Modal>
+                            {taskOptions.map((t) => (
+                              <Option value={t.id} key={`task${t.id}`}>
+                                {t.name}
+                              </Option>
+                            ))}
+                          </Select>
+                        ) : (
+                          <>
+                            <Button
+                              onClick={() =>
+                                router.push(`/projects/${selectedProject}`)
+                              }
+                            >
+                              Add new task to selected project
+                            </Button>
+                          </>
+                        )}
+                      </>
+                    ) : (
+                      <>No project selected</>
+                    )}
+                  </FormControl>
+                  <FormControl>
+                    {selectedTask ? (
+                      <>
+                        {/* <FormLabel>Start time: {today}</FormLabel> */}
+                        <Button type="submit">Start</Button>
+                      </>
+                    ) : (
+                      <></>
+                    )}
+                  </FormControl>
+                  {/* <Button type="submit">Start</Button> */}
+                </Stack>
+              </form>
+            </ModalDialog>
+          </Modal>
 
-        {/******************************** Update, End, Delete time entry form ********************************/}
-        <Modal open={updateForm} onClose={() => setUpdateForm(false)}>
-          <ModalDialog
-            aria-labelledby="basic-modal-dialog-title"
-            aria-describedby="basic-modal-dialog-description"
-            sx={{ maxWidth: 500 }}
-          >
-            {/* <Typography id="basic-modal-dialog-title" component="h2">
+          {/******************************** Update, End, Delete time entry form ********************************/}
+          <Modal open={updateForm} onClose={() => setUpdateForm(false)}>
+            <ModalDialog
+              aria-labelledby="basic-modal-dialog-title"
+              aria-describedby="basic-modal-dialog-description"
+              sx={{ maxWidth: 500 }}
+            >
+              {/* <Typography id="basic-modal-dialog-title" component="h2">
             Update time entry: {timeEntry?.id}
           </Typography>
           <Typography
@@ -349,111 +356,114 @@ export default function PickedDate({ params }: Date | any) {
             Fill in the information of the project.
           </Typography> */}
 
-            {/******************************** Update time entry form ********************************/}
+              {/******************************** Update time entry form ********************************/}
 
-            {timeEntry?.endTime ? (
-              <>
-                <Typography id="basic-modal-dialog-title" component="h2">
-                  Update time entry: {timeEntry?.id}
-                </Typography>
-                <form
-                  onSubmit={(event: React.FormEvent<HTMLFormElement>) => {
-                    // event.preventDefault();
-                    setUpdateForm(false);
-                    handleUpdateSelectedTimeEntry(event);
-                  }}
-                >
-                  <Stack spacing={2}>
-                    <Typography>
-                      Client: {timeEntry?.task.project?.client.name}
-                    </Typography>
-                    <FormLabel>
-                      Project: {timeEntry?.task.project.name}
-                    </FormLabel>
-                    <FormControl>
+              {timeEntry?.endTime ? (
+                <>
+                  <Typography id="basic-modal-dialog-title" component="h2">
+                    Update time entry: {timeEntry?.id}
+                  </Typography>
+                  <form
+                    onSubmit={(event: React.FormEvent<HTMLFormElement>) => {
+                      // event.preventDefault();
+                      setUpdateForm(false);
+                      handleUpdateSelectedTimeEntry(event);
+                    }}
+                  >
+                    <Stack spacing={2}>
+                      <Typography>
+                        Client: {timeEntry?.task.project?.client.name}
+                      </Typography>
                       <FormLabel>
-                        Task Name: {`${timeEntry?.task.name}`}{" "}
+                        Project: {timeEntry?.task.project.name}
                       </FormLabel>
-                      {/* <Input
+                      <FormControl>
+                        <FormLabel>
+                          Task Name: {`${timeEntry?.task.name}`}{" "}
+                        </FormLabel>
+                        {/* <Input
                       autoFocus
                       required
                       defaultValue={`${timeEntry?.task.name}`}
                     /> */}
-                    </FormControl>
-                    <FormControl>
-                      <FormLabel>Start Time:</FormLabel>
-                      <Input
-                        required
-                        type="text"
-                        name="startTime"
-                        defaultValue={moment(`${timeEntry?.startTime}`).format(
+                      </FormControl>
+                      <FormControl>
+                        <FormLabel>Start Time:</FormLabel>
+                        <Input
+                          required
+                          type="text"
+                          name="startTime"
+                          defaultValue={moment(
+                            `${timeEntry?.startTime}`
+                          ).format("YYYY-MM-DD, HH:mm:ss")}
+                        />
+                      </FormControl>
+                      <FormControl>
+                        <FormLabel>End Time: </FormLabel>
+                        <Input
+                          required
+                          type="text"
+                          name="endTime"
+                          defaultValue={moment(`${timeEntry?.endTime}`).format(
+                            "YYYY-MM-DD, HH:mm:ss"
+                          )}
+                        />
+                      </FormControl>
+                      <Button type="submit">Update</Button>
+                      <Button
+                        color={"danger"}
+                        variant={"solid"}
+                        onClick={() => handleDeleteTimeEntry()}
+                      >
+                        Delete
+                      </Button>
+                    </Stack>
+                  </form>
+                </>
+              ) : (
+                <>
+                  {/**************************** Add endTime to time entry form ********************************/}
+
+                  <Typography id="basic-modal-dialog-title" component="h2">
+                    Stop time tracker: {timeEntry?.id}
+                  </Typography>
+                  <form
+                    onSubmit={(event: React.FormEvent<HTMLFormElement>) => {
+                      event.preventDefault();
+                      setUpdateForm(false);
+                      handleAddEndTimeToTimeEntry();
+                    }}
+                  >
+                    <Stack spacing={2}>
+                      <Typography>
+                        Client: {timeEntry?.task.project?.client.name}
+                      </Typography>
+                      <Typography>
+                        Project: {timeEntry?.task.project.name}
+                      </Typography>
+                      <Typography>Task Name: {timeEntry?.task.name}</Typography>
+                      <Typography>
+                        Start Time:{" "}
+                        {moment(timeEntry?.startTime).format(
                           "YYYY-MM-DD, HH:mm:ss"
                         )}
-                      />
-                    </FormControl>
-                    <FormControl>
-                      <FormLabel>End Time: </FormLabel>
-                      <Input
-                        required
-                        type="text"
-                        name="endTime"
-                        defaultValue={moment(`${timeEntry?.endTime}`).format(
-                          "YYYY-MM-DD, HH:mm:ss"
-                        )}
-                      />
-                    </FormControl>
-                    <Button type="submit">Update</Button>
-                    <Button
-                      color={"danger"}
-                      variant={"solid"}
-                      onClick={() => handleDeleteTimeEntry()}
-                    >
-                      Delete
-                    </Button>
-                  </Stack>
-                </form>
-              </>
-            ) : (
-              <>
-                {/**************************** Add endTime to time entry form ********************************/}
+                      </Typography>
 
-                <Typography id="basic-modal-dialog-title" component="h2">
-                  Stop time tracker: {timeEntry?.id}
-                </Typography>
-                <form
-                  onSubmit={(event: React.FormEvent<HTMLFormElement>) => {
-                    event.preventDefault();
-                    setUpdateForm(false);
-                    handleAddEndTimeToTimeEntry();
-                  }}
-                >
-                  <Stack spacing={2}>
-                    <Typography>
-                      Client: {timeEntry?.task.project?.client.name}
-                    </Typography>
-                    <Typography>
-                      Project: {timeEntry?.task.project.name}
-                    </Typography>
-                    <Typography>Task Name: {timeEntry?.task.name}</Typography>
-                    <Typography>
-                      Start Time:{" "}
-                      {moment(timeEntry?.startTime).format(
-                        "YYYY-MM-DD, HH:mm:ss"
-                      )}
-                    </Typography>
-
-                    {/* <FormControl>
+                      {/* <FormControl>
                     <FormLabel>End Time: </FormLabel>
                     <Input required defaultValue={`${timeEntry?.endTime}`} />
                   </FormControl> */}
-                    <Button type="submit">Stop</Button>
-                  </Stack>
-                </form>
-              </>
-            )}
-          </ModalDialog>
-        </Modal>
-      </Box>
+                      <Button type="submit">Stop</Button>
+                    </Stack>
+                  </form>
+                </>
+              )}
+            </ModalDialog>
+          </Modal>
+        </Box>
+      ) : (
+        <>Loading</>
+      )}
     </Box>
   );
 }
