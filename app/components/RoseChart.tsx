@@ -43,14 +43,14 @@ const RoseChart = ({ roseChartData }: Props) => {
     <Paper
       elevation={4}
       style={{
-        margin: "10px",
+        margin: "5px",
         paddingTop: "30px",
         backgroundColor: "#FFFFFF",
         flexGrow: "1",
         borderRadius: "20px",
       }}
     >
-      <ReactEchart option={option} />
+      <ReactEchart option={option} style={{ height: "400px" }} />
     </Paper>
   );
 };

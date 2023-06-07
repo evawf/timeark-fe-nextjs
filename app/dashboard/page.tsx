@@ -133,7 +133,7 @@ export default function Dashboard() {
               <RoseChart roseChartData={roseChartData} />
             </Grid>
             <Grid item xs={6}>
-              {/* <PieChart /> */}
+              <RoseChart roseChartData={roseChartData} />
             </Grid>
           </Grid>
         ) : (
