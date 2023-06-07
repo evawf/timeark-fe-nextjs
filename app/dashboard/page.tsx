@@ -36,7 +36,7 @@ export default function Dashboard() {
           i.chargeable_tasks.forEach((t: any) => {
             amount += t.time_spent * p.rate_per_hour;
           });
-          dataPerMonth[i.month] = amount;
+          dataPerMonth[i.month] = amount.toFixed(2);
         }
 
         // pieChart: get the sum of total time from each invoice:
@@ -63,14 +63,14 @@ export default function Dashboard() {
       // **************** pieChart data *********************
       const amount = totalTime * p.rate_per_hour;
       const pieData = {
-        value: amount,
+        value: amount.toFixed(2),
         name: p.name,
       };
       pieChartDataArr.push(pieData);
 
       //********************* roseChart data *********************
       const roseData = {
-        value: totalTime,
+        value: totalTime.toFixed(2),
         name: p.name,
       };
       roseChartDataArr.push(roseData);

@@ -12,8 +12,18 @@ const RoseChart = ({ roseChartData }: Props) => {
   console.log("roseChartData: ", roseChartData);
 
   const option = {
+    title: {
+      text: "Total Hours/Project",
+      subtext: "Total time spent for each project",
+      left: "center",
+    },
     legend: {
-      top: "top",
+      orient: "vertical",
+      left: "left",
+    },
+    tooltip: {
+      trigger: "item",
+      formatter: "{a} <br/>{b} : {c} ({d}%)",
     },
     toolbox: {
       show: true,
@@ -26,7 +36,7 @@ const RoseChart = ({ roseChartData }: Props) => {
     },
     series: [
       {
-        name: "Nightingale Chart",
+        name: "Hours",
         type: "pie",
         radius: [15, 120],
         center: ["50%", "50%"],

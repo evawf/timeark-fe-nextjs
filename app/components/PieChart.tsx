@@ -12,6 +12,11 @@ const PieChart = ({ pieChartData }: Props) => {
   const router = useRouter();
   console.log("pieChartData:", pieChartData);
   const option = {
+    title: {
+      text: "Total Income/Project",
+      // subtext: "Total time spent for each project",
+      left: "center",
+    },
     tooltip: {
       trigger: "item",
     },
@@ -21,7 +26,7 @@ const PieChart = ({ pieChartData }: Props) => {
     },
     series: [
       {
-        name: "Access From",
+        name: "Income(S$)",
         type: "pie",
         radius: ["40%", "70%"],
         avoidLabelOverlap: false,
