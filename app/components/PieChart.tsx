@@ -4,20 +4,13 @@ import FetchDashboardData from "../../lib/fetchDashboardData";
 import { useRouter } from "next/navigation";
 import Paper from "@mui/material/Paper";
 
-const PieChart = () => {
-  const [data, setData] = useState({});
+interface Props {
+  pieChartData: [{ value: number; name: string }];
+}
+
+const PieChart = ({ pieChartData }: Props) => {
   const router = useRouter();
-
-  const getData = async () => {
-    const res = await FetchDashboardData();
-    return setData(res.msg);
-  };
-
-  useEffect(() => {
-    let isAuth = localStorage.getItem("isAuth");
-    isAuth === "true" ? getData() : router.push("/login");
-  }, []);
-
+  console.log("pieChartData:", pieChartData);
   const option = {
     tooltip: {
       trigger: "item",
@@ -51,13 +44,7 @@ const PieChart = () => {
         labelLine: {
           show: false,
         },
-        data: [
-          { value: 1048, name: "Search Engine" },
-          { value: 735, name: "Direct" },
-          { value: 580, name: "Email" },
-          { value: 484, name: "Union Ads" },
-          { value: 300, name: "Video Ads" },
-        ],
+        data: pieChartData,
       },
     ],
   };

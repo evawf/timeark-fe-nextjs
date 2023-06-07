@@ -12,55 +12,78 @@ import moment from "moment";
 
 export default function Dashboard() {
   const [barChartData, setBarChartData] = useState<any>({});
-  const [dateArr, setDateArr] = useState<any>([]);
-
+  const [pieChartData, setpieChartData] = useState<any>([]);
   const router = useRouter();
 
   const getData = async () => {
     const res = await FetchDashboardData();
-    const project = res.barChartData.pop();
-    console.log("my project:", project);
 
-    const dataPerMonth: any = {};
-    project.invoices.forEach((i: any) => {
-      if (i.year === 2023) {
-        let amount = 0;
+    // Multiple projects data process for Bar Chart:
+    const projects = res.barChartData;
+    const seriesArr: any = [];
+    const pieChartDataArr: any = [];
+
+    projects.forEach((p: any) => {
+      const dataPerMonth: any = {};
+      let totalTime = 0; // pieChart
+      p.invoices.forEach((i: any) => {
+        // To do: User can change the year to show different year's data
+        if (i.year === 2023) {
+          let amount = 0;
+          i.chargeable_tasks.forEach((t: any) => {
+            amount += t.time_spent * p.rate_per_hour;
+          });
+          dataPerMonth[i.month] = amount;
+        }
+
+        // pieChart: get the sum of total time from each invoice:
         i.chargeable_tasks.forEach((t: any) => {
-          amount += t.time_spent * project.rate_per_hour;
+          totalTime += Number(t.time_spent); // pieChart
         });
-        dataPerMonth[i.month] = amount;
+      });
+
+      // barChart data:
+      const dataArray: any = [];
+      for (let i = 1; i <= 12; i++) {
+        if (dataPerMonth[i]) {
+          dataArray.push(dataPerMonth[i]);
+        } else {
+          dataArray.push(0);
+        }
       }
+      const serie = {
+        name: p.name,
+        data: dataArray,
+      };
+      seriesArr.push(serie);
+      const data = {
+        labels: [
+          "Jan",
+          "Feb",
+          "Mar",
+          "Apr",
+          "May",
+          "Jun",
+          "Jul",
+          "Aug",
+          "Sep",
+          "Oct",
+          "Nov",
+          "Dec",
+        ],
+        series: seriesArr,
+      };
+      setBarChartData(data);
+
+      // pieChart data
+      const amount = totalTime * p.rate_per_hour;
+      const pieChartData = {
+        value: amount,
+        name: p.name,
+      };
+      pieChartDataArr.push(pieChartData);
     });
-    // dataPerMonth = { 1: 12, 5:20, 6:18 }
-    const dataArray: any = [];
-    for (let i = 1; i <= 12; i++) {
-      dataArray.push(dataPerMonth[i]);
-    }
-    const serie = {
-      name: project.name,
-      data: dataArray,
-    };
-
-    const data = {
-      labels: [
-        "Jan",
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-        "Oct",
-        "Nov",
-        "Dec",
-      ],
-      series: [serie],
-    };
-    setBarChartData(data);
-    // setDateArr(dateArr);
-
+    setpieChartData(pieChartDataArr);
     return;
   };
 
@@ -91,13 +114,13 @@ export default function Dashboard() {
               <BarChart barChartData={barChartData} />
             </Grid>
             <Grid item xs={6}>
-              <PieChart />
+              <PieChart pieChartData={pieChartData} />
             </Grid>
             <Grid item xs={6}>
-              <PieChart />
+              {/* <PieChart /> */}
             </Grid>
             <Grid item xs={6}>
-              <PieChart />
+              {/* <PieChart /> */}
             </Grid>
           </Grid>
         ) : (

@@ -16,11 +16,8 @@ interface Props {
 }
 
 const BarChart = ({ barChartData }: any) => {
-  // const [data, setData] = useState([]);
   const router = useRouter();
-  // const colors = ["#5470C6", "#91CC75", "#EE6666"];
-  const colors = ["#5470C6", "#FF0000", "#00FF00"];
-
+  const colors = ["#5470C6", "#91CC75", "#EE6666"];
   const series: any = [];
 
   if (barChartData.series) {
@@ -28,7 +25,8 @@ const BarChart = ({ barChartData }: any) => {
       series.push({
         name: s.name,
         type: "bar",
-        // yAxisIndex: 0,
+        yAxisIndex: 0,
+        stack: "total",
         data: s.data,
       });
     });
