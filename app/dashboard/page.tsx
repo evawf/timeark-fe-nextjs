@@ -5,16 +5,16 @@ import { useRouter } from "next/navigation";
 import Box from "@mui/material/Box";
 import Sidebar from "../components/Sidebar";
 import PieChart from "../components/PieChart";
-import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import BarChart from "../components/BarChart";
-import moment from "moment";
 import RoseChart from "../components/RoseChart";
+import ArcChart from "../components/ArcChart";
 
 export default function Dashboard() {
   const [barChartData, setBarChartData] = useState<any>({});
   const [pieChartData, setPieChartData] = useState<any>([]);
   const [roseChartData, setRoseChartData] = useState<any>([]);
+  const [arcChartData, setArcChartData] = useState<any>([]);
   const router = useRouter();
 
   const getData = async () => {
@@ -133,7 +133,7 @@ export default function Dashboard() {
               <RoseChart roseChartData={roseChartData} />
             </Grid>
             <Grid item xs={6}>
-              <RoseChart roseChartData={roseChartData} />
+              <ArcChart arcChartData={arcChartData} />
             </Grid>
           </Grid>
         ) : (

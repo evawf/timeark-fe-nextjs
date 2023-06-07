@@ -1,7 +1,5 @@
 import ReactEchart from "echarts-for-react";
-import React, { useState, useEffect } from "react";
-import FetchDashboardData from "../../lib/fetchDashboardData";
-import { useRouter } from "next/navigation";
+import React from "react";
 import Paper from "@mui/material/Paper";
 
 interface Props {
@@ -9,8 +7,6 @@ interface Props {
 }
 
 const RoseChart = ({ roseChartData }: Props) => {
-  console.log("roseChartData: ", roseChartData);
-
   const option = {
     title: {
       text: "Total Hours/Project",
