@@ -133,7 +133,7 @@ const BarChart = ({ barChartData }: any) => {
         borderRadius: "20px",
       }}
     >
-      <ReactEchart option={option} style={{ height: "400px" }} />
+      <ReactEchart option={option} style={{ height: "350px" }} />
     </Paper>
   );
 };

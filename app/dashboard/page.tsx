@@ -137,9 +137,9 @@ export default function Dashboard() {
           alignItems: "center",
         }}
       >
-        <Box sx={{ mt: "20px" }}>
+        {/* <Box sx={{ mt: "20px" }}>
           <h2>Dashboard</h2>
-        </Box>
+        </Box> */}
         {barChartData ? (
           <Grid container spacing={0}>
             <Grid item xs={6}>

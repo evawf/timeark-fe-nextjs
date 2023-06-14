@@ -86,7 +86,7 @@ const ArcChart = ({ arcChartData }: Props) => {
         borderRadius: "20px",
       }}
     >
-      <ReactEchart option={option} style={{ height: "400px" }} />
+      <ReactEchart option={option} style={{ height: "350px" }} />
     </Paper>
   );
 };
