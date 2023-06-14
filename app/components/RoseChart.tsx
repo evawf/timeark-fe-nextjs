@@ -7,9 +7,14 @@ interface Props {
 }
 
 const RoseChart = ({ roseChartData }: Props) => {
+  let totalHours: any = 0;
+  roseChartData.forEach((d) => {
+    totalHours += Number(d.value);
+  });
+
   const option = {
     title: {
-      text: "Total Hours/Project",
+      text: `Total Hours(h): ${totalHours.toFixed(2)}`,
       subtext: "Total time spent for each project",
       left: "center",
     },

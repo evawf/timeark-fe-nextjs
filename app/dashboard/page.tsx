@@ -14,7 +14,7 @@ export default function Dashboard() {
   const [barChartData, setBarChartData] = useState<any>({});
   const [pieChartData, setPieChartData] = useState<any>([]);
   const [roseChartData, setRoseChartData] = useState<any>([]);
-  const [arcChartData, setArcChartData] = useState<any>([]);
+  const [arcChartData, setArcChartData] = useState<any>({});
   const router = useRouter();
 
   const getData = async () => {
@@ -25,6 +25,9 @@ export default function Dashboard() {
     const seriesArr: any = [];
     const pieChartDataArr: any = [];
     const roseChartDataArr: any = [];
+    const arcChartData: any = { unpaid: 0, paid: 0 };
+    let unpaidValue: any = 0;
+    let paidValue: any = 0;
 
     projects.forEach((p: any) => {
       const dataPerMonth: any = {};
@@ -42,6 +45,15 @@ export default function Dashboard() {
         // pieChart: get the sum of total time from each invoice:
         i.chargeable_tasks.forEach((t: any) => {
           totalTime += Number(t.time_spent); // pieChart
+        });
+
+        // arcChart: get unpaid value and paid value
+        i.chargeable_tasks.forEach((t: any) => {
+          if (i.is_paid) {
+            paidValue += t.time_spent * p.rate_per_hour;
+          } else {
+            unpaidValue += t.time_spent * p.rate_per_hour;
+          }
         });
       });
 
@@ -93,13 +105,20 @@ export default function Dashboard() {
       ],
       series: seriesArr,
     };
+
+    //********************* roseChart data *********************
+    arcChartData.unpaid = unpaidValue;
+    arcChartData.paid = paidValue;
+
     setBarChartData(data);
     setPieChartData(pieChartDataArr);
     setRoseChartData(roseChartDataArr);
+    setArcChartData(arcChartData);
 
     return;
   };
 
+  console.log("arcChartData: ", arcChartData);
   useEffect(() => {
     let isAuth = localStorage.getItem("isAuth");
     isAuth === "true" ? getData() : router.push("/login");

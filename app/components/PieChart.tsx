@@ -11,7 +11,7 @@ const PieChart = ({ pieChartData }: Props) => {
   pieChartData.forEach((d) => {
     totalIncome += Number(d.value);
   });
-  console.log("pieChartData:", pieChartData);
+
   const option = {
     title: {
       text: `Total Income(S$): ${totalIncome.toFixed(2)} `,

@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Footer from "./components/Footer";
 import Button from "@mui/joy/Button";
 import Box from "@mui/joy/Box";
@@ -7,9 +7,23 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import Typography from "@mui/joy/Typography";
+import isAuth from "@/lib/isAuth";
 
 export default function Home() {
   const router = useRouter();
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+
+  useEffect(() => {
+    const checkIsAuth = async () => {
+      const res = await isAuth();
+      setIsLoggedIn(res.isLoggedIn);
+      return;
+    };
+    checkIsAuth();
+    if (isLoggedIn) router.push("/dashboard");
+  }, []);
+  console.log("isLoggedIn: ", isLoggedIn);
+
   return (
     <Box className="homepage" sx={{ height: 100, width: 100 }}>
       <Box className="home">

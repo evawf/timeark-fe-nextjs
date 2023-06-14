@@ -3,7 +3,7 @@ import React from "react";
 import Paper from "@mui/material/Paper";
 
 interface Props {
-  arcChartData: [{ value: number; name: string }];
+  arcChartData: { paid: number; unpaid: number };
 }
 
 const ArcChart = ({ arcChartData }: Props) => {
@@ -36,11 +36,29 @@ const ArcChart = ({ arcChartData }: Props) => {
           // },
         },
         data: [
-          { value: 1048, name: "Paid" },
-          { value: 735, name: "Unpaid" },
+          {
+            value: arcChartData.paid,
+            name: "Paid",
+            itemStyle: {
+              color: "green",
+              // decal: {
+              //   symbol: "none",
+              // },
+            },
+          },
+          {
+            value: arcChartData.unpaid,
+            name: "Unpaid",
+            itemStyle: {
+              color: "red",
+              // decal: {
+              //   symbol: "none",
+              // },
+            },
+          },
           {
             // make an record to fill the bottom 50%
-            value: 1048 + 735,
+            value: arcChartData.paid + arcChartData.unpaid,
             itemStyle: {
               // stop the chart from rendering this piece
               color: "none",
