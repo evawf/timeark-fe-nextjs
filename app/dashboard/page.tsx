@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import FetchDashboardData from "../../lib/fetchDashboardData";
+import FetchDashboardData from "../../lib/user/fetchDashboardData";
 import { useRouter } from "next/navigation";
 import Box from "@mui/material/Box";
 import Sidebar from "../components/Sidebar";

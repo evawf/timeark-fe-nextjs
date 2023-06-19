@@ -1,6 +1,6 @@
 import ReactEchart from "echarts-for-react";
 import React, { useState, useEffect } from "react";
-import FetchDashboardData from "../../lib/fetchDashboardData";
+import FetchDashboardData from "../../lib/user/fetchDashboardData";
 import { useRouter } from "next/navigation";
 import Paper from "@mui/material/Paper";
 import moment from "moment";

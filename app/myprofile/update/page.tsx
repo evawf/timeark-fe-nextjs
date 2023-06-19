@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import getUserProfile from "@/lib/fetchUser";
+import getUserProfile from "@/lib/user/fetchUser";
 import User from "../../../types/user";
 import { useRouter } from "next/navigation";
 import UpdateUserProfile from "../../../lib/updateUserProfile";

@@ -1,9 +1,9 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import getUserProfile from "@/lib/fetchUser";
+import getUserProfile from "@/lib/user/fetchUser";
 import User from "../../types/user";
 import { useRouter } from "next/navigation";
-import DeleteUser from "@/lib/DeleteUser";
+import DeleteUser from "@/lib/user/DeleteUser";
 import Sidebar from "../components/Sidebar";
 
 import Box from "@mui/material/Box";
