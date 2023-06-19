@@ -74,10 +74,9 @@ export default function PickedDate({ params }: Date | any) {
     return;
   };
 
-  console.log("timeEntryList: ", timeEntryList);
   const events = timeEntryList.map((t) => {
     return {
-      title: t.name,
+      title: t.task.name,
       start: t.startTime,
       end: t.endTime,
       id: t.id,

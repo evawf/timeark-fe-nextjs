@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import getUserProfile from "@/lib/user/fetchUser";
 import User from "../../../types/user";
 import { useRouter } from "next/navigation";
-import UpdateUserProfile from "../../../lib/updateUserProfile";
+import UpdateUserProfile from "../../../lib/user/updateUserProfile";
 import Sidebar from "../../components/Sidebar";
 
 import Box from "@mui/material/Box";

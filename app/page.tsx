@@ -7,22 +7,23 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import Typography from "@mui/joy/Typography";
-import isAuth from "@/lib/isAuth";
+import isAuth from "@/lib/user/isAuth";
 
 export default function Home() {
   const router = useRouter();
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 
+  const checkIsAuth = async () => {
+    const res = await isAuth();
+    setIsLoggedIn(res.isLoggedIn);
+    return;
+  };
+
+  console.log("isLoggedIn: ", isLoggedIn);
   useEffect(() => {
-    const checkIsAuth = async () => {
-      const res = await isAuth();
-      setIsLoggedIn(res.isLoggedIn);
-      return;
-    };
     checkIsAuth();
     if (isLoggedIn) router.push("/dashboard");
-  }, []);
-  console.log("isLoggedIn: ", isLoggedIn);
+  }, [isLoggedIn]);
 
   return (
     <Box className="homepage" sx={{ height: 100, width: 100 }}>
@@ -66,10 +67,6 @@ export default function Home() {
         </Box>
       </Box>
       <Box className="about"></Box>
-      {/* <Box className="service">Our Services</Box> */}
-      {/* <Box className="testimonial">Clients Testimoinals</Box> */}
-      {/* <Box className="contact">Contact Us</Box> */}
-
       <Footer />
     </Box>
   );

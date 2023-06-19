@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useLayoutEffect } from "react";
 import { useGlobalContext } from "../../../lib/context/store";
 import { useRouter } from "next/navigation";
-import RegisterUser from "@/lib/registerUser";
+import RegisterUser from "@/lib/user/registerUser";
 
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";

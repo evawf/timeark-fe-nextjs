@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect, useLayoutEffect } from "react";
-import LoginUser from "@/lib/loginUser";
+import LoginUser from "@/lib/user/loginUser";
 import { useRouter } from "next/navigation";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";

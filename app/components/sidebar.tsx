@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import Link from "next/link";
-import LogoutUser from "@/lib/logoutUser";
+import LogoutUser from "@/lib/user/logoutUser";
 import { useRouter } from "next/navigation";
 import moment from "moment";
 

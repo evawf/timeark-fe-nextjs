@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import LogoutUser from "@/lib/logoutUser";
+import LogoutUser from "@/lib/user/logoutUser";
 import { useRouter } from "next/navigation";
 
 export default function Navbar() {
