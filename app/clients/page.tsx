@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import getClients from "../../lib/client/fetchClients";
 import { useRouter } from "next/navigation";
 import Client from "../../types/client";
-import Sidebar from "../components/Sidebar";
+import Sidebar from "@/app/components/Sidebar";
 import Link from "next/link";
 
 import Box from "@mui/material/Box";

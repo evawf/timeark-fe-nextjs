@@ -12,7 +12,7 @@ import addNewTimeEntry from "@/lib/time/addNewTimeEntry";
 import addEndTimeToSelectedTimeEntry from "@/lib/time/addEndTimeToSelectedTimeEntry";
 import updateTimeEntry from "@/lib/time/updateTimeEntry";
 import deleteTimeEntry from "@/lib/time/deleteTimeEntry";
-import Sidebar from "../components/Sidebar";
+import Sidebar from "@/app/components/Sidebar";
 
 import Box from "@mui/material/Box";
 
