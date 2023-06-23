@@ -105,7 +105,7 @@ const Drawer = styled(MuiDrawer, {
   }),
 }));
 
-export default function Sidebar() {
+const Sidebar = () => {
   const router = useRouter();
   const today = moment().format("YYYY-MM-DD");
 
@@ -223,4 +223,6 @@ export default function Sidebar() {
       </Drawer>
     </Box>
   );
-}
+};
+
+export default Sidebar;
