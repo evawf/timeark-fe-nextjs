@@ -8,6 +8,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Typography from "@mui/joy/Typography";
 import isAuth from "@/lib/user/isAuth";
+import { el } from "date-fns/locale";
 
 export default function Home() {
   const router = useRouter();
@@ -19,10 +20,11 @@ export default function Home() {
     return;
   };
 
-  console.log("isLoggedIn: ", isLoggedIn);
   useEffect(() => {
     checkIsAuth();
-    if (isLoggedIn) router.push("/dashboard");
+    if (isLoggedIn) {
+      router.push("/dashboard");
+    }
   }, [isLoggedIn]);
 
   return (
